@@ -7,6 +7,8 @@ import java.awt.Graphics;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import aircraft.game.plane.*;
+
 public class AircraftWar extends JPanel {
   // Define serialVersionUID which is used during deserialization to verify
   // that the sender and receiver of a serialized object have loaded classes
@@ -18,9 +20,11 @@ public class AircraftWar extends JPanel {
   public static final int HEIGHT = 654;
 
   static BufferedImage background = ImageLoader.readImg("aircraft/images/background.png");
+  HeroPlane hero = new HeroPlane();
 
   public void paint(Graphics graphics) {
     graphics.drawImage(background, 0, 0, null);
+    hero.display(graphics);
   }
 
   public static void main(String[] args) {
@@ -31,6 +35,8 @@ public class AircraftWar extends JPanel {
     frame.setSize(WIDTH, HEIGHT);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setLocationRelativeTo(null);
+
+    // The paint method is called here.
     frame.setVisible(true);
   }
 }
