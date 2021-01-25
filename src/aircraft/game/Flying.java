@@ -1,5 +1,6 @@
 package aircraft.game;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -9,14 +10,25 @@ import java.awt.image.BufferedImage;
 // via inheritance. Derived classes inherit from this base classes and
 // implement abstract methods in different ways.
 public abstract class Flying {
+  // The moving direction of the hero plane. It contains two components which
+  // should only take three possible values: 1, 0, -1, as vertical and 
+  // horizontal direction flags.
+  public Point direction = new Point();
   protected BufferedImage image;
 
   // The current position.
   protected Point2D.Double location = new Point2D.Double();
   protected double speed = 0; // The speed of the flying object.
 
-  // Each object should have a specific move policy.
-  public abstract void move();
+  protected Flying(String img, double x, double y) {
+    // Load the plane from the image directory.
+    image = ImageLoader.readImg("aircraft/images/hero_plane.png");
+    if (image.getWidth()  >= AircraftWar.WIDTH ||
+        image.getHeight() >= AircraftWar.HEIGHT)
+      throw new RuntimeException("The size of image is invalid");
+    
+    location.x = x; location.y = y;
+  }
 
   // The display method: as the name suggests, this method draw the image
   // onto the graphics user interface, so the argument is necessary.
@@ -41,6 +53,9 @@ public abstract class Flying {
 
     return xind + yind;
   }
+
+  // Each object should have a specific move policy.
+  public abstract void move();
 
   // An object should take specific actions once it moves out of bound.
   // Bullets should be deleted, hero plane should be reverted to the valid

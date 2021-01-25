@@ -1,32 +1,15 @@
 package aircraft.game.plane;
 
-import java.awt.Point;
-
 import aircraft.game.AircraftWar;
-import aircraft.game.ImageLoader;
 
 public class HeroPlane extends Plane {
-  // The moving direction of the hero plane. It contains two components which
-  // should only take three possible values: 1, 0, -1, as vertical and 
-  // horizontal direction flags.
-  public Point direction = new Point();
-
   // Constructor.
-  public HeroPlane() {
+  public HeroPlane(double x, double y, int health, double speed) {
     // Load the plane from the image directory.
-    image = ImageLoader.readImg("aircraft/images/hero_plane.png");
-    if (image.getWidth()  >= AircraftWar.WIDTH ||
-        image.getHeight() >= AircraftWar.HEIGHT)
-      throw new RuntimeException("The size of hero plane image is invalid");
-
-    // The initial position of the hero plane.
-    location.x = 150.; location.y = 400.;
-    if (boundCheck() != 0) // It must be inside the window.
-      throw new RuntimeException(
-          "The hero plane is not at a valid location.");
+    super("aircraft/images/hero_plane.png", x, y);
     
-    health = 20; // The initial health point.
-    speed = 2.0; // The initial speed.
+    this.health = health; // The initial health point.
+    this.speed = speed; // The initial speed.
   }
 
   // Implement the abstract method of the base class. The move method is

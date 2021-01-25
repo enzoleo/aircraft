@@ -26,7 +26,7 @@ public class AircraftWar extends JPanel {
   public static final int HEIGHT = 654;
 
   static BufferedImage background = ImageLoader.readImg("aircraft/images/background.png");
-  HeroPlane hero = new HeroPlane();
+  HeroPlane hero = new HeroPlane(150., 400., 50, 2.0);
 
   public void paint(Graphics graphics) {
     graphics.drawImage(background, 0, 0, null);
