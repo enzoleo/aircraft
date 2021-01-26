@@ -14,11 +14,13 @@ public class HeroBullet extends Bullet {
   public void move() {
     location.x += speed * direction.x;
     location.y += speed * direction.y;
+
+    int indicator = boundCheck();
+    if (indicator != 0) reactOnceInvalid(indicator);
   }
 
   @Override
   protected void reactOnceInvalid(int indicator) {
-
+    this.vanish();
   }
-  
 }

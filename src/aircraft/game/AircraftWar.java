@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import aircraft.game.bullet.HeroBullet;
 import aircraft.game.plane.*;
 
 public class AircraftWar extends JPanel {
@@ -25,12 +26,19 @@ public class AircraftWar extends JPanel {
   public static final int WIDTH = 400;
   public static final int HEIGHT = 654;
 
+  // The hash set to store all objects. Each time an object is constructed,
+  // it should be added into this set, e.g. the push operation should be
+  // called in the base constructor.
+  public static HashSet<Flying> objects = new HashSet<Flying>();
+
   static BufferedImage background = ImageLoader.readImg("aircraft/images/background.png");
   HeroPlane hero = new HeroPlane(150., 400., 50, 2.0);
+  HeroBullet bullet = new HeroBullet(150., 500., 1, 2.0);
 
   public void paint(Graphics graphics) {
     graphics.drawImage(background, 0, 0, null);
     hero.display(graphics);
+    bullet.display(graphics);
   }
 
   public static void main(String[] args) {
@@ -112,9 +120,11 @@ public class AircraftWar extends JPanel {
     timer.schedule(new TimerTask() {
       public void run() {
         aircraftWar.hero.move();
+        aircraftWar.bullet.move();
         aircraftWar.repaint();
       }
     }, interval, interval);
+    
   }
 }
 
