@@ -1,6 +1,7 @@
 package aircraft.game.plane;
 
 import aircraft.game.AircraftWar;
+import aircraft.game.bullet.HeroBullet;
 
 public class HeroPlane extends Plane {
   // Constructor.
@@ -57,5 +58,14 @@ public class HeroPlane extends Plane {
       default:
         throw new RuntimeException("Invalid indicator is specified.");
     }
+  }
+
+  @Override
+  public void fire() {
+    HeroBullet heroBullet = new HeroBullet(0, 0, 5, 3.0);
+    double offset = (image.getWidth() - heroBullet.image.getWidth()) / 2;
+    heroBullet.location.x = location.x + offset;
+    heroBullet.location.y = location.y;
+    AircraftWar.objects.add(heroBullet);
   }
 }

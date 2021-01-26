@@ -11,7 +11,10 @@ public abstract class Bullet extends Flying {
     super(img, x, y);
   }
 
+  // When the bullet moves out of the boundary, it "vanishes". In other
+  // words, it will be removed from the object set and the game will not
+  // displayed it in the window.
   protected void vanish() {
-    AircraftWar.objects.remove(this);
+    AircraftWar.trash.add(this);
   }
 }

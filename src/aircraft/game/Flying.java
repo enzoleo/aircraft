@@ -14,10 +14,10 @@ public abstract class Flying {
   // should only take three possible values: 1, 0, -1, as vertical and 
   // horizontal direction flags.
   public Point direction = new Point();
-  protected BufferedImage image;
+  public BufferedImage image;
 
   // The current position.
-  protected Point2D.Double location = new Point2D.Double();
+  public Point2D.Double location = new Point2D.Double();
   protected double speed = 0; // The speed of the flying object.
 
   protected Flying(String img, double x, double y) {
@@ -28,7 +28,6 @@ public abstract class Flying {
       throw new RuntimeException("The size of image is invalid");
     
     location.x = x; location.y = y;
-    AircraftWar.objects.add(this);
   }
 
   // The display method: as the name suggests, this method draw the image

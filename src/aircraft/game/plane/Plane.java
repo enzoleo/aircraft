@@ -11,4 +11,6 @@ public abstract class Plane extends Flying {
   protected Plane(String img, double x, double y) {
     super(img, x, y);
   }
+
+  protected abstract void fire();
 }

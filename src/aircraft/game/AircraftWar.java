@@ -8,12 +8,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.KeyAdapter;
 
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import aircraft.game.bullet.HeroBullet;
 import aircraft.game.plane.*;
 
 public class AircraftWar extends JPanel {
@@ -29,16 +29,21 @@ public class AircraftWar extends JPanel {
   // The hash set to store all objects. Each time an object is constructed,
   // it should be added into this set, e.g. the push operation should be
   // called in the base constructor.
-  public static HashSet<Flying> objects = new HashSet<Flying>();
-
+  public static HashSet<Flying> objects = new HashSet<>();
+  public static HashSet<Flying> trash = new HashSet<>();
+  
   static BufferedImage background = ImageLoader.readImg("aircraft/images/background.png");
-  HeroPlane hero = new HeroPlane(150., 400., 50, 2.0);
-  HeroBullet bullet = new HeroBullet(150., 500., 1, 2.0);
+  static HeroPlane hero = new HeroPlane(150., 400., 50, 2.0);
+  
+  static {
+    objects.add(hero);
+  }
 
   public void paint(Graphics graphics) {
     graphics.drawImage(background, 0, 0, null);
-    hero.display(graphics);
-    bullet.display(graphics);
+    for (Flying object : objects) {
+      object.display(graphics);
+    }
   }
 
   public static void main(String[] args) {
@@ -54,7 +59,7 @@ public class AircraftWar extends JPanel {
     
     // Add keylistener to the game in order to obtain the user manipulation, and
     // then take specific actions accordingly.
-    KeyListener keyListener = new KeyListener() {
+    KeyListener keyListener = new KeyAdapter() {
       // We use a hashset to store all currently pressed keys.
       // This is necessary to enable multi-key listening event.
       private final Set<Integer> pressed = new HashSet<>();
@@ -69,22 +74,24 @@ public class AircraftWar extends JPanel {
               // which means that your hero plane is moving up.
               case KeyEvent.VK_W:
               case KeyEvent.VK_UP:
-                aircraftWar.hero.direction.y = -1; break;
+                hero.direction.y = -1; break;
               // Press 'A' or 'LEFT' buttons, the horizontal direction will be -1,
               // which means that your hero plane is moving to the left.
               case KeyEvent.VK_A:
               case KeyEvent.VK_LEFT:
-                aircraftWar.hero.direction.x = -1; break;
+                hero.direction.x = -1; break;
               // Press 'S' or 'DOWN' buttons, the vertical direction will be 1,
               // which means that your hero plane is moving down.
               case KeyEvent.VK_S:
               case KeyEvent.VK_DOWN:
-                aircraftWar.hero.direction.y = 1; break;
+                hero.direction.y = 1; break;
               // Press 'D' or 'RIGHT' buttons, the horizontal direction will be 1,
               // which means that your hero plane is moving to the right.
               case KeyEvent.VK_D:
               case KeyEvent.VK_RIGHT:
-                aircraftWar.hero.direction.x = 1; break;
+                hero.direction.x = 1; break;
+              case KeyEvent.VK_SPACE:
+                hero.fire();
             }
           }
         }
@@ -101,17 +108,14 @@ public class AircraftWar extends JPanel {
           case KeyEvent.VK_S:
           case KeyEvent.VK_UP:
           case KeyEvent.VK_DOWN:
-            aircraftWar.hero.direction.y = 0; break;
+            hero.direction.y = 0; break;
           case KeyEvent.VK_A:
           case KeyEvent.VK_D:
           case KeyEvent.VK_LEFT:
           case KeyEvent.VK_RIGHT:
-            aircraftWar.hero.direction.x = 0; break;
+            hero.direction.x = 0; break;
         }
       }
-
-      @Override
-      public void keyTyped(KeyEvent e) { /* This method is never used. */ }
     };
     frame.addKeyListener(keyListener);
     
@@ -119,9 +123,18 @@ public class AircraftWar extends JPanel {
     int interval = 10;
     timer.schedule(new TimerTask() {
       public void run() {
-        aircraftWar.hero.move();
-        aircraftWar.bullet.move();
+        for (Flying object : objects) {
+          object.move();
+        }
+
+        // Remove all objects that is going to be deleted.
+        // Then the trash bin will be cleared and reused.
+        for (Flying object : trash)
+          objects.remove(object);
+        trash.clear();
+
         aircraftWar.repaint();
+        System.out.println(objects);
       }
     }, interval, interval);
     
