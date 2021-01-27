@@ -2,11 +2,11 @@ package aircraft.game.bullet;
 
 import aircraft.game.AircraftWar;
 
-public class HeroBullet extends Bullet {
+public class EnemyNormalBullet extends Bullet {
   // Constructor.
-  public HeroBullet(double x, double y, int damage, double speed) {
-    super("aircraft/images/hero_bullet.png", x, y);
-    this.direction.x = 0; this.direction.y = -1; // Moving direction.
+  public EnemyNormalBullet(double x, double y, int damage, double speed) {
+    super("aircraft/images/enemy_normal_bullet.png", x, y);
+    this.direction.x = 0; this.direction.y = 1; // Moving direction.
 
     this.damage = damage;
     this.speed = speed;

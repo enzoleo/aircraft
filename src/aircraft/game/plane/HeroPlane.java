@@ -65,7 +65,7 @@ public class HeroPlane extends Plane {
     HeroBullet heroBullet = new HeroBullet(0, 0, 5, 3.0);
     double offset = (image.getWidth() - heroBullet.image.getWidth()) / 2;
     heroBullet.location.x = location.x + offset;
-    heroBullet.location.y = location.y;
+    heroBullet.location.y = location.y - heroBullet.image.getHeight();
     AircraftWar.objects.add(heroBullet);
   }
 }

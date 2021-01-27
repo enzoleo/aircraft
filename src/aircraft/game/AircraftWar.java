@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import aircraft.game.bullet.EnemyNormalBullet;
 import aircraft.game.plane.*;
 
 public class AircraftWar extends JPanel {
@@ -37,6 +38,15 @@ public class AircraftWar extends JPanel {
   
   static {
     objects.add(hero);
+    objects.add(new EnemyLightPlane(200., 0, 100, 2.0));
+    objects.add(new EnemyNormalBullet(200., 0, 100, 2.0));
+  }
+
+  // A very simple implementation to generate a random number given a
+  // bernoulli distribution. Not perfect but enough for us.
+  public static boolean bernoulli(double p) {
+    if (Math.random() < p) return true;
+    return false;
   }
 
   public void paint(Graphics graphics) {
@@ -132,9 +142,7 @@ public class AircraftWar extends JPanel {
         for (Flying object : trash)
           objects.remove(object);
         trash.clear();
-
         aircraftWar.repaint();
-        System.out.println(objects);
       }
     }, interval, interval);
     
