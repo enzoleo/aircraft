@@ -28,4 +28,8 @@ public class EnemyNormalBullet extends Bullet {
   protected void reactOnceInvalid(int indicator) {
     AircraftWar.trash.add(this);
   }
+
+  @Override
+  protected void action() {
+  }
 }

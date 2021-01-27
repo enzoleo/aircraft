@@ -12,9 +12,9 @@ import java.awt.event.KeyAdapter;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Iterator;
 
-import aircraft.game.bullet.EnemyNormalBullet;
 import aircraft.game.plane.*;
 
 public class AircraftWar extends JPanel {
@@ -31,15 +31,14 @@ public class AircraftWar extends JPanel {
   // it should be added into this set, e.g. the push operation should be
   // called in the base constructor.
   public static HashSet<Flying> objects = new HashSet<>();
-  public static HashSet<Flying> trash = new HashSet<>();
+  public static LinkedList<Flying> trash = new LinkedList<>();
+  public static LinkedList<Flying> newcome = new LinkedList<>();
   
   static BufferedImage background = ImageLoader.readImg("aircraft/images/background.png");
   static HeroPlane hero = new HeroPlane(150., 400., 50, 2.0);
   
   static {
     objects.add(hero);
-    objects.add(new EnemyLightPlane(200., 0, 100, 2.0));
-    objects.add(new EnemyNormalBullet(200., 0, 100, 2.0));
   }
 
   // A very simple implementation to generate a random number given a
@@ -49,11 +48,21 @@ public class AircraftWar extends JPanel {
     return false;
   }
 
+  public static void generateEnemy() {
+    double p = 0.01; // The probability to generate enemies.
+    if (bernoulli(p)) {
+      double x = (Math.random() * 0.6 + 0.2) * WIDTH;
+      newcome.add(new EnemyLightPlane(x, 0, 100, 1.5));
+    }
+  }
+
+  // Draw everything including bullets, planes, supplies, etc.
   public void paint(Graphics graphics) {
     graphics.drawImage(background, 0, 0, null);
-    for (Flying object : objects) {
+    // The toArray method is applied, instead of iterating the set
+    // itself. This is an immediate solution to fix CME.
+    for (Flying object : objects.toArray(new Flying[0]))
       object.display(graphics);
-    }
   }
 
   public static void main(String[] args) {
@@ -101,7 +110,7 @@ public class AircraftWar extends JPanel {
               case KeyEvent.VK_RIGHT:
                 hero.direction.x = 1; break;
               case KeyEvent.VK_SPACE:
-                hero.fire();
+                hero.fireCommand = true;
             }
           }
         }
@@ -124,6 +133,8 @@ public class AircraftWar extends JPanel {
           case KeyEvent.VK_LEFT:
           case KeyEvent.VK_RIGHT:
             hero.direction.x = 0; break;
+          case KeyEvent.VK_SPACE:
+            hero.fireCommand = false;
         }
       }
     };
@@ -133,15 +144,22 @@ public class AircraftWar extends JPanel {
     int interval = 10;
     timer.schedule(new TimerTask() {
       public void run() {
+        generateEnemy();
         for (Flying object : objects) {
           object.move();
+          object.action();
         }
 
-        // Remove all objects that is going to be deleted.
+        // Push all objects that are goind to be displayed in
+        // the next frame to the objects set.
+        for (Flying object : newcome) objects.add(object);
+        newcome.clear();
+
+        // Remove all objects that are going to be deleted.
         // Then the trash bin will be cleared and reused.
-        for (Flying object : trash)
-          objects.remove(object);
+        for (Flying object : trash) objects.remove(object);
         trash.clear();
+
         aircraftWar.repaint();
       }
     }, interval, interval);

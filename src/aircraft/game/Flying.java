@@ -69,4 +69,6 @@ public abstract class Flying {
   // Bullets should be deleted, hero plane should be reverted to the valid
   // position, supplies should rebound when hit the left/right border, etc.
   protected abstract void reactOnceInvalid(int indicator);
+
+  protected abstract void action();
 }

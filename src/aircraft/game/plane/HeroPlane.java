@@ -4,6 +4,9 @@ import aircraft.game.AircraftWar;
 import aircraft.game.bullet.HeroBullet;
 
 public class HeroPlane extends Plane {
+  // A boolean determining whether to fire at the current status.
+  public boolean fireCommand = false;
+
   // Constructor.
   public HeroPlane(double x, double y, int health, double speed) {
     // Load the plane from the image directory.
@@ -66,6 +69,11 @@ public class HeroPlane extends Plane {
     double offset = (image.getWidth() - heroBullet.image.getWidth()) / 2;
     heroBullet.location.x = location.x + offset;
     heroBullet.location.y = location.y - heroBullet.image.getHeight();
-    AircraftWar.objects.add(heroBullet);
+    AircraftWar.newcome.add(heroBullet);
+  }
+
+  @Override
+  public void action() {
+    if (fireCommand) this.fire();
   }
 }
