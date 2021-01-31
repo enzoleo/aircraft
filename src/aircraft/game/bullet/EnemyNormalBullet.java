@@ -30,6 +30,6 @@ public class EnemyNormalBullet extends Bullet {
   }
 
   @Override
-  protected void action() {
+  public void action() {
   }
 }

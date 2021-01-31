@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.Iterator;
 
 import aircraft.game.plane.*;
+import aircraft.game.bullet.*;
 
 public class AircraftWar extends JPanel {
   // Define serialVersionUID which is used during deserialization to verify
@@ -30,9 +31,9 @@ public class AircraftWar extends JPanel {
   // The hash set to store all objects. Each time an object is constructed,
   // it should be added into this set, e.g. the push operation should be
   // called in the base constructor.
-  public static HashSet<Flying> objects = new HashSet<>();
-  public static LinkedList<Flying> trash = new LinkedList<>();
-  public static LinkedList<Flying> newcome = new LinkedList<>();
+  public static HashSet<Object> objects = new HashSet<>();
+  public static LinkedList<Object> trash = new LinkedList<>();
+  public static LinkedList<Object> newcome = new LinkedList<>();
   
   static BufferedImage background = ImageLoader.readImg("aircraft/images/background.png");
   static HeroPlane hero = new HeroPlane(150., 400., 50, 2.0);
@@ -61,8 +62,13 @@ public class AircraftWar extends JPanel {
     graphics.drawImage(background, 0, 0, null);
     // The toArray method is applied, instead of iterating the set
     // itself. This is an immediate solution to fix CME.
-    for (Flying object : objects.toArray(new Flying[0]))
-      object.display(graphics);
+    for (Object object : objects.toArray(new Object[0])) {
+      if (object instanceof Bullet) {
+        ((Bullet)object).display(graphics);
+      } else if (object instanceof Plane) {
+        ((Plane)object).display(graphics);
+      }
+    }
   }
 
   public static void main(String[] args) {
@@ -145,19 +151,24 @@ public class AircraftWar extends JPanel {
     timer.schedule(new TimerTask() {
       public void run() {
         generateEnemy();
-        for (Flying object : objects) {
-          object.move();
-          object.action();
+        for (Object object : objects) {
+          if (object instanceof Bullet) {
+            ((Bullet)object).move();
+            ((Bullet)object).action();
+          } else if (object instanceof Plane) {
+            ((Plane)object).move();
+            ((Plane)object).action();
+          }
         }
 
         // Push all objects that are goind to be displayed in
         // the next frame to the objects set.
-        for (Flying object : newcome) objects.add(object);
+        for (Object object : newcome) objects.add(object);
         newcome.clear();
 
         // Remove all objects that are going to be deleted.
         // Then the trash bin will be cleared and reused.
-        for (Flying object : trash) objects.remove(object);
+        for (Object object : trash) objects.remove(object);
         trash.clear();
 
         aircraftWar.repaint();
