@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import aircraft.game.AircraftWar;
 import aircraft.game.ImageLoader;
+import aircraft.game.plane.Plane;
 
 public abstract class Bullet {
   public BufferedImage image;
@@ -68,4 +69,6 @@ public abstract class Bullet {
   protected abstract void reactOnceInvalid(int indicator);
 
   public abstract void action();
+
+  public abstract void effect(Plane plane);
 }

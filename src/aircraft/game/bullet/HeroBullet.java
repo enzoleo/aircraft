@@ -1,6 +1,7 @@
 package aircraft.game.bullet;
 
 import aircraft.game.AircraftWar;
+import aircraft.game.plane.Plane;
 
 public class HeroBullet extends Bullet {
   // Constructor.
@@ -27,5 +28,10 @@ public class HeroBullet extends Bullet {
 
   @Override
   public void action() {
+  }
+
+  @Override
+  public void effect(Plane plane) {
+    plane.health -= this.damage;
   }
 }

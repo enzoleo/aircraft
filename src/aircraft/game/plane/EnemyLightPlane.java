@@ -2,6 +2,7 @@ package aircraft.game.plane;
 
 import aircraft.game.AircraftWar;
 import aircraft.game.bullet.EnemyNormalBullet;
+import aircraft.game.bullet.HeroBullet;
 
 public class EnemyLightPlane extends Plane {
   // Constructor.
@@ -36,7 +37,7 @@ public class EnemyLightPlane extends Plane {
       if (AircraftWar.bernoulli(p)) this.direction.x = -1;
     }
     
-    int indicator = boundCheck();
+    int indicator = boundaryCheck();
     if (indicator != 0) reactOnceInvalid(indicator);
   }
 
@@ -59,5 +60,19 @@ public class EnemyLightPlane extends Plane {
     double p = 0.015;
     if (AircraftWar.bernoulli(p))
       this.fire();
+  }
+
+  @Override
+  public void hitBy(Object object) {
+    if (object instanceof HeroBullet) {
+      HeroBullet bullet = (HeroBullet)object;
+      double x = bullet.location.x; double y = bullet.location.y;
+      if ((x > location.x && x < location.x + image.getWidth() &&
+           y > location.y && y < location.y + image.getHeight()) ||
+          (location.x > x && location.x < x + bullet.image.getWidth() &&
+           location.y > y && location.y < y + bullet.image.getHeight())) {
+        bullet.effect(this);
+      }
+    }
   }
 }

@@ -1,6 +1,7 @@
 package aircraft.game.plane;
 
 import aircraft.game.AircraftWar;
+import aircraft.game.bullet.EnemyNormalBullet;
 import aircraft.game.bullet.HeroBullet;
 
 public class HeroPlane extends Plane {
@@ -24,7 +25,7 @@ public class HeroPlane extends Plane {
     location.x += speed * direction.x;
     location.y += speed * direction.y;
     
-    int indicator = boundCheck();
+    int indicator = boundaryCheck();
     if (indicator != 0) reactOnceInvalid(indicator);
   }
 
@@ -75,5 +76,12 @@ public class HeroPlane extends Plane {
   @Override
   public void action() {
     if (fireCommand) this.fire();
+  }
+
+  @Override
+  public void hitBy(Object object) {
+    if (object instanceof EnemyNormalBullet) {
+      ((EnemyNormalBullet)object).effect(this);
+    }
   }
 }

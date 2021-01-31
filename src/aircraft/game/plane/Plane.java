@@ -21,7 +21,7 @@ public abstract class Plane {
 
   // The health point. The plane will vanish once its health attains zero.
   // Note that only the generic class Plane has attribute health.
-  protected int health = 100;
+  public int health = 100;
 
   // Constructor that inherits from base class.
   protected Plane(String img, double x, double y) {
@@ -45,7 +45,7 @@ public abstract class Plane {
   // Usually an object should be restricted so that it will not move outside
   // the boundary, or it should be directly deleted once it moves out of the
   // horizon.
-  protected int boundCheck() {
+  protected int boundaryCheck() {
     double xmin = location.x; // Left boundary.
     double xmax = location.x + image.getWidth(); // Right boundary.
     double ymin = location.y; // Bottom boundary.W
@@ -77,4 +77,6 @@ public abstract class Plane {
   public abstract void action();
 
   protected abstract void fire();
+
+  public abstract void hitBy(Object object);
 }
