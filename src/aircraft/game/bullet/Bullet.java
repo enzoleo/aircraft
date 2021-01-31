@@ -1,6 +1,5 @@
 package aircraft.game.bullet;
 
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -9,10 +8,6 @@ import aircraft.game.AircraftWar;
 import aircraft.game.ImageLoader;
 
 public abstract class Bullet {
-  // The moving direction of the hero plane. It contains two components which
-  // should only take three possible values: 1, 0, -1, as vertical and 
-  // horizontal direction flags.
-  public Point direction = new Point();
   public BufferedImage image;
 
   // The current position.
