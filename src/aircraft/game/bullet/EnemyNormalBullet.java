@@ -5,7 +5,7 @@ import aircraft.game.plane.Plane;
 public class EnemyNormalBullet extends EnemyBullet {
   // Constructor.
   public EnemyNormalBullet(double x, double y) {
-    super("aircraft/images/enemy_normal_bullet.png", x, y, 5, 4.0);
+    super("aircraft/images/enemy_normal_bullet.png", x, y, 10, 4.0);
   }
 
   @Override

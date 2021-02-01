@@ -13,7 +13,7 @@ public class EnemyBoss extends EnemyPlane {
   // Constructor.
   public EnemyBoss(double x, double y) {
     // Load the plane from the image directory.
-    super("aircraft/images/enemy_boss.png", x, y, 600, 1.5);
+    super("aircraft/images/enemy_boss.png", x, y, 800, 1.5);
     this.direction.y = 0; // The boss only moves horizontally from our view.
   }
 
@@ -26,7 +26,7 @@ public class EnemyBoss extends EnemyPlane {
   public void display(Graphics graphics) {
     super.display(graphics);
     if (coolDown > 0)
-      coolDown = (coolDown + 1) % 30; // Update cool down time.
+      coolDown = (coolDown + 1) % 40; // Update cool down time.
   }
 
   @Override

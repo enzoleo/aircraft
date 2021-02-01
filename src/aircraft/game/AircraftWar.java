@@ -77,7 +77,7 @@ public class AircraftWar extends JPanel {
       double x = (Math.random() * 0.6 + 0.2) * WIDTH;
       newcome.add(new Bomb(x, 0));
     }
-    if (bernoulli(0.006)) { // Generate supplies.
+    if (bernoulli(0.004)) { // Generate supplies.
       double x = (Math.random() * 0.6 + 0.2) * WIDTH;
       newcome.add(new Supply(x, 0));
     }
