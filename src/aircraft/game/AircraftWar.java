@@ -46,7 +46,7 @@ public class AircraftWar extends JPanel {
   
   static BufferedImage background = ImageLoader.readImg("aircraft/images/background.png");
   static BufferedImage gameover = ImageLoader.readImg("aircraft/images/gameover.png");
-  static HeroPlane hero = new HeroPlane(150., 400., 100, 2.0);
+  static HeroPlane hero = new HeroPlane(150., 400.);
   public static int score = 0;
   
   public static int bossNum = 0;
@@ -66,10 +66,12 @@ public class AircraftWar extends JPanel {
     if (bernoulli(0.01)) { // Generate enemies.
       double x = (Math.random() * 0.6 + 0.2) * WIDTH;
       if (bernoulli(0.2) && bossNum < 1) {
-        newcome.add(new EnemyBoss(x, 0, 1000, 1.5));
+        // Generate a boss ship. Note that at most one boss ship can
+        // be displayed at a time.
+        newcome.add(new EnemyBoss(x, 0));
         bossNum++;
       } else
-        newcome.add(new EnemyLightPlane(x, 0, 20, 1.5));
+        newcome.add(new EnemyLightPlane(x, 0));
     }
     if (bernoulli(0.002)) { // Generate bombs.
       double x = (Math.random() * 0.6 + 0.2) * WIDTH;

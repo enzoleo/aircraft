@@ -5,9 +5,9 @@ import aircraft.game.bullet.EnemyNormalBullet;
 
 public class EnemyLightPlane extends EnemyPlane {
   // Constructor.
-  public EnemyLightPlane(double x, double y, int health, double speed) {
+  public EnemyLightPlane(double x, double y) {
     // Load the plane from the image directory.
-    super("aircraft/images/enemy_light_plane.png", x, y, health, speed);
+    super("aircraft/images/enemy_light_plane.png", x, y, 20, 1.5);
     this.direction.y = 1;
   }
 
@@ -34,7 +34,7 @@ public class EnemyLightPlane extends EnemyPlane {
   @Override
   public void fire() {
     if (AircraftWar.bernoulli(0.01)) {
-      EnemyNormalBullet enemyBullet = new EnemyNormalBullet(0, 0, 5, 4.0);
+      EnemyNormalBullet enemyBullet = new EnemyNormalBullet(0, 0);
       double offset = (image.getWidth() - enemyBullet.image.getWidth()) / 2;
       enemyBullet.location.x = location.x + offset;
       enemyBullet.location.y = location.y + image.getHeight();

@@ -28,7 +28,7 @@ public abstract class EnemyPlane extends Plane {
   public void boundaryCheck() {
     double xmin = location.x; // Left boundary.
     double xmax = location.x + image.getWidth(); // Right boundary.
-    double ymin = location.y; // Bottom boundary.W
+    double ymin = location.y; // Bottom boundary.
     double ymax = location.y + image.getHeight(); // Top boundary.
 
     if (xmin < 0) {

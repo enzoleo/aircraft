@@ -1,5 +1,7 @@
 package aircraft.game.plane;
 
+import java.awt.Graphics;
+
 import aircraft.game.AircraftWar;
 import aircraft.game.bullet.*;
 import aircraft.game.bomb.*;
@@ -8,14 +10,24 @@ import aircraft.game.supply.*;
 public class HeroPlane extends Plane {
   // A boolean determining whether to fire at the current status.
   public boolean fireCommand = false;
+  // Cool down time to fire. Only when the coolDown variable is zero can
+  // the hero plane shoot cannons.
+  private int coolDown = 0;
 
   // Constructor.
-  public HeroPlane(double x, double y, int health, double speed) {
+  public HeroPlane(double x, double y) {
     // Load the plane from the image directory.
     super("aircraft/images/hero_plane.png", x, y);
     
-    this.health = health; // The initial health point.
-    this.speed = speed; // The initial speed.
+    this.health = 100; // The initial health point.
+    this.speed = 2.0; // The initial speed.
+  }
+
+  @Override
+  public void display(Graphics graphics) {
+    super.display(graphics);
+    if (coolDown > 0)
+      coolDown = (coolDown + 1) % 15; // Update cool down time.
   }
 
   // Implement the abstract method of the base class. The move method is
@@ -31,7 +43,7 @@ public class HeroPlane extends Plane {
   public void boundaryCheck() {
     double xmin = location.x; // Left boundary.
     double xmax = location.x + image.getWidth(); // Right boundary.
-    double ymin = location.y; // Bottom boundary.W
+    double ymin = location.y; // Bottom boundary.
     double ymax = location.y + image.getHeight(); // Top boundary.
 
     if (xmin < 0) location.x = 0;
@@ -44,12 +56,13 @@ public class HeroPlane extends Plane {
 
   @Override
   public void fire() {
-    if (fireCommand) {
-      HeroBullet heroBullet = new HeroBullet(0, 0, 10, 3.0);
+    if (fireCommand && coolDown == 0) {
+      HeroBullet heroBullet = new HeroBullet(0, 0);
       double offset = (image.getWidth() - heroBullet.image.getWidth()) / 2;
       heroBullet.location.x = location.x + offset;
       heroBullet.location.y = location.y - heroBullet.image.getHeight();
       AircraftWar.newcome.add(heroBullet);
+      coolDown++;
     }
   }
 

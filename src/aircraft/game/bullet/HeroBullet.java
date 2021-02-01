@@ -4,10 +4,10 @@ import aircraft.game.plane.Plane;
 
 public class HeroBullet extends Bullet {
   // Constructor.
-  public HeroBullet(double x, double y, int damage, double speed) {
+  public HeroBullet(double x, double y) {
     super("aircraft/images/hero_bullet.png", x, y);
-    this.damage = damage;
-    this.speed = speed;
+    this.damage = 20;
+    this.speed = 3.0;
   }
 
   @Override

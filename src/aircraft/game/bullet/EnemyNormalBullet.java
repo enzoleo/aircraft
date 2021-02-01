@@ -2,12 +2,10 @@ package aircraft.game.bullet;
 
 import aircraft.game.plane.Plane;
 
-public class EnemyNormalBullet extends Bullet {
+public class EnemyNormalBullet extends EnemyBullet {
   // Constructor.
-  public EnemyNormalBullet(double x, double y, int damage, double speed) {
-    super("aircraft/images/enemy_normal_bullet.png", x, y);
-    this.damage = damage;
-    this.speed = speed;
+  public EnemyNormalBullet(double x, double y) {
+    super("aircraft/images/enemy_normal_bullet.png", x, y, 5, 4.0);
   }
 
   @Override
