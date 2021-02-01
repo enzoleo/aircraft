@@ -1,15 +1,28 @@
 package aircraft.game.plane;
 
+import java.awt.Graphics;
+
 import aircraft.game.AircraftWar;
 import aircraft.game.bullet.EnemyNormalBullet;
 import aircraft.game.bullet.HeroBullet;
 
-public class EnemyLightPlane extends EnemyPlane {
+public class EnemyPlane extends Plane {
   // Constructor.
-  public EnemyLightPlane(double x, double y, int health, double speed) {
+  public EnemyPlane(String img, double x, double y, int health, double speed) {
     // Load the plane from the image directory.
-    super("aircraft/images/enemy_light_plane.png", x, y, health, speed);
-    this.direction.y = 1;
+    super(img, x, y);
+    
+    this.health = health; // The initial health point.
+    this.speed = speed; // The initial speed.
+
+    // Moving direction.
+    this.direction.x = (int)(Math.random() + 0.5) * 2 - 1;
+  }
+
+  @Override
+  public void display(Graphics graphics) {
+    if (this.health > 0)
+      super.display(graphics);
   }
 
   @Override
@@ -38,7 +51,6 @@ public class EnemyLightPlane extends EnemyPlane {
   @Override
   protected void reactOnceInvalid(int indicator) {
     AircraftWar.trash.add(this);
-    AircraftWar.score += 10;
   }
 
   @Override
@@ -52,7 +64,7 @@ public class EnemyLightPlane extends EnemyPlane {
 
   @Override
   public void action() {
-    double p = 0.01;
+    double p = 0.015;
     if (AircraftWar.bernoulli(p))
       this.fire();
   }
@@ -84,6 +96,7 @@ public class EnemyLightPlane extends EnemyPlane {
       HeroBullet bullet = (HeroBullet)object;
       bullet.effect(this);
       AircraftWar.trash.add(object);
+      AircraftWar.score += 10;
     }
   }
 }

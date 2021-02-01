@@ -4,19 +4,17 @@ import aircraft.game.AircraftWar;
 import aircraft.game.bullet.EnemyNormalBullet;
 import aircraft.game.bullet.HeroBullet;
 
-public class EnemyLightPlane extends EnemyPlane {
+public class EnemyBoss extends EnemyPlane {
   // Constructor.
-  public EnemyLightPlane(double x, double y, int health, double speed) {
+  public EnemyBoss(double x, double y, int health, double speed) {
     // Load the plane from the image directory.
-    super("aircraft/images/enemy_light_plane.png", x, y, health, speed);
-    this.direction.y = 1;
+    super("aircraft/images/enemy_boss.png", x, y, health, speed);
+    this.direction.y = 0; // The boss only moves horizontally from our view.
   }
 
   @Override
   public void move() {
     location.x += speed * direction.x;
-    location.y += speed * direction.y;
-
     double bound = AircraftWar.WIDTH;
     double ratio = 0.2; // Must be inside the interval [0, 0.5].
 
@@ -38,7 +36,7 @@ public class EnemyLightPlane extends EnemyPlane {
   @Override
   protected void reactOnceInvalid(int indicator) {
     AircraftWar.trash.add(this);
-    AircraftWar.score += 10;
+    AircraftWar.score += 80;
   }
 
   @Override
@@ -52,7 +50,7 @@ public class EnemyLightPlane extends EnemyPlane {
 
   @Override
   public void action() {
-    double p = 0.01;
+    double p = 0.015;
     if (AircraftWar.bernoulli(p))
       this.fire();
   }

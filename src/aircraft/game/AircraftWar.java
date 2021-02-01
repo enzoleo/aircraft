@@ -92,7 +92,7 @@ public class AircraftWar extends JPanel {
     graphics.setColor(new Color(0x000000));
     graphics.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
     graphics.drawString("SCORE: " + score, 10, 25);
-    graphics.drawString("LIFE: " + hero.health, 10, 45);
+    graphics.drawString("HP: " + hero.health, 10, 45);
 
     if (hero.health <= 0)
       graphics.drawImage(gameover, 0, 0, null);
