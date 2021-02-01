@@ -26,3 +26,6 @@ hs_err_pid*
 *.png
 *.jpg
 *.gif
+
+# Python cache
+__pycache__
