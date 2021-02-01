@@ -41,18 +41,13 @@ public class EnemyLightPlane extends EnemyPlane {
 
   @Override
   public void fire() {
-    EnemyNormalBullet enemyBullet = new EnemyNormalBullet(0, 0, 5, 4.0);
-    double offset = (image.getWidth() - enemyBullet.image.getWidth()) / 2;
-    enemyBullet.location.x = location.x + offset;
-    enemyBullet.location.y = location.y + image.getHeight();
-    AircraftWar.newcome.add(enemyBullet);
-  }
-
-  @Override
-  public void action() {
-    double p = 0.01;
-    if (AircraftWar.bernoulli(p))
-      this.fire();
+    if (AircraftWar.bernoulli(0.01)) {
+      EnemyNormalBullet enemyBullet = new EnemyNormalBullet(0, 0, 5, 4.0);
+      double offset = (image.getWidth() - enemyBullet.image.getWidth()) / 2;
+      enemyBullet.location.x = location.x + offset;
+      enemyBullet.location.y = location.y + image.getHeight();
+      AircraftWar.newcome.add(enemyBullet);
+    }
   }
 
   @Override

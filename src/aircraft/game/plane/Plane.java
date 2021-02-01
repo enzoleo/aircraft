@@ -50,15 +50,6 @@ public abstract class Plane {
     double xmax = location.x + image.getWidth(); // Right boundary.
     double ymin = location.y; // Bottom boundary.W
     double ymax = location.y + image.getHeight(); // Top boundary.
-
-    // NOTE the meaning of argument: only 9 values are valid.
-    // -------------------------------------
-    // | -4 |           -3            | -2 |
-    // -------------------------------------
-    // | -1 |     Game Window (0)     |  1 |
-    // -------------------------------------
-    // |  2 |           -3            |  4 |
-    // -------------------------------------
     int xind = 0, yind = 0;
     if (xmin < 0) xind = -1; else if (xmax > AircraftWar.WIDTH)  xind = 1;
     if (ymin < 0) yind = -3; else if (ymax > AircraftWar.HEIGHT) yind = 3;
@@ -74,9 +65,7 @@ public abstract class Plane {
   // position, supplies should rebound when hit the left/right border, etc.
   protected abstract void reactOnceInvalid(int indicator);
 
-  public abstract void action();
-
-  protected abstract void fire();
+  public abstract void fire();
 
   public abstract boolean isHit(Object object);
 

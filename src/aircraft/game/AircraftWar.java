@@ -194,7 +194,7 @@ public class AircraftWar extends JPanel {
               ((Bullet)object).move();
             } else if (object instanceof Plane) {
               ((Plane)object).move();
-              ((Plane)object).action();
+              ((Plane)object).fire();
             } else if (object instanceof Bomb) {
               ((Bomb)object).move();
             } else if (object instanceof Supply) {

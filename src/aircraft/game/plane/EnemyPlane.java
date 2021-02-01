@@ -3,10 +3,9 @@ package aircraft.game.plane;
 import java.awt.Graphics;
 
 import aircraft.game.AircraftWar;
-import aircraft.game.bullet.EnemyNormalBullet;
 import aircraft.game.bullet.HeroBullet;
 
-public class EnemyPlane extends Plane {
+public abstract class EnemyPlane extends Plane {
   // Constructor.
   public EnemyPlane(String img, double x, double y, int health, double speed) {
     // Load the plane from the image directory.
@@ -51,22 +50,6 @@ public class EnemyPlane extends Plane {
   @Override
   protected void reactOnceInvalid(int indicator) {
     AircraftWar.trash.add(this);
-  }
-
-  @Override
-  public void fire() {
-    EnemyNormalBullet enemyBullet = new EnemyNormalBullet(0, 0, 5, 4.0);
-    double offset = (image.getWidth() - enemyBullet.image.getWidth()) / 2;
-    enemyBullet.location.x = location.x + offset;
-    enemyBullet.location.y = location.y + image.getHeight();
-    AircraftWar.newcome.add(enemyBullet);
-  }
-
-  @Override
-  public void action() {
-    double p = 0.015;
-    if (AircraftWar.bernoulli(p))
-      this.fire();
   }
 
   @Override

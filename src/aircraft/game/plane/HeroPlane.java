@@ -67,16 +67,13 @@ public class HeroPlane extends Plane {
 
   @Override
   public void fire() {
-    HeroBullet heroBullet = new HeroBullet(0, 0, 10, 3.0);
-    double offset = (image.getWidth() - heroBullet.image.getWidth()) / 2;
-    heroBullet.location.x = location.x + offset;
-    heroBullet.location.y = location.y - heroBullet.image.getHeight();
-    AircraftWar.newcome.add(heroBullet);
-  }
-
-  @Override
-  public void action() {
-    if (fireCommand) this.fire();
+    if (fireCommand) {
+      HeroBullet heroBullet = new HeroBullet(0, 0, 10, 3.0);
+      double offset = (image.getWidth() - heroBullet.image.getWidth()) / 2;
+      heroBullet.location.x = location.x + offset;
+      heroBullet.location.y = location.y - heroBullet.image.getHeight();
+      AircraftWar.newcome.add(heroBullet);
+    }
   }
 
   @Override
