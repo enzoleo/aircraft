@@ -50,11 +50,6 @@ public abstract class Plane {
   // Each object should have a specific move policy.
   public abstract void move();
 
-  // An object should take specific actions once it moves out of bound.
-  // Bullets should be deleted, hero plane should be reverted to the valid
-  // position, supplies should rebound when hit the left/right border, etc.
-  //protected abstract void reactOnceInvalid(int indicator);
-
   // Any plane can fire, e.g. shoot bullets.
   public abstract void fire();
 
