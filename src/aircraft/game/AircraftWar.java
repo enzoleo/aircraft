@@ -32,6 +32,11 @@ public class AircraftWar extends JPanel {
   public static final int WIDTH = 400;
   public static final int HEIGHT = 654;
 
+  // The game status.
+  public static final int RUNNING = 0;
+  public static final int GAMEOVER = 1;
+  public static int status = RUNNING;
+
   // The hash set to store all objects. Each time an object is constructed,
   // it should be added into this set, e.g. the push operation should be
   // called in the base constructor.
@@ -43,6 +48,8 @@ public class AircraftWar extends JPanel {
   static BufferedImage gameover = ImageLoader.readImg("aircraft/images/gameover.png");
   static HeroPlane hero = new HeroPlane(150., 400., 100, 2.0);
   public static int score = 0;
+  
+  public static int bossNum = 0;
   
   static {
     objects.add(hero);
@@ -56,16 +63,19 @@ public class AircraftWar extends JPanel {
   }
 
   public static void generateCharacter() {
-    double p = 0.01; // The probability to generate enemies.
-    if (bernoulli(p)) {
+    if (bernoulli(0.01)) { // Generate enemies.
       double x = (Math.random() * 0.6 + 0.2) * WIDTH;
-      newcome.add(new EnemyLightPlane(x, 0, 20, 1.5));
+      if (bernoulli(0.2) && bossNum < 1) {
+        newcome.add(new EnemyBoss(x, 0, 1000, 1.5));
+        bossNum++;
+      } else
+        newcome.add(new EnemyLightPlane(x, 0, 20, 1.5));
     }
-    if (bernoulli(0.002)) {
+    if (bernoulli(0.002)) { // Generate bombs.
       double x = (Math.random() * 0.6 + 0.2) * WIDTH;
       newcome.add(new Bomb(x, 0));
     }
-    if (bernoulli(0.006)) {
+    if (bernoulli(0.006)) { // Generate supplies.
       double x = (Math.random() * 0.6 + 0.2) * WIDTH;
       newcome.add(new Supply(x, 0));
     }
@@ -94,7 +104,7 @@ public class AircraftWar extends JPanel {
     graphics.drawString("SCORE: " + score, 10, 25);
     graphics.drawString("HP: " + hero.health, 10, 45);
 
-    if (hero.health <= 0)
+    if (status == GAMEOVER)
       graphics.drawImage(gameover, 0, 0, null);
   }
 
@@ -177,7 +187,7 @@ public class AircraftWar extends JPanel {
     int interval = 10;
     timer.schedule(new TimerTask() {
       public void run() {
-        if (hero.health > 0) {
+        if (status == RUNNING) {
           generateCharacter();
           for (Object object : objects) {
             if (object instanceof Bullet) {
@@ -202,6 +212,8 @@ public class AircraftWar extends JPanel {
                 // specific actions. Different planes may react differently.
                 if (plane.isHit(npc)) plane.hitBy(npc);
               }
+              // The plane is shot down!
+              if (plane.health < 0) plane.explode();
             }
           }
           // Push all objects that are goind to be displayed in

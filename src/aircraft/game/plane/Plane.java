@@ -81,4 +81,8 @@ public abstract class Plane {
   public abstract boolean isHit(Object object);
 
   public abstract void hitBy(Object object);
+
+  // When the health point of the plane attains zero, it automatically
+  // explodes. It is only called when health point attains zero.
+  public abstract void explode();
 }

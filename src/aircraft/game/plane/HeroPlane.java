@@ -120,4 +120,9 @@ public class HeroPlane extends Plane {
       AircraftWar.trash.add(object);
     }
   }
+
+  @Override
+  public void explode() {
+    AircraftWar.status = AircraftWar.GAMEOVER;
+  }
 }

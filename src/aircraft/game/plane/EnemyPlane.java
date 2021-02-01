@@ -96,7 +96,11 @@ public class EnemyPlane extends Plane {
       HeroBullet bullet = (HeroBullet)object;
       bullet.effect(this);
       AircraftWar.trash.add(object);
-      AircraftWar.score += 10;
     }
+  }
+
+  @Override
+  public void explode() {
+    AircraftWar.trash.add(this);
   }
 }

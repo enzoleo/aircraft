@@ -2,7 +2,6 @@ package aircraft.game.plane;
 
 import aircraft.game.AircraftWar;
 import aircraft.game.bullet.EnemyNormalBullet;
-import aircraft.game.bullet.HeroBullet;
 
 public class EnemyBoss extends EnemyPlane {
   // Constructor.
@@ -14,7 +13,7 @@ public class EnemyBoss extends EnemyPlane {
 
   @Override
   public void move() {
-    location.x += speed * direction.x;
+    //location.x += speed * direction.x;
     double bound = AircraftWar.WIDTH;
     double ratio = 0.2; // Must be inside the interval [0, 0.5].
 
@@ -36,7 +35,7 @@ public class EnemyBoss extends EnemyPlane {
   @Override
   protected void reactOnceInvalid(int indicator) {
     AircraftWar.trash.add(this);
-    AircraftWar.score += 80;
+    AircraftWar.bossNum--;
   }
 
   @Override
@@ -56,32 +55,9 @@ public class EnemyBoss extends EnemyPlane {
   }
 
   @Override
-  public boolean isHit(Object object) {
-    double x, y, w, h;
-    if (object instanceof HeroBullet) {
-      HeroBullet bullet = (HeroBullet)object;
-      x = bullet.location.x; y = bullet.location.y;
-      w = bullet.image.getWidth();
-      h = bullet.image.getHeight();
-    } else {
-      return false;
-    }
-
-    boolean flag1 = // Object (x,y) locates inside the hero plane.
-      x > location.x && x < location.x + image.getWidth() &&
-      y > location.y && y < location.y + image.getHeight();
-    boolean flag2 = // Plane (x,y) locates inside the object.
-      location.x > x && location.x < x + w &&
-      location.y > y && location.y < y + h;
-    return (flag1 || flag2);
-  }
-
-  @Override
-  public void hitBy(Object object) {
-    if (object instanceof HeroBullet) {
-      HeroBullet bullet = (HeroBullet)object;
-      bullet.effect(this);
-      AircraftWar.trash.add(object);
-    }
+  public void explode() {
+    super.explode();
+    AircraftWar.score += 80;
+    AircraftWar.bossNum--;
   }
 }
