@@ -4,16 +4,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyAdapter;
+import java.awt.Color;
+import java.awt.Font;
 
 import java.util.Set;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import aircraft.game.plane.*;
 import aircraft.game.bullet.*;
@@ -33,12 +35,14 @@ public class AircraftWar extends JPanel {
   // The hash set to store all objects. Each time an object is constructed,
   // it should be added into this set, e.g. the push operation should be
   // called in the base constructor.
-  public static HashSet<Object> objects = new HashSet<>();
-  public static LinkedList<Object> trash = new LinkedList<>();
-  public static LinkedList<Object> newcome = new LinkedList<>();
+  public static final HashSet<Object> objects = new HashSet<>();
+  public static final LinkedList<Object> trash = new LinkedList<>();
+  public static final LinkedList<Object> newcome = new LinkedList<>();
   
   static BufferedImage background = ImageLoader.readImg("aircraft/images/background.png");
+  static BufferedImage gameover = ImageLoader.readImg("aircraft/images/gameover.png");
   static HeroPlane hero = new HeroPlane(150., 400., 100, 2.0);
+  public static int score = 0;
   
   static {
     objects.add(hero);
@@ -83,6 +87,15 @@ public class AircraftWar extends JPanel {
         ((Supply)object).display(graphics);
       }
     }
+
+    // Draw health point and game score on the screen.
+    graphics.setColor(new Color(0x000000));
+    graphics.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
+    graphics.drawString("SCORE: " + score, 10, 25);
+    graphics.drawString("LIFE: " + hero.health, 10, 45);
+
+    if (hero.health <= 0)
+      graphics.drawImage(gameover, 0, 0, null);
   }
 
   public static void main(String[] args) {
@@ -164,38 +177,43 @@ public class AircraftWar extends JPanel {
     int interval = 10;
     timer.schedule(new TimerTask() {
       public void run() {
-        generateCharacter();
-        for (Object object : objects) {
-          if (object instanceof Bullet) {
-            ((Bullet)object).move();
-          } else if (object instanceof Plane) {
-            ((Plane)object).move();
-            ((Plane)object).action();
-          } else if (object instanceof Bomb) {
-            ((Bomb)object).move();
-          } else if (object instanceof Supply) {
-            ((Supply)object).move();
+        if (hero.health > 0) {
+          generateCharacter();
+          for (Object object : objects) {
+            if (object instanceof Bullet) {
+              ((Bullet)object).move();
+            } else if (object instanceof Plane) {
+              ((Plane)object).move();
+              ((Plane)object).action();
+            } else if (object instanceof Bomb) {
+              ((Bomb)object).move();
+            } else if (object instanceof Supply) {
+              ((Supply)object).move();
+            }
           }
-        }
 
-        for (Object object : objects) {
-          if (object instanceof Plane) {
-            Plane plane = (Plane)object;
-            for (Object npc : objects)
-              plane.hitBy(npc);
+          for (Object object : objects) {
+            if (object instanceof Plane) {
+              // Check whether a plane (hero/enemy) is hit by some other
+              // objects like bullets, supplies, barriers, etc.
+              Plane plane = (Plane)object;
+              for (Object npc : objects) {
+                // If a plane is hit by an npc (bullets/bombs/...), take
+                // specific actions. Different planes may react differently.
+                if (plane.isHit(npc)) plane.hitBy(npc);
+              }
+            }
           }
+          // Push all objects that are goind to be displayed in
+          // the next frame to the objects set.
+          for (Object object : newcome) objects.add(object);
+          newcome.clear();
+
+          // Remove all objects that are going to be deleted.
+          // Then the trash bin will be cleared and reused.
+          for (Object object : trash) objects.remove(object);
+          trash.clear();
         }
-
-        // Push all objects that are goind to be displayed in
-        // the next frame to the objects set.
-        for (Object object : newcome) objects.add(object);
-        newcome.clear();
-
-        // Remove all objects that are going to be deleted.
-        // Then the trash bin will be cleared and reused.
-        for (Object object : trash) objects.remove(object);
-        trash.clear();
-
         aircraftWar.repaint();
       }
     }, interval, interval);

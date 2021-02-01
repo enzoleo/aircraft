@@ -80,7 +80,7 @@ public class HeroPlane extends Plane {
   }
 
   @Override
-  protected boolean isHit(Object object) {
+  public boolean isHit(Object object) {
     double x, y, w, h;
     if (object instanceof EnemyNormalBullet) {
       EnemyNormalBullet bullet = (EnemyNormalBullet)object;
@@ -109,7 +109,6 @@ public class HeroPlane extends Plane {
 
   @Override
   public void hitBy(Object object) {
-    if (!isHit(object)) return;
     if (object instanceof EnemyNormalBullet) {
       ((EnemyNormalBullet)object).effect(this);
       AircraftWar.trash.add(object);

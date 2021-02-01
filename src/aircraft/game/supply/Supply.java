@@ -33,43 +33,23 @@ public class Supply {
     graphics.drawImage(image, (int)location.x, (int)location.y, null);
   }
 
-  // Check whether the current flying object is displayed inside the window.
-  // Usually an object should be restricted so that it will not move outside
-  // the boundary, or it should be directly deleted once it moves out of the
-  // horizon.
-  protected int boundCheck() {
+  // Check whether the supply is displayed inside the window.
+  protected boolean boundaryCheck() {
     double xmin = location.x; // Left boundary.
     double xmax = location.x + image.getWidth(); // Right boundary.
     double ymin = location.y; // Bottom boundary.W
     double ymax = location.y + image.getHeight(); // Top boundary.
 
-    // NOTE the meaning of argument: only 9 values are valid.
-    // -------------------------------------
-    // | -4 |           -3            | -2 |
-    // -------------------------------------
-    // | -1 |     Game Window (0)     |  1 |
-    // -------------------------------------
-    // |  2 |           -3            |  4 |
-    // -------------------------------------
-    int xind = 0, yind = 0;
-    if (xmin < 0) xind = -1; else if (xmax > AircraftWar.WIDTH)  xind = 1;
-    if (ymin < 0) yind = -3; else if (ymax > AircraftWar.HEIGHT) yind = 3;
-
-    return xind + yind;
+    if (xmin < 0 || xmax > AircraftWar.WIDTH ||
+        ymin < 0 || ymax > AircraftWar.HEIGHT) return false;
+    return true;
   }
 
   // Each object should have a specific move policy.
   public void move() {
     location.y += speed;
-    int indicator = boundCheck();
-    if (indicator != 0) reactOnceInvalid(indicator);
-  }
-
-  // An object should take specific actions once it moves out of bound.
-  // Bullets should be deleted, hero plane should be reverted to the valid
-  // position, supplies should rebound when hit the left/right border, etc.
-  protected void reactOnceInvalid(int indicator) {
-    AircraftWar.trash.add(this);
+    if (!boundaryCheck())
+      AircraftWar.trash.add(this);
   }
 
   public void effect(Plane plane) {
