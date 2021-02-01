@@ -72,9 +72,6 @@ public class Supply {
     AircraftWar.trash.add(this);
   }
 
-  public void action() {
-  }
-
   public void effect(Plane plane) {
     plane.health += this.recovery;
   }

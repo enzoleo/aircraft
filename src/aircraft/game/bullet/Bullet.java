@@ -68,7 +68,5 @@ public abstract class Bullet {
   // position, supplies should rebound when hit the left/right border, etc.
   protected abstract void reactOnceInvalid(int indicator);
 
-  public abstract void action();
-
   public abstract void effect(Plane plane);
 }

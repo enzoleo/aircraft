@@ -28,10 +28,6 @@ public class EnemyNormalBullet extends Bullet {
   }
 
   @Override
-  public void action() {
-  }
-
-  @Override
   public void effect(Plane plane) {
     plane.health -= this.damage;
   }

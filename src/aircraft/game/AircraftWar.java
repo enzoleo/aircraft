@@ -57,7 +57,7 @@ public class AircraftWar extends JPanel {
       double x = (Math.random() * 0.6 + 0.2) * WIDTH;
       newcome.add(new EnemyLightPlane(x, 0, 20, 1.5));
     }
-    if (bernoulli(0.005)) {
+    if (bernoulli(0.002)) {
       double x = (Math.random() * 0.6 + 0.2) * WIDTH;
       newcome.add(new Bomb(x, 0));
     }
@@ -168,30 +168,23 @@ public class AircraftWar extends JPanel {
         for (Object object : objects) {
           if (object instanceof Bullet) {
             ((Bullet)object).move();
-            ((Bullet)object).action();
           } else if (object instanceof Plane) {
             ((Plane)object).move();
             ((Plane)object).action();
           } else if (object instanceof Bomb) {
             ((Bomb)object).move();
-            ((Bomb)object).action();
           } else if (object instanceof Supply) {
             ((Supply)object).move();
-            ((Supply)object).action();
           }
         }
 
         for (Object object : objects) {
           if (object instanceof Plane) {
             Plane plane = (Plane)object;
-            for (Object npc : objects) {
+            for (Object npc : objects)
               plane.hitBy(npc);
-            }
           }
         }
-
-        System.out.print("health ");
-        System.out.println(hero.health);
 
         // Push all objects that are goind to be displayed in
         // the next frame to the objects set.

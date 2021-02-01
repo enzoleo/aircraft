@@ -71,9 +71,6 @@ public class Bomb {
     AircraftWar.trash.add(this);
   }
 
-  public void action() {
-  }
-
   public void effect(Plane plane) {
     if (plane.health > 0)
       plane.health = 0;
