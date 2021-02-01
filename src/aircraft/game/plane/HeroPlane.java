@@ -1,8 +1,8 @@
 package aircraft.game.plane;
 
 import aircraft.game.AircraftWar;
-import aircraft.game.bullet.EnemyNormalBullet;
-import aircraft.game.bullet.HeroBullet;
+import aircraft.game.bullet.*;
+import aircraft.game.bomb.*;
 
 public class HeroPlane extends Plane {
   // A boolean determining whether to fire at the current status.
@@ -84,8 +84,11 @@ public class HeroPlane extends Plane {
     if (object instanceof EnemyNormalBullet) {
       EnemyNormalBullet bullet = (EnemyNormalBullet)object;
       x = bullet.location.x; y = bullet.location.y;
-      w = bullet.image.getWidth();
-      h = bullet.image.getHeight();
+      w = bullet.image.getWidth(); h = bullet.image.getHeight();
+    } else if (object instanceof Bomb) {
+      Bomb bullet = (Bomb)object;
+      x = bullet.location.x; y = bullet.location.y;
+      w = bullet.image.getWidth(); h = bullet.image.getHeight();
     } else {
       return false;
     }
@@ -104,6 +107,9 @@ public class HeroPlane extends Plane {
     if (!isHit(object)) return;
     if (object instanceof EnemyNormalBullet) {
       ((EnemyNormalBullet)object).effect(this);
+      AircraftWar.trash.add(object);
+    } else if (object instanceof Bomb) {
+      ((Bomb)object).effect(this);
       AircraftWar.trash.add(object);
     }
   }

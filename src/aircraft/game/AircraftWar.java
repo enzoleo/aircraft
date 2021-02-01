@@ -17,6 +17,7 @@ import java.util.Iterator;
 
 import aircraft.game.plane.*;
 import aircraft.game.bullet.*;
+import aircraft.game.bomb.*;
 
 public class AircraftWar extends JPanel {
   // Define serialVersionUID which is used during deserialization to verify
@@ -49,11 +50,15 @@ public class AircraftWar extends JPanel {
     return false;
   }
 
-  public static void generateEnemy() {
+  public static void generateCharacter() {
     double p = 0.01; // The probability to generate enemies.
     if (bernoulli(p)) {
       double x = (Math.random() * 0.6 + 0.2) * WIDTH;
       newcome.add(new EnemyLightPlane(x, 0, 20, 1.5));
+    }
+    if (bernoulli(0.005)) {
+      double x = (Math.random() * 0.6 + 0.2) * WIDTH;
+      newcome.add(new Bomb(x, 0));
     }
   }
 
@@ -67,6 +72,8 @@ public class AircraftWar extends JPanel {
         ((Bullet)object).display(graphics);
       } else if (object instanceof Plane) {
         ((Plane)object).display(graphics);
+      } else if (object instanceof Bomb) {
+        ((Bomb)object).display(graphics);
       }
     }
   }
@@ -150,7 +157,7 @@ public class AircraftWar extends JPanel {
     int interval = 10;
     timer.schedule(new TimerTask() {
       public void run() {
-        generateEnemy();
+        generateCharacter();
         for (Object object : objects) {
           if (object instanceof Bullet) {
             ((Bullet)object).move();
@@ -158,6 +165,9 @@ public class AircraftWar extends JPanel {
           } else if (object instanceof Plane) {
             ((Plane)object).move();
             ((Plane)object).action();
+          } else if (object instanceof Bomb) {
+            ((Bomb)object).move();
+            ((Bomb)object).action();
           }
         }
 
