@@ -29,14 +29,6 @@ public class EnemyLightPlane extends EnemyPlane {
       double p = 1 + location.x / (ratio * bound) - 1 / ratio;
       if (AircraftWar.bernoulli(p)) this.direction.x = -1;
     }
-    
-    int indicator = boundaryCheck();
-    if (indicator != 0) reactOnceInvalid(indicator);
-  }
-
-  @Override
-  protected void reactOnceInvalid(int indicator) {
-    AircraftWar.trash.add(this);
   }
 
   @Override

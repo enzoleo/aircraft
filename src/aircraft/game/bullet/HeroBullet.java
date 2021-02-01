@@ -1,6 +1,5 @@
 package aircraft.game.bullet;
 
-import aircraft.game.AircraftWar;
 import aircraft.game.plane.Plane;
 
 public class HeroBullet extends Bullet {
@@ -14,8 +13,6 @@ public class HeroBullet extends Bullet {
   @Override
   public void move() {
     location.y -= speed;
-    if (!boundaryCheck())
-      AircraftWar.trash.add(this);
   }
 
   @Override

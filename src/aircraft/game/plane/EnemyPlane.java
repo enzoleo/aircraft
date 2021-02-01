@@ -25,31 +25,21 @@ public abstract class EnemyPlane extends Plane {
   }
 
   @Override
-  public void move() {
-    location.x += speed * direction.x;
-    location.y += speed * direction.y;
+  public void boundaryCheck() {
+    double xmin = location.x; // Left boundary.
+    double xmax = location.x + image.getWidth(); // Right boundary.
+    double ymin = location.y; // Bottom boundary.W
+    double ymax = location.y + image.getHeight(); // Top boundary.
 
-    double bound = AircraftWar.WIDTH;
-    double ratio = 0.2; // Must be inside the interval [0, 0.5].
-
-    // Rebound when hitting the left/right boundary.
-    if (location.x < ratio * bound && direction.x == -1) {
-      // Calculate adaptive propobility.
-      double p = 1 - location.x / (ratio * bound);
-      if (AircraftWar.bernoulli(p)) direction.x = 1;
-    } else if (location.x > (1 - ratio) * bound && direction.x == 1) {
-      // Calculate adaptive propobility.
-      double p = 1 + location.x / (ratio * bound) - 1 / ratio;
-      if (AircraftWar.bernoulli(p)) this.direction.x = -1;
+    if (xmin < 0) {
+      location.x = 0;
+      direction.x = -direction.x;
+    } else if (xmax > AircraftWar.WIDTH) {
+      location.x = AircraftWar.WIDTH - image.getWidth();
+      direction.x = -direction.x;
     }
-    
-    int indicator = boundaryCheck();
-    if (indicator != 0) reactOnceInvalid(indicator);
-  }
-
-  @Override
-  protected void reactOnceInvalid(int indicator) {
-    AircraftWar.trash.add(this);
+    if (ymin < 0 || ymax > AircraftWar.HEIGHT)
+      AircraftWar.trash.add(this);
   }
 
   @Override

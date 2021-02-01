@@ -35,19 +35,16 @@ public abstract class Bullet {
     graphics.drawImage(image, (int)location.x, (int)location.y, null);
   }
 
-  // Check whether the current flying object is displayed inside the window.
-  // Usually an object should be restricted so that it will not move outside
-  // the boundary, or it should be directly deleted once it moves out of the
-  // horizon.
-  protected boolean boundaryCheck() {
+  // Check whether the current bullet is displayed inside the window.
+  public void boundaryCheck() {
     double xmin = location.x; // Left boundary.
     double xmax = location.x + image.getWidth(); // Right boundary.
     double ymin = location.y; // Bottom boundary.W
     double ymax = location.y + image.getHeight(); // Top boundary.
 
     if (xmin < 0 || xmax > AircraftWar.WIDTH ||
-        ymin < 0 || ymax > AircraftWar.HEIGHT) return false;
-    return true;
+        ymin < 0 || ymax > AircraftWar.HEIGHT)
+      AircraftWar.trash.add(this);
   }
 
   // Each object should have a specific move policy.

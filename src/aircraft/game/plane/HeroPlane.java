@@ -25,44 +25,21 @@ public class HeroPlane extends Plane {
   public void move() {
     location.x += speed * direction.x;
     location.y += speed * direction.y;
-    
-    int indicator = boundaryCheck();
-    if (indicator != 0) reactOnceInvalid(indicator);
   }
 
   @Override
-  protected void reactOnceInvalid(int indicator) {
-    switch (indicator) {
-      case  1:
-        // Reset the location to the right boundary. 
-        location.x = AircraftWar.WIDTH - image.getWidth(); break;
-      case -2:
-        // Reset the location to the top right corner.
-        location.x = AircraftWar.WIDTH - image.getWidth();
-        location.y = 0; break;
-      case  4:
-        // Reset the location to the bottom right corner.
-        location.x = AircraftWar.WIDTH - image.getWidth();
-        location.y = AircraftWar.HEIGHT - image.getHeight(); break;
-      case -1:
-        // Reset the location to the left boundary.
-        location.x = 0; break;
-      case -4:
-        // Reset the location to the top left corner.
-        location.x = 0; location.y = 0; break;
-      case  2:
-        // Reset the location to the bottom left corner.
-        location.x = 0;
-        location.y = AircraftWar.HEIGHT - image.getHeight(); break;
-      case -3:
-        // Reset the location to the top boundary.
-        location.y = 0; break;
-      case  3:
-        // Reset the location to the bottom boundary.
-        location.y = AircraftWar.HEIGHT - image.getHeight(); break;
-      default:
-        throw new RuntimeException("Invalid indicator is specified.");
-    }
+  public void boundaryCheck() {
+    double xmin = location.x; // Left boundary.
+    double xmax = location.x + image.getWidth(); // Right boundary.
+    double ymin = location.y; // Bottom boundary.W
+    double ymax = location.y + image.getHeight(); // Top boundary.
+
+    if (xmin < 0) location.x = 0;
+    if (ymin < 0) location.y = 0;
+    if (xmax > AircraftWar.WIDTH)
+      location.x = AircraftWar.WIDTH - image.getWidth();
+    if (ymax > AircraftWar.HEIGHT)
+      location.y = AircraftWar.HEIGHT - image.getHeight();
   }
 
   @Override

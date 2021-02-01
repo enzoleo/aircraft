@@ -192,13 +192,17 @@ public class AircraftWar extends JPanel {
           for (Object object : objects) {
             if (object instanceof Bullet) {
               ((Bullet)object).move();
+              ((Bullet)object).boundaryCheck();
             } else if (object instanceof Plane) {
               ((Plane)object).move();
+              ((Plane)object).boundaryCheck();
               ((Plane)object).fire();
             } else if (object instanceof Bomb) {
               ((Bomb)object).move();
+              ((Bomb)object).boundaryCheck();
             } else if (object instanceof Supply) {
               ((Supply)object).move();
+              ((Supply)object).boundaryCheck();
             }
           }
 
@@ -213,7 +217,7 @@ public class AircraftWar extends JPanel {
                 if (plane.isHit(npc)) plane.hitBy(npc);
               }
               // The plane is shot down!
-              if (plane.health < 0) plane.explode();
+              if (plane.health <= 0) plane.explode();
             }
           }
           // Push all objects that are goind to be displayed in

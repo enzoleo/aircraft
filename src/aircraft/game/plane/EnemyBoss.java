@@ -13,28 +13,12 @@ public class EnemyBoss extends EnemyPlane {
 
   @Override
   public void move() {
-    //location.x += speed * direction.x;
-    double bound = AircraftWar.WIDTH;
-    double ratio = 0.2; // Must be inside the interval [0, 0.5].
-
-    // Rebound when hitting the left/right boundary.
-    if (location.x < ratio * bound && direction.x == -1) {
-      // Calculate adaptive propobility.
-      double p = 1 - location.x / (ratio * bound);
-      if (AircraftWar.bernoulli(p)) direction.x = 1;
-    } else if (location.x > (1 - ratio) * bound && direction.x == 1) {
-      // Calculate adaptive propobility.
-      double p = 1 + location.x / (ratio * bound) - 1 / ratio;
-      if (AircraftWar.bernoulli(p)) this.direction.x = -1;
-    }
-    
-    int indicator = boundaryCheck();
-    if (indicator != 0) reactOnceInvalid(indicator);
+    location.x += speed * direction.x;
   }
 
   @Override
-  protected void reactOnceInvalid(int indicator) {
-    AircraftWar.trash.add(this);
+  public void boundaryCheck() {
+    super.boundaryCheck();
     AircraftWar.bossNum--;
   }
 

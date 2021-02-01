@@ -34,22 +34,20 @@ public class Supply {
   }
 
   // Check whether the supply is displayed inside the window.
-  protected boolean boundaryCheck() {
+  public void boundaryCheck() {
     double xmin = location.x; // Left boundary.
     double xmax = location.x + image.getWidth(); // Right boundary.
     double ymin = location.y; // Bottom boundary.W
     double ymax = location.y + image.getHeight(); // Top boundary.
 
     if (xmin < 0 || xmax > AircraftWar.WIDTH ||
-        ymin < 0 || ymax > AircraftWar.HEIGHT) return false;
-    return true;
+        ymin < 0 || ymax > AircraftWar.HEIGHT)
+      AircraftWar.trash.add(this);
   }
 
   // Each object should have a specific move policy.
   public void move() {
     location.y += speed;
-    if (!boundaryCheck())
-      AircraftWar.trash.add(this);
   }
 
   public void effect(Plane plane) {
