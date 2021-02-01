@@ -18,6 +18,7 @@ import java.util.Iterator;
 import aircraft.game.plane.*;
 import aircraft.game.bullet.*;
 import aircraft.game.bomb.*;
+import aircraft.game.supply.*;
 
 public class AircraftWar extends JPanel {
   // Define serialVersionUID which is used during deserialization to verify
@@ -60,6 +61,10 @@ public class AircraftWar extends JPanel {
       double x = (Math.random() * 0.6 + 0.2) * WIDTH;
       newcome.add(new Bomb(x, 0));
     }
+    if (bernoulli(0.006)) {
+      double x = (Math.random() * 0.6 + 0.2) * WIDTH;
+      newcome.add(new Supply(x, 0));
+    }
   }
 
   // Draw everything including bullets, planes, supplies, etc.
@@ -74,6 +79,8 @@ public class AircraftWar extends JPanel {
         ((Plane)object).display(graphics);
       } else if (object instanceof Bomb) {
         ((Bomb)object).display(graphics);
+      } else if (object instanceof Supply) {
+        ((Supply)object).display(graphics);
       }
     }
   }
@@ -168,6 +175,9 @@ public class AircraftWar extends JPanel {
           } else if (object instanceof Bomb) {
             ((Bomb)object).move();
             ((Bomb)object).action();
+          } else if (object instanceof Supply) {
+            ((Supply)object).move();
+            ((Supply)object).action();
           }
         }
 

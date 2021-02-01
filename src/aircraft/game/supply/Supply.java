@@ -1,4 +1,4 @@
-package aircraft.game.bomb;
+package aircraft.game.supply;
 
 import java.awt.geom.Point2D;
 import java.awt.Graphics;
@@ -8,16 +8,17 @@ import aircraft.game.AircraftWar;
 import aircraft.game.ImageLoader;
 import aircraft.game.plane.Plane;
 
-public class Bomb {
+public class Supply {
   public BufferedImage image;
 
   // The current position.
   public Point2D.Double location = new Point2D.Double();
-  protected double speed = 1; // The speed of the flying object.
+  protected double speed = 1.5; // The speed of the flying object.
+  public int recovery = 20;
 
-  public Bomb(double x, double y) {
+  public Supply(double x, double y) {
     // Load the plane from the image directory.
-    image = ImageLoader.readImg("aircraft/images/bomb.png");
+    image = ImageLoader.readImg("aircraft/images/supply.gif");
     if (image.getWidth()  >= AircraftWar.WIDTH ||
         image.getHeight() >= AircraftWar.HEIGHT)
       throw new RuntimeException("The size of image is invalid");
@@ -75,7 +76,6 @@ public class Bomb {
   }
 
   public void effect(Plane plane) {
-    if (plane.health > 0)
-      plane.health = 0;
+    plane.health += this.recovery;
   }
 }
