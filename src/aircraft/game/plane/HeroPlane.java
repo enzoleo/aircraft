@@ -66,7 +66,7 @@ public class HeroPlane extends Plane {
 
   @Override
   public void fire() {
-    HeroBullet heroBullet = new HeroBullet(0, 0, 5, 3.0);
+    HeroBullet heroBullet = new HeroBullet(0, 0, 10, 3.0);
     double offset = (image.getWidth() - heroBullet.image.getWidth()) / 2;
     heroBullet.location.x = location.x + offset;
     heroBullet.location.y = location.y - heroBullet.image.getHeight();
@@ -79,9 +79,32 @@ public class HeroPlane extends Plane {
   }
 
   @Override
+  protected boolean isHit(Object object) {
+    double x, y, w, h;
+    if (object instanceof EnemyNormalBullet) {
+      EnemyNormalBullet bullet = (EnemyNormalBullet)object;
+      x = bullet.location.x; y = bullet.location.y;
+      w = bullet.image.getWidth();
+      h = bullet.image.getHeight();
+    } else {
+      return false;
+    }
+
+    boolean flag1 = // Object (x,y) locates inside the hero plane.
+      x > location.x && x < location.x + image.getWidth() &&
+      y > location.y && y < location.y + image.getHeight();
+    boolean flag2 = // Plane (x,y) locates inside the object.
+      location.x > x && location.x < x + w &&
+      location.y > y && location.y < y + h;
+    return (flag1 || flag2);
+  }
+
+  @Override
   public void hitBy(Object object) {
+    if (!isHit(object)) return;
     if (object instanceof EnemyNormalBullet) {
       ((EnemyNormalBullet)object).effect(this);
+      AircraftWar.trash.add(object);
     }
   }
 }

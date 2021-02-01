@@ -36,7 +36,7 @@ public class AircraftWar extends JPanel {
   public static LinkedList<Object> newcome = new LinkedList<>();
   
   static BufferedImage background = ImageLoader.readImg("aircraft/images/background.png");
-  static HeroPlane hero = new HeroPlane(150., 400., 50, 2.0);
+  static HeroPlane hero = new HeroPlane(150., 400., 100, 2.0);
   
   static {
     objects.add(hero);
@@ -53,7 +53,7 @@ public class AircraftWar extends JPanel {
     double p = 0.01; // The probability to generate enemies.
     if (bernoulli(p)) {
       double x = (Math.random() * 0.6 + 0.2) * WIDTH;
-      newcome.add(new EnemyLightPlane(x, 0, 100, 1.5));
+      newcome.add(new EnemyLightPlane(x, 0, 20, 1.5));
     }
   }
 
@@ -160,6 +160,18 @@ public class AircraftWar extends JPanel {
             ((Plane)object).action();
           }
         }
+
+        for (Object object : objects) {
+          if (object instanceof Plane) {
+            Plane plane = (Plane)object;
+            for (Object npc : objects) {
+              plane.hitBy(npc);
+            }
+          }
+        }
+
+        System.out.print("health ");
+        System.out.println(hero.health);
 
         // Push all objects that are goind to be displayed in
         // the next frame to the objects set.

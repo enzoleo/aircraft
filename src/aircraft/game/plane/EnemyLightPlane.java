@@ -1,5 +1,7 @@
 package aircraft.game.plane;
 
+import java.awt.Graphics;
+
 import aircraft.game.AircraftWar;
 import aircraft.game.bullet.EnemyNormalBullet;
 import aircraft.game.bullet.HeroBullet;
@@ -16,6 +18,12 @@ public class EnemyLightPlane extends Plane {
     // Moving direction.
     this.direction.x = (int)(Math.random() + 0.5) * 2 - 1;
     this.direction.y = 1;
+  }
+
+  @Override
+  public void display(Graphics graphics) {
+    if (this.health > 0)
+      super.display(graphics);
   }
 
   @Override
@@ -63,16 +71,33 @@ public class EnemyLightPlane extends Plane {
   }
 
   @Override
-  public void hitBy(Object object) {
+  protected boolean isHit(Object object) {
+    double x, y, w, h;
     if (object instanceof HeroBullet) {
       HeroBullet bullet = (HeroBullet)object;
-      double x = bullet.location.x; double y = bullet.location.y;
-      if ((x > location.x && x < location.x + image.getWidth() &&
-           y > location.y && y < location.y + image.getHeight()) ||
-          (location.x > x && location.x < x + bullet.image.getWidth() &&
-           location.y > y && location.y < y + bullet.image.getHeight())) {
-        bullet.effect(this);
-      }
+      x = bullet.location.x; y = bullet.location.y;
+      w = bullet.image.getWidth();
+      h = bullet.image.getHeight();
+    } else {
+      return false;
+    }
+
+    boolean flag1 = // Object (x,y) locates inside the hero plane.
+      x > location.x && x < location.x + image.getWidth() &&
+      y > location.y && y < location.y + image.getHeight();
+    boolean flag2 = // Plane (x,y) locates inside the object.
+      location.x > x && location.x < x + w &&
+      location.y > y && location.y < y + h;
+    return (flag1 || flag2);
+  }
+
+  @Override
+  public void hitBy(Object object) {
+    if (!isHit(object)) return;
+    if (object instanceof HeroBullet) {
+      HeroBullet bullet = (HeroBullet)object;
+      bullet.effect(this);
+      AircraftWar.trash.add(object);
     }
   }
 }

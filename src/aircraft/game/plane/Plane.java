@@ -78,5 +78,7 @@ public abstract class Plane {
 
   protected abstract void fire();
 
+  protected abstract boolean isHit(Object object);
+
   public abstract void hitBy(Object object);
 }
