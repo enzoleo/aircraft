@@ -1,5 +1,6 @@
 # Default java compiler.
 JC = javac
+JAVA = java
 JFLAGS = -g
 
 .SUFFIXES: .java .class
@@ -27,6 +28,9 @@ classes: $(CLASSES:.java=.class)
 # to the dependency of default target.
 .java.class:
 	$(JC) $(JFLAGS) -cp $(AIRCRAFT_CLASS_PATH) $(CLASSES) -d $(AIRCRAFT_BINARY_DIR)
+
+run:
+	$(JAVA) -cp $(AIRCRAFT_BINARY_DIR) aircraft.game.AircraftWar
 
 clean:
 	@$(RM) -r $(AIRCRAFT_BINARY_DIR);
