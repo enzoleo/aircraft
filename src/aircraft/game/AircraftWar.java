@@ -44,8 +44,8 @@ public class AircraftWar extends JPanel {
   public static final LinkedList<Object> trash = new LinkedList<>();
   public static final LinkedList<Object> newcome = new LinkedList<>();
   
-  static BufferedImage background = ImageLoader.readImg("aircraft/images/background.png");
-  static BufferedImage gameover = ImageLoader.readImg("aircraft/images/gameover.png");
+  static BufferedImage background = ImageLoader.readImg("background.png");
+  static BufferedImage gameover = ImageLoader.readImg("gameover.png");
   static HeroPlane hero = new HeroPlane(150., 400.);
   public static int score = 0;
   
@@ -235,7 +235,6 @@ public class AircraftWar extends JPanel {
         aircraftWar.repaint();
       }
     }, interval, interval);
-    
   }
 }
 

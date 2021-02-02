@@ -17,10 +17,7 @@ public class HeroPlane extends Plane {
   // Constructor.
   public HeroPlane(double x, double y) {
     // Load the plane from the image directory.
-    super("aircraft/images/hero_plane.png", x, y);
-    
-    this.health = 100; // The initial health point.
-    this.speed = 2.0; // The initial speed.
+    super("hero_plane.png", x, y, 100, 2.0);
   }
 
   @Override

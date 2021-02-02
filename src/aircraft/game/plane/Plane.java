@@ -17,14 +17,14 @@ public abstract class Plane {
 
   // The current position.
   public Point2D.Double location = new Point2D.Double();
-  protected double speed = 0; // The speed of the flying object.
+  protected double speed; // The speed of the flying object.
 
   // The health point. The plane will vanish once its health attains zero.
   // Note that only the generic class Plane has attribute health.
-  public int health = 100;
+  public int health;
 
   // Constructor that inherits from base class.
-  protected Plane(String img, double x, double y) {
+  protected Plane(String img, double x, double y, int health, double speed) {
     // Load the plane from the image directory.
     image = ImageLoader.readImg(img);
     if (image.getWidth()  >= AircraftWar.WIDTH ||
@@ -32,6 +32,8 @@ public abstract class Plane {
       throw new RuntimeException("The size of image is invalid");
     
     location.x = x; location.y = y;
+    this.health = health; // The initial health point.
+    this.speed = speed; // The initial speed.
   }
 
   // The display method: as the name suggests, this method draw the image

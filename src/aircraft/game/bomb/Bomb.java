@@ -17,7 +17,7 @@ public class Bomb {
 
   public Bomb(double x, double y) {
     // Load the plane from the image directory.
-    image = ImageLoader.readImg("aircraft/images/bomb.png");
+    image = ImageLoader.readImg("bomb.png");
     if (image.getWidth()  >= AircraftWar.WIDTH ||
         image.getHeight() >= AircraftWar.HEIGHT)
       throw new RuntimeException("The size of image is invalid");

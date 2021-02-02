@@ -11,7 +11,7 @@ public class EnemyCannon extends EnemyBullet {
 
   // Constructor.
   public EnemyCannon(double x, double y, double alpha) {
-    super("aircraft/images/enemy_cannon.png", x, y, 20, 3.0);
+    super("enemy_cannon.png", x, y, 20, 3.0);
     this.alpha = alpha;
   }
 

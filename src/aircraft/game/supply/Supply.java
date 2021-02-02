@@ -18,7 +18,7 @@ public class Supply {
 
   public Supply(double x, double y) {
     // Load the plane from the image directory.
-    image = ImageLoader.readImg("aircraft/images/supply.gif");
+    image = ImageLoader.readImg("supply.gif");
     if (image.getWidth()  >= AircraftWar.WIDTH ||
         image.getHeight() >= AircraftWar.HEIGHT)
       throw new RuntimeException("The size of image is invalid");

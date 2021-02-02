@@ -9,10 +9,7 @@ public abstract class EnemyPlane extends Plane {
   // Constructor.
   public EnemyPlane(String img, double x, double y, int health, double speed) {
     // Load the plane from the image directory.
-    super(img, x, y);
-    
-    this.health = health; // The initial health point.
-    this.speed = speed; // The initial speed.
+    super(img, x, y, health, speed);
 
     // Moving direction.
     this.direction.x = (int)(Math.random() + 0.5) * 2 - 1;

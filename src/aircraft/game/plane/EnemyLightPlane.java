@@ -7,7 +7,7 @@ public class EnemyLightPlane extends EnemyPlane {
   // Constructor.
   public EnemyLightPlane(double x, double y) {
     // Load the plane from the image directory.
-    super("aircraft/images/enemy_light_plane.png", x, y, 20, 1.5);
+    super("enemy_light_plane.png", x, y, 20, 1.5);
     this.direction.y = 1;
   }
 

@@ -7,7 +7,7 @@ Before running the game from the provided source files, you should quickly setup
 
 ### Java
 
-The source files are only compiled on `Ubuntu 20.04` system. For other operating systems, we do not have a check in detail but it should still work fine in a correct environment.
+The source files can be compiled on `Ubuntu 20.04` system. For other operating systems, we do not have a check in detail but it should still work fine in a correct environment.
 
 ```shell
 sudo apt update
@@ -23,5 +23,17 @@ OpenJDK Runtime Environment (build 14.0.2+12-Ubuntu-120.04)
 OpenJDK 64-Bit Server VM (build 14.0.2+12-Ubuntu-120.04, mixed mode, sharing)
 ```
 
-To compile the sources and run the binaries, you can select any IDE or even work on them only with an editor. A common choice might be using [VSCode](https://code.visualstudio.com). Open the root directory in the editor, and don't forget to install `Java Extension Pack` extensions. Simply click button `Run` and start the game!
+Now you can use `javac` to compile the project. On `Ubuntu`, go to the root directory of this project and execute
+
+```shell
+javac -cp ./src src/aircraft/game/AircraftWar.java -d ./class
+```
+
+If everything goes fine, you can find a new directory `class` preserving the same structure as  `src`, but containing `.class` files after compilation. Execute the following command to run the game!
+
+```shell
+java -cp ./class aircraft.game.AircraftWar
+```
+
+
 
