@@ -10,9 +10,9 @@ Before running the game from the provided source files, you should quickly setup
 The source files can be compiled on `Ubuntu 20.04` system. For other operating systems, we do not have a check in detail but it should still work fine in a correct environment.
 
 ```shell
-sudo apt update
-sudo apt install openjdk-14-jdk
-sudo apt install openjdk-14-jre
+sudo apt-get update
+sudo apt-get install openjdk-14-jdk
+sudo apt-get install openjdk-14-jre
 ```
 
 After executing this command in terminal, you should have already installed `OpenJDK` and `OpenJRE` correctly. Check the `java` version by `java -version` and you will get the following output if everything goes fine:
@@ -35,5 +35,11 @@ If everything goes fine, you can find a new directory `class` preserving the sam
 java -cp ./class aircraft.game.AircraftWar
 ```
 
+If you are not satisfied with the complex and boring command line, an `Makefile` is provided to you. On `Ubuntu`, you need to install some useful tools first, by
 
+```shell
+sudo apt-get install build-essential
+```
+
+Then simply execute `make` in your terminal and everything will be built automatically.
 
