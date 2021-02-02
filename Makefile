@@ -27,6 +27,7 @@ classes: $(CLASSES:.java=.class)
 # The classes are required by classes target, which will be built according
 # to the dependency of default target.
 .java.class:
+	@mkdir -p $(AIRCRAFT_BINARY_DIR);
 	$(JC) $(JFLAGS) -cp $(AIRCRAFT_CLASS_PATH) $(CLASSES) -d $(AIRCRAFT_BINARY_DIR)
 
 run:

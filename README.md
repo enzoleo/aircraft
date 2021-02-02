@@ -41,5 +41,5 @@ If you are not satisfied with the complex and boring command line, an `Makefile`
 sudo apt-get install build-essential
 ```
 
-Then simply execute `make` in your terminal and everything will be built automatically.
+Then simply execute `make` in your terminal and everything will be built automatically. To start the game, execute `make run` command in your terminal. Quite easy!
 
