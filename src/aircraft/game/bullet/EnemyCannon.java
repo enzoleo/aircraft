@@ -11,7 +11,7 @@ public class EnemyCannon extends EnemyBullet {
 
   // Constructor.
   public EnemyCannon(double x, double y, double alpha) {
-    super("enemy_cannon.png", x, y, 20, 3.0);
+    super("enemy_cannon.png", x, y, 8, 3.0);
     this.alpha = alpha;
   }
 
@@ -24,5 +24,6 @@ public class EnemyCannon extends EnemyBullet {
   @Override
   public void effect(Plane plane) {
     plane.health -= this.damage;
+    if (plane.health < 0) plane.health = 0;
   }
 }

@@ -70,14 +70,18 @@ public class HeroPlane extends Plane {
       EnemyNormalBullet bullet = (EnemyNormalBullet)object;
       x = bullet.location.x; y = bullet.location.y;
       w = bullet.image.getWidth(); h = bullet.image.getHeight();
+    } else if (object instanceof EnemyCannon) {
+      EnemyCannon cannon = (EnemyCannon)object;
+      x = cannon.location.x; y = cannon.location.y;
+      w = cannon.image.getWidth(); h = cannon.image.getHeight();
     } else if (object instanceof Bomb) {
-      Bomb bullet = (Bomb)object;
-      x = bullet.location.x; y = bullet.location.y;
-      w = bullet.image.getWidth(); h = bullet.image.getHeight();
+      Bomb bomb = (Bomb)object;
+      x = bomb.location.x; y = bomb.location.y;
+      w = bomb.image.getWidth(); h = bomb.image.getHeight();
     } else if (object instanceof Supply) {
-      Supply bullet = (Supply)object;
-      x = bullet.location.x; y = bullet.location.y;
-      w = bullet.image.getWidth(); h = bullet.image.getHeight();
+      Supply supply = (Supply)object;
+      x = supply.location.x; y = supply.location.y;
+      w = supply.image.getWidth(); h = supply.image.getHeight();
     } else {
       return false;
     }
@@ -95,6 +99,9 @@ public class HeroPlane extends Plane {
   public void hitBy(Object object) {
     if (object instanceof EnemyNormalBullet) {
       ((EnemyNormalBullet)object).effect(this);
+      AircraftWar.trash.add(object);
+    } else if (object instanceof EnemyCannon) {
+      ((EnemyCannon)object).effect(this);
       AircraftWar.trash.add(object);
     } else if (object instanceof Bomb) {
       ((Bomb)object).effect(this);

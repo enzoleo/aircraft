@@ -26,7 +26,7 @@ public class EnemyBoss extends EnemyPlane {
   public void display(Graphics graphics) {
     super.display(graphics);
     if (coolDown > 0)
-      coolDown = (coolDown + 1) % 40; // Update cool down time.
+      coolDown = (coolDown + 1) % 60; // Update cool down time.
   }
 
   @Override

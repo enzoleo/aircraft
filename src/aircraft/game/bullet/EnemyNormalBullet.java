@@ -5,7 +5,7 @@ import aircraft.game.plane.Plane;
 public class EnemyNormalBullet extends EnemyBullet {
   // Constructor.
   public EnemyNormalBullet(double x, double y) {
-    super("enemy_normal_bullet.png", x, y, 10, 4.0);
+    super("enemy_normal_bullet.png", x, y, 5, 4.0);
   }
 
   @Override
@@ -16,5 +16,6 @@ public class EnemyNormalBullet extends EnemyBullet {
   @Override
   public void effect(Plane plane) {
     plane.health -= this.damage;
+    if (plane.health < 0) plane.health = 0;
   }
 }

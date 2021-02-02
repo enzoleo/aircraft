@@ -73,7 +73,7 @@ public class AircraftWar extends JPanel {
       } else
         newcome.add(new EnemyLightPlane(x, 0));
     }
-    if (bernoulli(0.002)) { // Generate bombs.
+    if (bernoulli(0.001)) { // Generate bombs.
       double x = (Math.random() * 0.6 + 0.2) * WIDTH;
       newcome.add(new Bomb(x, 0));
     }
