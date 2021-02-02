@@ -4,18 +4,22 @@ import imgloader
 from plane import *
 
 class AircraftWar:
-    graphics = pygame.display.set_mode((400, 654), 0, 32)
+    # Default window size.
+    width, height = 400, 654
+    graphics = pygame.display.set_mode((width, height), 0, 32)
     background = imgloader.load("background.png")
     gameover = imgloader.load("gameover.png")
 
-    hero = HeroPlane(150, 400)
-    
+    newcome = []
+    trash = []    
     objects = []
-    objects.append(hero)    
 
 if __name__ == '__main__':    
     pygame.init()
     pygame.display.set_caption("AircraftWar")
+
+    hero = HeroPlane(150, 400)
+    AircraftWar.objects.append(hero) 
     
     while True:
         AircraftWar.graphics.blit(AircraftWar.background, (0, 0))
