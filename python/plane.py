@@ -1,6 +1,7 @@
-import imgloader
 from abc import ABC, abstractmethod
 from point2d import Point2D
+import imgloader
+from aircraft import AircraftWar
 
 class Plane(ABC):
     def __init__(self, path, x, y, health = 100, speed = 2.0):
