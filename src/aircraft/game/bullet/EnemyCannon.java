@@ -23,6 +23,8 @@ public class EnemyCannon extends EnemyBullet {
 
   @Override
   public void effect(Plane plane) {
+    // Prevent the health point display of hero plane from being
+    // a negative number.
     plane.health -= this.damage;
     if (plane.health < 0) plane.health = 0;
   }

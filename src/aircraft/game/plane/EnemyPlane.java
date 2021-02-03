@@ -8,17 +8,11 @@ import aircraft.game.bullet.HeroBullet;
 public abstract class EnemyPlane extends Plane {
   // Constructor.
   public EnemyPlane(String img, double x, double y, int health, double speed) {
-    // Load the plane from the image directory.
+    // Call the super class constructor.
     super(img, x, y, health, speed);
 
     // Moving direction.
     this.direction.x = (int)(Math.random() + 0.5) * 2 - 1;
-  }
-
-  @Override
-  public void display(Graphics graphics) {
-    if (this.health > 0)
-      super.display(graphics);
   }
 
   @Override

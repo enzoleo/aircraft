@@ -59,8 +59,10 @@ public class EnemyBoss extends EnemyPlane {
 
       // Shoot three bullets at a time.
       AircraftWar.newcome.add(enemyCannon);
-      AircraftWar.newcome.add(new EnemyCannon(offset, image.getHeight(), 0.2));
-      AircraftWar.newcome.add(new EnemyCannon(offset, image.getHeight(), -0.2));
+      AircraftWar.newcome.add(new EnemyCannon( // Right direction.
+          enemyCannon.location.x, enemyCannon.location.y, 0.2));
+      AircraftWar.newcome.add(new EnemyCannon( // Left direction.
+          enemyCannon.location.x, enemyCannon.location.y, -0.2));
       coolDown++;
     }
   }

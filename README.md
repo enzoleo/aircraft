@@ -43,3 +43,10 @@ sudo apt-get install build-essential
 
 Then simply execute `make` in your terminal and everything will be built automatically. To start the game, execute `make run` command in your terminal. Quite easy!
 
+### Python
+
+The `python` packages you require
+
+- `scipy.stats`.
+- `pagame`.
+- `point2d`.
