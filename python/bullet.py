@@ -28,7 +28,7 @@ class Bullet(ABC):
         w, h = self.image.get_rect().size
         if self.location.x < 0 or self.location.x + w > AircraftWar.width or \
            self.location.y < 0 or self.location.y + h > AircraftWar.height:
-            AircraftWar.trash.append(self);
+            AircraftWar.trash.add(self)
 
     @abstractmethod
     def move(self): pass

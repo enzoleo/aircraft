@@ -8,9 +8,10 @@ class AircraftWar:
     background = imgloader.load("background.png")
     gameover = imgloader.load("gameover.png")
 
-    newcome = []
-    trash = []
-    objects = []
+    newcome = set()
+    trash = set()
+    objects = set()
     status = True
 
+    score = 0
     boss_num = 0

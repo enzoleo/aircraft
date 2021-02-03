@@ -32,6 +32,15 @@ class Plane(ABC):
     @abstractmethod
     def fire(self): pass
 
+    @abstractmethod
+    def is_hit(self, obj): pass
+
+    @abstractmethod
+    def hit_by(self, obj): pass
+
+    @abstractmethod
+    def explode(self): pass
+
 class HeroPlane(Plane):
     def __init__(self, x, y):
         super().__init__("hero_plane.png", x, y, 100, 2.0)
@@ -68,12 +77,36 @@ class HeroPlane(Plane):
             # Update the real location of the bullet.
             hero_bullet.location.x = self.location.x + (width - w ) * 0.5
             hero_bullet.location.y = self.location.y - h
-            AircraftWar.newcome.append(hero_bullet)
+            AircraftWar.newcome.add(hero_bullet)
 
             # Once the plane fires, it should be pushed into cool down stage,
             # which means that only a specific number of frames have been drawn
             # can this plane fire again.
             self.__cool_down += 1
+
+    def is_hit(self, obj):
+        # The hero plane will be effected by any kinds of objects excepts planes.
+        if isinstance(obj, Plane): return False
+        x, y = obj.location.cartesian()
+        w, h = obj.image.get_rect().size
+        width, height = self.image.get_rect().size
+
+        flag1 = ( # Object (x,y) locates inside the hero plane.
+            x > self.location.x and x < self.location.x + width and
+            y > self.location.y and y < self.location.y + height)
+        flag2 = ( # Plane (x,y) locates inside the object.
+            self.location.x > x and self.location.x < x + w and
+            self.location.y > y and self.location.y < y + h)
+        return (flag1 or flag2)
+
+    def hit_by(self, obj):
+        # The hero plane will be effected by any kinds of objects excepts planes.
+        if isinstance(obj, Plane): return False
+        obj.effect(self)
+        AircraftWar.trash.add(obj)
+
+    def explode(self):
+        AircraftWar.status = False
 
 class EnemyPlane(Plane):
     def __init__(self, path, x, y, health = 20, speed = 1.5):
@@ -97,13 +130,37 @@ class EnemyPlane(Plane):
             self.location.x = AircraftWar.width - w
             self.direction.x = -self.direction.x
         if self.location.y < 0 or self.location.y > AircraftWar.height - h:
-            AircraftWar.trash.append(self)
+            AircraftWar.trash.add(self)
     
     @abstractmethod
     def move(self): pass
 
     @abstractmethod
     def fire(self): pass
+
+    def is_hit(self, obj):
+        # Enemy planes will be only effected by hero bullets.
+        if not isinstance(obj, HeroBullet): return False
+        x, y = obj.location.cartesian()
+        w, h = obj.image.get_rect().size
+        width, height = self.image.get_rect().size
+
+        flag1 = ( # Object (x,y) locates inside the hero plane.
+            x > self.location.x and x < self.location.x + width and
+            y > self.location.y and y < self.location.y + height)
+        flag2 = ( # Plane (x,y) locates inside the object.
+            self.location.x > x and self.location.x < x + w and
+            self.location.y > y and self.location.y < y + h)
+        return (flag1 or flag2)
+
+    def hit_by(self, obj):
+        # Enemy planes will be only effected by hero bullets.
+        if not isinstance(obj, HeroBullet): return False
+        obj.effect(self)
+        AircraftWar.trash.add(obj)
+
+    def explode(self):
+        AircraftWar.trash.add(self)
 
 class EnemyLightPlane(EnemyPlane):
     def __init__(self, x, y):
@@ -138,7 +195,11 @@ class EnemyLightPlane(EnemyPlane):
              # Update the real location of the bullet.
             bullet.location.x = self.location.x + (width - w) * 0.5
             bullet.location.y = self.location.y + height
-            AircraftWar.newcome.append(bullet)
+            AircraftWar.newcome.add(bullet)
+
+    def explode(self):
+        super().explode()
+        AircraftWar.score += 10
 
 class EnemyBoss(EnemyPlane):
     def __init__(self, x, y):
@@ -167,7 +228,7 @@ class EnemyBoss(EnemyPlane):
             self.location.x = AircraftWar.width - w
             self.direction.x = -self.direction.x
         if self.location.y < 0 or self.location.y + h > AircraftWar.height:
-            AircraftWar.trash.append(self)
+            AircraftWar.trash.add(self)
             AircraftWar.boss_num -= 1
     
     def move(self):
@@ -185,13 +246,18 @@ class EnemyBoss(EnemyPlane):
             cannon.location.y = self.location.y + height
 
             # Shoot three bullets at a time.
-            AircraftWar.newcome.append(cannon)
-            AircraftWar.newcome.append( # Right direction.
+            AircraftWar.newcome.add(cannon)
+            AircraftWar.newcome.add( # Right direction.
                 EnemyCannon(cannon.location.x, cannon.location.y, 0.2))
-            AircraftWar.newcome.append( # Left direction.
+            AircraftWar.newcome.add( # Left direction.
                 EnemyCannon(cannon.location.x, cannon.location.y, -0.2))
 
             # Once the boss fires, it should be pushed into cool down stage,
             # which means that only a specific number of frames have been drawn
             # can this boss fire again.
             self.__cool_down += 1
+
+    def explode(self):
+        super().explode()
+        AircraftWar.score += 80
+        AircraftWar.boss_num -= 1

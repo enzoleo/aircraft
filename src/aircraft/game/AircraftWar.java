@@ -103,8 +103,8 @@ public class AircraftWar extends JPanel {
     // Draw health point and game score on the screen.
     graphics.setColor(new Color(0x000000));
     graphics.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
-    graphics.drawString("SCORE: " + score, 10, 25);
-    graphics.drawString("HP: " + hero.health, 10, 45);
+    graphics.drawString("SCORE: " + score, 5, 25);
+    graphics.drawString("HP: " + hero.health, 5, 55);
 
     if (status == GAMEOVER)
       graphics.drawImage(gameover, 0, 0, null);
