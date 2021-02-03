@@ -1,7 +1,21 @@
+from numpy.lib.arraysetops import isin
+from numpy.lib.function_base import append
 import pygame
-
+import scipy.stats
 from plane import *
 from setting import AircraftWar
+
+def generate_character():
+    if scipy.stats.bernoulli.rvs(0.01): # Generate enemies.
+        x = scipy.stats.uniform.rvs(0.2, 0.6) * AircraftWar.width
+        if scipy.stats.bernoulli.rvs(0.2) and AircraftWar.boss_num < 1:
+            # Generate a boss ship. Note that at most one boss ship can
+            # be displayed at a time.
+            #AircraftWar.newcome.append(new EnemyBoss(x, 0))
+            AircraftWar.boss_num += 1
+            pass
+        else:
+            AircraftWar.newcome.append(EnemyLightPlane(x, 0))
 
 if __name__ == '__main__':    
     pygame.init()
@@ -11,6 +25,7 @@ if __name__ == '__main__':
     AircraftWar.objects.append(hero)
     
     while AircraftWar.status:
+        generate_character()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 AircraftWar.status = False
@@ -44,7 +59,8 @@ if __name__ == '__main__':
         for object in AircraftWar.objects:
             object.move()
             object.boundary_check()
-        hero.fire()
+            if isinstance(object, Plane):
+                object.fire()
 
         for object in AircraftWar.newcome:
             AircraftWar.objects.append(object)

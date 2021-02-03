@@ -33,9 +33,33 @@ class Bullet(ABC):
     @abstractmethod
     def move(self): pass
 
+    @abstractmethod
+    def effect(self, plane): pass
+
 class HeroBullet(Bullet):
     def __init__(self, x, y):
         super().__init__("hero_bullet.png", x, y, 20, 3.0)
     
     def move(self):
         self.location.y -= self.speed
+
+    def effect(self, plane):
+        plane.health -= self.damage
+
+class EnemyBullet(Bullet):
+    def __init__(self, path, x, y, damage, speed):
+        # Exactly follow the super class constructor.
+        super().__init__(path, x, y, damage, speed)
+
+class EnemyNormalBullet(EnemyBullet):
+    def __init__(self, x, y):
+        super().__init__("enemy_normal_bullet.png", x, y, 5, 4.0)
+
+    def move(self):
+        self.location.y += self.speed
+
+    def effect(self, plane):
+        plane.health -= self.damage
+        # Prevent the health point display of hero plane from being
+        # a negative number.
+        if plane.health < 0: plane.health = 0

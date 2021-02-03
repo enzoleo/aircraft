@@ -9,6 +9,8 @@ class AircraftWar:
     gameover = imgloader.load("gameover.png")
 
     newcome = []
-    trash = []    
+    trash = []
     objects = []
     status = True
+
+    boss_num = 0
