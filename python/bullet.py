@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from point2d import Point2D
 import imgloader
-from setting import AircraftWar
+import setting
 
 class Bullet(ABC):
     def __init__(self, path, x, y, damage, speed):
@@ -17,7 +17,7 @@ class Bullet(ABC):
         # Read image and check its size.
         self.image = imgloader.load(path)
         w, h = self.image.get_rect().size
-        if w >= AircraftWar.width or h >= AircraftWar.height:
+        if w >= setting.width or h >= setting.height:
             raise ValueError("The size of image is invalid")
         
         self.location = Point2D(x, y)
@@ -37,9 +37,9 @@ class Bullet(ABC):
         current game window.
         """
         w, h = self.image.get_rect().size
-        if self.location.x < 0 or self.location.x + w > AircraftWar.width or \
-           self.location.y < 0 or self.location.y + h > AircraftWar.height:
-            AircraftWar.trash.add(self)
+        if self.location.x < 0 or self.location.x + w > setting.width or \
+           self.location.y < 0 or self.location.y + h > setting.height:
+            setting.trash.add(self)
 
     @abstractmethod
     def move(self): pass
@@ -55,8 +55,8 @@ class HeroBullet(Bullet):
         x -- the x coordinate of location.
         y -- the y coordinate of location.
         """
-        damage = AircraftWar.damage["HeroBullet"]
-        speed = AircraftWar.speed["HeroBullet"]
+        damage = setting.damage["HeroBullet"]
+        speed = setting.speed["HeroBullet"]
         super().__init__("hero_bullet.png", x, y, damage, speed)
     
     def move(self):
@@ -92,8 +92,8 @@ class EnemyNormalBullet(EnemyBullet):
         x -- the x coordinate of location.
         y -- the y coordinate of location.
         """
-        damage = AircraftWar.damage["EnemyNormalBullet"]
-        speed = AircraftWar.speed["EnemyNormalBullet"]
+        damage = setting.damage["EnemyNormalBullet"]
+        speed = setting.speed["EnemyNormalBullet"]
         super().__init__("enemy_normal_bullet.png", x, y, damage, speed)
 
     def move(self):
@@ -118,8 +118,8 @@ class EnemyCannon(EnemyBullet):
         x -- the x coordinate of location.
         y -- the y coordinate of location.
         """
-        damage = AircraftWar.damage["EnemyCannon"]
-        speed = AircraftWar.speed["EnemyCannon"]
+        damage = setting.damage["EnemyCannon"]
+        speed = setting.speed["EnemyCannon"]
         super().__init__("enemy_cannon.png", x, y, damage, speed)
         self.__alpha = alpha
 
