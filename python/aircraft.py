@@ -1,8 +1,12 @@
+#!/usr/bin/python3
 from numpy.lib.arraysetops import isin
 from numpy.lib.function_base import append
 import pygame
 import scipy.stats
+
 from plane import *
+from bomb import *
+from supply import *
 from setting import AircraftWar
 
 def generate_character():
@@ -13,9 +17,14 @@ def generate_character():
             # be displayed at a time.
             AircraftWar.newcome.append(EnemyBoss(x, 0))
             AircraftWar.boss_num += 1
-            pass
         else:
             AircraftWar.newcome.append(EnemyLightPlane(x, 0))
+    if scipy.stats.bernoulli.rvs(0.001): # Generate bombs.
+        x = scipy.stats.uniform.rvs(0.2, 0.6) * AircraftWar.width;
+        AircraftWar.newcome.append(Bomb(x, 0));
+    if scipy.stats.bernoulli.rvs(0.004): # Generate supplies.
+        x = scipy.stats.uniform.rvs(0.2, 0.6) * AircraftWar.width;
+        AircraftWar.newcome.append(Supply(x, 0));
 
 if __name__ == '__main__':    
     pygame.init()
