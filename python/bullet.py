@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 from point2d import Point2D
 import imgloader
-from aircraft import AircraftWar
+from setting import AircraftWar
 
 class Bullet(ABC):
     def __init__(self, path, x, y, damage = 1, speed = 2.0):
         # Read image and check its size.
         self.image = imgloader.load(path)
-        h, w = self.image.get_rect().size
+        w, h = self.image.get_rect().size
         if w >= AircraftWar.width or h >= AircraftWar.height:
             raise ValueError("The size of image is invalid")
         
@@ -19,14 +19,23 @@ class Bullet(ABC):
         graphics.blit(self.image, self.location.cartesian())
 
     def boundary_check(self):
-        pass
+        """Check whether the bullet moves out of window.
+
+        For all kinds of bullets, one bullet will be directly moved to
+        trash and deleted in the next frame once it moves out of the
+        current game window.
+        """
+        w, h = self.image.get_rect().size
+        if self.location.x < 0 or self.location.x + w > AircraftWar.width or \
+           self.location.y < 0 or self.location.y + h > AircraftWar.height:
+            AircraftWar.trash.append(self);
 
     @abstractmethod
     def move(self): pass
 
 class HeroBullet(Bullet):
     def __init__(self, x, y):
-        super().__init__("hero_plane.png", x, y, 20, 3.0)
+        super().__init__("hero_bullet.png", x, y, 20, 3.0)
     
     def move(self):
-        self.location.y -= self.speed * self._direction.y
+        self.location.y -= self.speed

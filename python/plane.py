@@ -1,21 +1,21 @@
 from abc import ABC, abstractmethod
 from point2d import Point2D
 import imgloader
-from aircraft import AircraftWar
+from setting import AircraftWar
 from bullet import *
 
 class Plane(ABC):
     def __init__(self, path, x, y, health = 100, speed = 2.0):
         # Read image and check its size.
         self.image = imgloader.load(path)
-        h, w = self.image.get_rect().size
+        w, h = self.image.get_rect().size
         if w >= AircraftWar.width or h >= AircraftWar.height:
             raise ValueError("The size of image is invalid")
 
         self.location = Point2D(x, y)
         self.health = health # The initial health point
         self.speed = speed # The initial speed
-        self._direction = Point2D(1, -1)
+        self.direction = Point2D(0, 0)
 
     def display(self, graphics):
         graphics.blit(self.image, self.location.cartesian())
@@ -32,13 +32,13 @@ class Plane(ABC):
 class HeroPlane(Plane):
     def __init__(self, x, y):
         super().__init__("hero_plane.png", x, y, 100, 2.0)
-        self._cool_down = 0
+        self.__cool_down = 0
         self.fire_command = False
     
     def display(self, graphics):
         super().display(graphics)
-        if self._cool_down > 0: # Update cool down time.
-            self._cool_down = (self._cool_down + 1) % 15
+        if self.__cool_down > 0: # Update cool down time.
+            self.__cool_down = (self.__cool_down + 1) % 15
     
     def boundary_check(self):
         """Check whether the hero plane moves out of window.
@@ -52,14 +52,15 @@ class HeroPlane(Plane):
             self.location.y = AircraftWar.height - h;
     
     def move(self):
-        self.location.x += self.speed * self._direction.x
-        self.location.y += self.speed * self._direction.y
+        self.location.x += self.speed * self.direction.x
+        self.location.y += self.speed * self.direction.y
 
     def fire(self):
-        if self.fire_command and self.cool_down == 0:
+        if self.fire_command and self.__cool_down == 0:
             hero_bullet = HeroBullet(0, 0)
-            h, w = hero_bullet.image.get_rect().size # The image size of bullet.
-            hero_bullet.location.x = self.location.x + (w - h) * 0.5
+            w, h = hero_bullet.image.get_rect().size # The image size of bullet.
+            width, _ = self.image.get_rect().size
+            hero_bullet.location.x = self.location.x + (width - w ) * 0.5
             hero_bullet.location.y = self.location.y - h
             AircraftWar.newcome.append(hero_bullet)
-            self.cool_down += 1
+            self.__cool_down += 1
