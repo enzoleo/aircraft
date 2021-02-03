@@ -4,7 +4,16 @@ import imgloader
 from setting import AircraftWar
 
 class Bullet(ABC):
-    def __init__(self, path, x, y, damage = 1, speed = 2.0):
+    def __init__(self, path, x, y, damage, speed):
+        """Initialize the bullet.
+
+        Keyword arguments:
+        path -- the image path to be specified into image loader.
+        x -- the x coordinate of location.
+        y -- the y coordinate of location.
+        damage -- the initial damage power of the bullet.
+        speed -- the initial speed of the bullet.
+        """
         # Read image and check its size.
         self.image = imgloader.load(path)
         w, h = self.image.get_rect().size
@@ -16,6 +25,8 @@ class Bullet(ABC):
         self.speed = speed # The initial speed
 
     def display(self, graphics):
+        """Display image on the screen.
+        """
         graphics.blit(self.image, self.location.cartesian())
 
     def boundary_check(self):
@@ -38,27 +49,62 @@ class Bullet(ABC):
 
 class HeroBullet(Bullet):
     def __init__(self, x, y):
-        super().__init__("hero_bullet.png", x, y, 20, 3.0)
+        """Initialize the bullet.
+
+        Keyword arguments:
+        x -- the x coordinate of location.
+        y -- the y coordinate of location.
+        """
+        damage = AircraftWar.damage["HeroBullet"]
+        speed = AircraftWar.speed["HeroBullet"]
+        super().__init__("hero_bullet.png", x, y, damage, speed)
     
     def move(self):
+        """Move the bullet to the next location at the next frame, according to
+        the current speed and direction.
+        """
         self.location.y -= self.speed
 
     def effect(self, plane):
+        """Reduce the health point of the plane.
+        """
         plane.health -= self.damage
 
 class EnemyBullet(Bullet):
     def __init__(self, path, x, y, damage, speed):
+        """Initialize the bullet.
+
+        Keyword arguments:
+        path -- the image path to be specified into image loader.
+        x -- the x coordinate of location.
+        y -- the y coordinate of location.
+        damage -- the initial damage power of the bullet.
+        speed -- the initial speed of the bullet.
+        """
         # Exactly follow the super class constructor.
         super().__init__(path, x, y, damage, speed)
 
 class EnemyNormalBullet(EnemyBullet):
     def __init__(self, x, y):
-        super().__init__("enemy_normal_bullet.png", x, y, 5, 4.0)
+        """Initialize the bullet.
+
+        Keyword arguments:
+        x -- the x coordinate of location.
+        y -- the y coordinate of location.
+        """
+        damage = AircraftWar.damage["EnemyNormalBullet"]
+        speed = AircraftWar.speed["EnemyNormalBullet"]
+        super().__init__("enemy_normal_bullet.png", x, y, damage, speed)
 
     def move(self):
+        """Move the bullet to the next location at the next frame, according to
+        the current speed and direction.
+        """
         self.location.y += self.speed
 
     def effect(self, plane):
+        """Reduce the health point of the plane.
+        """
         plane.health -= self.damage
         # Prevent the health point display of hero plane from being
         # a negative number.
@@ -66,14 +112,27 @@ class EnemyNormalBullet(EnemyBullet):
 
 class EnemyCannon(EnemyBullet):
     def __init__(self, x, y, alpha = 0):
-        super().__init__("enemy_cannon.png", x, y, 8, 3.0)
+        """Initialize the bullet.
+
+        Keyword arguments:
+        x -- the x coordinate of location.
+        y -- the y coordinate of location.
+        """
+        damage = AircraftWar.damage["EnemyCannon"]
+        speed = AircraftWar.speed["EnemyCannon"]
+        super().__init__("enemy_cannon.png", x, y, damage, speed)
         self.__alpha = alpha
 
     def move(self):
+        """Move the bullet to the next location at the next frame, according to
+        the current speed and direction.
+        """
         self.location.x += self.speed * self.__alpha
         self.location.y += self.speed
 
     def effect(self, plane):
+        """Reduce the health point of the plane.
+        """
         plane.health -= self.damage
         # Prevent the health point display of hero plane from being
         # a negative number.

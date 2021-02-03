@@ -8,19 +8,28 @@ from supply import *
 from setting import AircraftWar
 
 def generate_character():
-    if scipy.stats.bernoulli.rvs(0.01): # Generate enemies.
+    """Randomly generate characters from the top boundary of the window.
+    In general, three kinds of characters will be generated with respect
+    to specific probability provided in settings.py automatically.
+
+    Note that the probability might look very small, because it is used
+    by this generator at every frame.
+    """
+    p = AircraftWar.prob
+    if scipy.stats.bernoulli.rvs(p["EnemyPlane"]): # Generate enemies.
         x = scipy.stats.uniform.rvs(0.2, 0.6) * AircraftWar.width
-        if scipy.stats.bernoulli.rvs(0.2) and AircraftWar.boss_num < 1:
+        prob = AircraftWar.sub_prob["EnemyPlane"]["EnemyBoss"]
+        if scipy.stats.bernoulli.rvs(prob) and AircraftWar.boss_num < 1:
             # Generate a boss ship. Note that at most one boss ship can
             # be displayed at a time.
             AircraftWar.newcome.add(EnemyBoss(x, 0))
             AircraftWar.boss_num += 1
         else:
             AircraftWar.newcome.add(EnemyLightPlane(x, 0))
-    if scipy.stats.bernoulli.rvs(0.001): # Generate bombs.
+    if scipy.stats.bernoulli.rvs(p["Bomb"]): # Generate bombs.
         x = scipy.stats.uniform.rvs(0.2, 0.6) * AircraftWar.width
         AircraftWar.newcome.add(Bomb(x, 0))
-    if scipy.stats.bernoulli.rvs(0.004): # Generate supplies.
+    if scipy.stats.bernoulli.rvs(p["Supply"]): # Generate supplies.
         x = scipy.stats.uniform.rvs(0.2, 0.6) * AircraftWar.width
         AircraftWar.newcome.add(Supply(x, 0))
 
@@ -28,7 +37,7 @@ if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption("AircraftWar")
 
-    hero = HeroPlane(150, 400)
+    hero = HeroPlane(*AircraftWar.hero_init_pos)
     AircraftWar.objects.add(hero)
     
     quit_game = False
@@ -91,16 +100,16 @@ if __name__ == '__main__':
         else:
             AircraftWar.graphics.blit(AircraftWar.gameover, (0, 0))
 
+        # Draw everything including bullets, planes, supplies, etc.
+        for object in AircraftWar.objects:
+            object.display(AircraftWar.graphics)
+
         # Draw health point and game score on the screen.
         font = pygame.font.SysFont(pygame.font.get_default_font(), 36)
         text_sc = font.render("SCORE:" + str(AircraftWar.score), 1, (0, 0, 0))
         text_hp = font.render("HP:" + str(hero.health), 1, (0, 0, 0))
         AircraftWar.graphics.blit(text_sc, (5, 25))
         AircraftWar.graphics.blit(text_hp, (5, 55))
-        
-        # Draw everything including bullets, planes, supplies, etc.
-        for object in AircraftWar.objects:
-            object.display(AircraftWar.graphics)
         pygame.display.update()
     
     # Safely quit the game.

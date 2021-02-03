@@ -4,6 +4,12 @@ from setting import AircraftWar
 
 class Supply:
     def __init__(self, x, y):
+        """Initialize the supply class.
+
+        Keyword arguments:
+        x -- the x coordinate of location.
+        y -- the y coordinate of location.
+        """
         # Read image and check its size.
         self.image = imgloader.load("supply.gif")
         w, h = self.image.get_rect().size
@@ -11,10 +17,12 @@ class Supply:
             raise ValueError("The size of image is invalid")
 
         self.location = Point2D(x, y)
-        self.speed = 1.5 # The speed of the flying object.
-        self.__recovery = 20
+        self.speed = AircraftWar.speed["Supply"] # The speed of the flying object.
+        self.__recovery = AircraftWar.recovery["Supply"]
 
     def display(self, graphics):
+        """Display image on the screen.
+        """
         # Show image on the screen with respect to the specified location
         # and the image sources. Note that this method is not abstract.
         graphics.blit(self.image, self.location.cartesian())
@@ -31,6 +39,9 @@ class Supply:
             AircraftWar.trash.add(self)
 
     def move(self):
+        """Move the supply to the next location at the next frame, according to
+        the current speed and direction.
+        """
         self.location.y += self.speed
 
     def effect(self, plane):

@@ -6,7 +6,16 @@ from setting import AircraftWar
 from bullet import *
 
 class Plane(ABC):
-    def __init__(self, path, x, y, health = 100, speed = 2.0):
+    def __init__(self, path, x, y, health, speed):
+        """Initialize the plane.
+
+        Keyword arguments:
+        path -- the image path to be specified into image loader.
+        x -- the x coordinate of location.
+        y -- the y coordinate of location.
+        health -- the initial health point of the plane.
+        speed -- the initial speed of the plane.
+        """
         # Read image and check its size.
         self.image = imgloader.load(path)
         w, h = self.image.get_rect().size
@@ -19,6 +28,8 @@ class Plane(ABC):
         self.direction = Point2D(0, 0)
 
     def display(self, graphics):
+        """Display image on the screen.
+        """
         # Show image on the screen with respect to the specified location
         # and the image sources. Note that this method is not abstract.
         graphics.blit(self.image, self.location.cartesian())
@@ -43,14 +54,25 @@ class Plane(ABC):
 
 class HeroPlane(Plane):
     def __init__(self, x, y):
-        super().__init__("hero_plane.png", x, y, 100, 2.0)
+        """Initialize the hero plane.
+
+        Keyword arguments:
+        x -- the x coordinate of location.
+        y -- the y coordinate of location.
+        """
+        health = AircraftWar.health["HeroPlane"]
+        speed = AircraftWar.speed["HeroPlane"]
+        super().__init__("hero_plane.png", x, y, health, speed)
         self.__cool_down = 0
         self.fire_command = False
     
     def display(self, graphics):
+        """Display image on the screen.
+        """
         super().display(graphics)
         if self.__cool_down > 0: # Update cool down time.
-            self.__cool_down = (self.__cool_down + 1) % 15
+            self.__cool_down = (self.__cool_down + 1) % \
+                AircraftWar.cool_down_time["HeroPlane"]
     
     def boundary_check(self):
         """Check whether the hero plane moves out of window.
@@ -64,10 +86,15 @@ class HeroPlane(Plane):
             self.location.y = AircraftWar.height - h
     
     def move(self):
+        """Move the plane to the next location at the next frame, according to
+        the current speed and direction.
+        """
         self.location.x += self.speed * self.direction.x
         self.location.y += self.speed * self.direction.y
 
     def fire(self):
+        """Fire some bullets to your enemies.
+        """
         if self.fire_command and self.__cool_down == 0:
             # Initialize the bullet first to obtain its image size.
             hero_bullet = HeroBullet(0, 0)
@@ -75,7 +102,7 @@ class HeroPlane(Plane):
             width, _ = self.image.get_rect().size
 
             # Update the real location of the bullet.
-            hero_bullet.location.x = self.location.x + (width - w ) * 0.5
+            hero_bullet.location.x = self.location.x + (width - w) * 0.5
             hero_bullet.location.y = self.location.y - h
             AircraftWar.newcome.add(hero_bullet)
 
@@ -85,6 +112,9 @@ class HeroPlane(Plane):
             self.__cool_down += 1
 
     def is_hit(self, obj):
+        """Check whether the current plane is hit by other objects. Specifically,
+        the hero plane can be hit by any other characters except planes.
+        """
         # The hero plane will be effected by any kinds of objects excepts planes.
         if isinstance(obj, Plane): return False
         x, y = obj.location.cartesian()
@@ -100,16 +130,27 @@ class HeroPlane(Plane):
         return (flag1 or flag2)
 
     def hit_by(self, obj):
+        """Once the hero plane is hit by some objects, take specific actions,
+        increasing or decreasing health point, etc.
+        """
         # The hero plane will be effected by any kinds of objects excepts planes.
         if isinstance(obj, Plane): return False
         obj.effect(self)
         AircraftWar.trash.add(obj)
 
     def explode(self):
+        """The plane explode when health point attains zero.
+        """
         AircraftWar.status = False
 
 class EnemyPlane(Plane):
-    def __init__(self, path, x, y, health = 20, speed = 1.5):
+    def __init__(self, path, x, y, health, speed):
+        """Initialize the enemy plane.
+
+        Keyword arguments:
+        x -- the x coordinate of location.
+        y -- the y coordinate of location.
+        """
         # Call the super class constructor.
         super().__init__(path, x, y, health, speed)
         # A random integer in {-1, 1}. Only two choices are valid!
@@ -139,7 +180,10 @@ class EnemyPlane(Plane):
     def fire(self): pass
 
     def is_hit(self, obj):
-        # Enemy planes will be only effected by hero bullets.
+        """Check whether the current plane is hit by other objects. Specifically,
+        enemy planes will be only effected by hero bullets. All other characters
+        like supplies, bombs, etc. have no effect on enemy planes.
+        """
         if not isinstance(obj, HeroBullet): return False
         x, y = obj.location.cartesian()
         w, h = obj.image.get_rect().size
@@ -154,20 +198,36 @@ class EnemyPlane(Plane):
         return (flag1 or flag2)
 
     def hit_by(self, obj):
+        """Once the hero plane is hit by some objects, take specific actions,
+        increasing or decreasing health point, etc.
+        """
         # Enemy planes will be only effected by hero bullets.
         if not isinstance(obj, HeroBullet): return False
         obj.effect(self)
         AircraftWar.trash.add(obj)
 
     def explode(self):
+        """The plane explode when health point attains zero.
+        """
         AircraftWar.trash.add(self)
 
 class EnemyLightPlane(EnemyPlane):
     def __init__(self, x, y):
-        super().__init__("enemy_light_plane.png", x, y, 20, 1.5)
+        """Initialize the enemy light plane.
+
+        Keyword arguments:
+        x -- the x coordinate of location.
+        y -- the y coordinate of location.
+        """
+        health = AircraftWar.health["EnemyLightPlane"]
+        speed = AircraftWar.speed["EnemyLightPlane"]
+        super().__init__("enemy_light_plane.png", x, y, health, speed)
         self.direction.y = 1
 
     def move(self):
+        """Move the plane to the next location at the next frame, according to
+        the current speed and direction.
+        """
         self.location.x += self.speed * self.direction.x
         self.location.y += self.speed * self.direction.y
         bound = AircraftWar.width
@@ -186,6 +246,8 @@ class EnemyLightPlane(EnemyPlane):
                 self.direction.x = -1
     
     def fire(self):
+        """Fire some bullets to your enemies.
+        """
         if scipy.stats.bernoulli.rvs(0.01):
             # Initialize the bullet first to obtain its image size.
             bullet = EnemyNormalBullet(0, 0)
@@ -198,19 +260,32 @@ class EnemyLightPlane(EnemyPlane):
             AircraftWar.newcome.add(bullet)
 
     def explode(self):
+        """The plane explode when health point attains zero.
+        """
         super().explode()
-        AircraftWar.score += 10
+        AircraftWar.score += AircraftWar.bonus["EnemyLightPlane"]
 
 class EnemyBoss(EnemyPlane):
     def __init__(self, x, y):
-        super().__init__("enemy_boss.png", x, y, 800, 1.5)
+        """Initialize the enemy boss plane.
+
+        Keyword arguments:
+        x -- the x coordinate of location.
+        y -- the y coordinate of location.
+        """
+        health = AircraftWar.health["EnemyBoss"]
+        speed = AircraftWar.speed["EnemyBoss"]
+        super().__init__("enemy_boss.png", x, y, health, speed)
         self.__cool_down = 0
         self.direction.y = 0
 
     def display(self, graphics):
+        """Display image on the screen.
+        """
         super().display(graphics)
         if self.__cool_down > 0: # Update cool down time.
-            self.__cool_down = (self.__cool_down + 1) % 60
+            self.__cool_down = (self.__cool_down + 1) % \
+                AircraftWar.cool_down_time["EnemyBoss"]
     
     def boundary_check(self):
         """Check whether the enemy boss moves out of window.
@@ -232,9 +307,14 @@ class EnemyBoss(EnemyPlane):
             AircraftWar.boss_num -= 1
     
     def move(self):
+        """Move the plane to the next location at the next frame, according to
+        the current speed and direction.
+        """
         self.location.x += self.speed * self.direction.x
 
     def fire(self):
+        """Fire some bullets to your enemies.
+        """
         if self.__cool_down == 0:
             # Initialize the cannon first to obtain its image size.
             cannon = EnemyCannon(0, 0)
@@ -258,6 +338,8 @@ class EnemyBoss(EnemyPlane):
             self.__cool_down += 1
 
     def explode(self):
+        """The plane explode when health point attains zero.
+        """
         super().explode()
-        AircraftWar.score += 80
+        AircraftWar.score += AircraftWar.bonus["EnemyBoss"]
         AircraftWar.boss_num -= 1
