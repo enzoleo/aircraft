@@ -1,7 +1,5 @@
 package aircraft.game.plane;
 
-import java.awt.Graphics;
-
 import aircraft.game.AircraftWar;
 import aircraft.game.bullet.HeroBullet;
 

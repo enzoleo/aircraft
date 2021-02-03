@@ -3,6 +3,7 @@ from point2d import Point2D
 import scipy.stats
 import imgloader
 import setting
+from setting import AircraftWar
 from bullet import *
 
 class Plane(ABC):
@@ -104,7 +105,7 @@ class HeroPlane(Plane):
             # Update the real location of the bullet.
             hero_bullet.location.x = self.location.x + (width - w) * 0.5
             hero_bullet.location.y = self.location.y - h
-            setting.newcome.add(hero_bullet)
+            AircraftWar.newcome.add(hero_bullet)
 
             # Once the plane fires, it should be pushed into cool down stage,
             # which means that only a specific number of frames have been drawn
@@ -136,12 +137,12 @@ class HeroPlane(Plane):
         # The hero plane will be effected by any kinds of objects excepts planes.
         if isinstance(obj, Plane): return False
         obj.effect(self)
-        setting.trash.add(obj)
+        AircraftWar.trash.add(obj)
 
     def explode(self):
         """The plane explode when health point attains zero.
         """
-        setting.status = False
+        AircraftWar.status = False
 
 class EnemyPlane(Plane):
     def __init__(self, path, x, y, health, speed):
@@ -171,7 +172,7 @@ class EnemyPlane(Plane):
             self.location.x = setting.width - w
             self.direction.x = -self.direction.x
         if self.location.y < 0 or self.location.y > setting.height - h:
-            setting.trash.add(self)
+            AircraftWar.trash.add(self)
     
     @abstractmethod
     def move(self): pass
@@ -204,12 +205,12 @@ class EnemyPlane(Plane):
         # Enemy planes will be only effected by hero bullets.
         if not isinstance(obj, HeroBullet): return False
         obj.effect(self)
-        setting.trash.add(obj)
+        AircraftWar.trash.add(obj)
 
     def explode(self):
         """The plane explode when health point attains zero.
         """
-        setting.trash.add(self)
+        AircraftWar.trash.add(self)
 
 class EnemyLightPlane(EnemyPlane):
     def __init__(self, x, y):
@@ -257,13 +258,13 @@ class EnemyLightPlane(EnemyPlane):
              # Update the real location of the bullet.
             bullet.location.x = self.location.x + (width - w) * 0.5
             bullet.location.y = self.location.y + height
-            setting.newcome.add(bullet)
+            AircraftWar.newcome.add(bullet)
 
     def explode(self):
         """The plane explode when health point attains zero.
         """
         super().explode()
-        setting.score += setting.bonus["EnemyLightPlane"]
+        AircraftWar.score += setting.bonus["EnemyLightPlane"]
 
 class EnemyBoss(EnemyPlane):
     def __init__(self, x, y):
@@ -303,8 +304,8 @@ class EnemyBoss(EnemyPlane):
             self.location.x = setting.width - w
             self.direction.x = -self.direction.x
         if self.location.y < 0 or self.location.y + h > setting.height:
-            setting.trash.add(self)
-            setting.boss_num -= 1
+            AircraftWar.trash.add(self)
+            AircraftWar.boss_num -= 1
     
     def move(self):
         """Move the plane to the next location at the next frame, according to
@@ -326,10 +327,10 @@ class EnemyBoss(EnemyPlane):
             cannon.location.y = self.location.y + height
 
             # Shoot three bullets at a time.
-            setting.newcome.add(cannon)
-            setting.newcome.add( # Right direction.
+            AircraftWar.newcome.add(cannon)
+            AircraftWar.newcome.add( # Right direction.
                 EnemyCannon(cannon.location.x, cannon.location.y, 0.2))
-            setting.newcome.add( # Left direction.
+            AircraftWar.newcome.add( # Left direction.
                 EnemyCannon(cannon.location.x, cannon.location.y, -0.2))
 
             # Once the boss fires, it should be pushed into cool down stage,
@@ -341,5 +342,5 @@ class EnemyBoss(EnemyPlane):
         """The plane explode when health point attains zero.
         """
         super().explode()
-        setting.score += setting.bonus["EnemyBoss"]
-        setting.boss_num -= 1
+        AircraftWar.score += setting.bonus["EnemyBoss"]
+        AircraftWar.boss_num -= 1

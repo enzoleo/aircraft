@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from point2d import Point2D
 import imgloader
 import setting
+from setting import AircraftWar
 
 class Bullet(ABC):
     def __init__(self, path, x, y, damage, speed):
@@ -39,7 +40,7 @@ class Bullet(ABC):
         w, h = self.image.get_rect().size
         if self.location.x < 0 or self.location.x + w > setting.width or \
            self.location.y < 0 or self.location.y + h > setting.height:
-            setting.trash.add(self)
+            AircraftWar.trash.add(self)
 
     @abstractmethod
     def move(self): pass

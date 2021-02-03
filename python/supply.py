@@ -1,6 +1,7 @@
 from point2d import Point2D
 import imgloader
 import setting
+from setting import AircraftWar
 
 class Supply:
     def __init__(self, x, y):
@@ -36,7 +37,7 @@ class Supply:
         w, h = self.image.get_rect().size
         if self.location.x < 0 or self.location.x + w > setting.width or \
            self.location.y < 0 or self.location.y + h > setting.height:
-            setting.trash.add(self)
+            AircraftWar.trash.add(self)
 
     def move(self):
         """Move the supply to the next location at the next frame, according to
