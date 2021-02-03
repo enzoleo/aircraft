@@ -63,3 +63,18 @@ class EnemyNormalBullet(EnemyBullet):
         # Prevent the health point display of hero plane from being
         # a negative number.
         if plane.health < 0: plane.health = 0
+
+class EnemyCannon(EnemyBullet):
+    def __init__(self, x, y, alpha = 0):
+        super().__init__("enemy_cannon.png", x, y, 8, 3.0)
+        self.__alpha = alpha
+
+    def move(self):
+        self.location.x += self.speed * self.__alpha
+        self.location.y += self.speed
+
+    def effect(self, plane):
+        plane.health -= self.damage
+        # Prevent the health point display of hero plane from being
+        # a negative number.
+        if plane.health < 0: plane.health = 0

@@ -11,7 +11,7 @@ def generate_character():
         if scipy.stats.bernoulli.rvs(0.2) and AircraftWar.boss_num < 1:
             # Generate a boss ship. Note that at most one boss ship can
             # be displayed at a time.
-            #AircraftWar.newcome.append(new EnemyBoss(x, 0))
+            AircraftWar.newcome.append(EnemyBoss(x, 0))
             AircraftWar.boss_num += 1
             pass
         else:
