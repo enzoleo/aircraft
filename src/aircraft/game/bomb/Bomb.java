@@ -16,7 +16,7 @@ public class Bomb {
   protected double speed = 1; // The speed of the flying object.
 
   public Bomb(double x, double y) {
-    // Load the plane from the image directory.
+    // Load the bomb from the image directory.
     image = ImageLoader.readImg("bomb.png");
     if (image.getWidth()  >= AircraftWar.WIDTH ||
         image.getHeight() >= AircraftWar.HEIGHT)

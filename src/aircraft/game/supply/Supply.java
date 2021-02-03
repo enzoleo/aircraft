@@ -14,7 +14,7 @@ public class Supply {
   // The current position.
   public Point2D.Double location = new Point2D.Double();
   protected double speed = 1.5; // The speed of the flying object.
-  public int recovery = 20;
+  private int recovery = 20;
 
   public Supply(double x, double y) {
     // Load the plane from the image directory.
