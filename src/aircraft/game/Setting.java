@@ -13,7 +13,7 @@ public class Setting {
   public static final boolean GAMEOVER = false;
 
   // The initial position of the hero plane. Feel free to edit it.
-  public static final Point2D.Double hero_init_pos = new Point2D.Double(150, 500);
+  public static final Point2D.Double heroInitPos = new Point2D.Double(150, 500);
 
   // Probabilities when generating characters at the beginning of every
   // frame. Feel free to modify them.

@@ -77,21 +77,3 @@ cool_down_time = {
     "HeroPlane": 15,
     "EnemyBoss": 60
 }
-
-class AircraftWar:
-    """This class contains the global variables associated to the game.
-    These variables are going to be changed at every frame.
-    """
-    status = RUNNING
-
-    # Better not modify these variables. The @score is what you obtain in
-    # the game. Well, it's a hack for cheating...
-    score = 0
-    # We use this variable to control the number of boss ships. Clearly,
-    # you don't want too many boss to appear at the same time... Only one
-    # will be displayed at a time. That's enough.
-    boss_num = 0
-
-    # ALSO DO NOT touch these variables. They are used to control what 
-    # the pygame will display on the screen.
-    newcome, trash, objects = set(), set(), set()

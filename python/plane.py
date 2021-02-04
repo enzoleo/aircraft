@@ -66,6 +66,7 @@ class HeroPlane(Plane):
         super().__init__("hero_plane.png", x, y, health, speed)
         self.__cool_down = 0
         self.fire_command = False
+        self.score = 0
     
     def display(self, graphics):
         """Display image on the screen.

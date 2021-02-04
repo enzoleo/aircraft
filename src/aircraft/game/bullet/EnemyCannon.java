@@ -1,6 +1,5 @@
 package aircraft.game.bullet;
 
-import aircraft.game.plane.Plane;
 import aircraft.game.Canvas;
 import aircraft.game.Setting;
 
@@ -23,13 +22,5 @@ public class EnemyCannon extends EnemyBullet {
   public void move() {
     location.y += speed;
     location.x += speed * alpha;
-  }
-
-  @Override
-  public void effect(Plane plane) {
-    // Prevent the health point display of hero plane from being
-    // a negative number.
-    plane.health -= this.damage;
-    if (plane.health < 0) plane.health = 0;
   }
 }

@@ -35,7 +35,7 @@ public class Canvas extends JPanel {
   private final int height = Setting.height;
   
   private final HeroPlane hero = // Initialize the hero plane (player).
-    new HeroPlane(this, Setting.hero_init_pos.x, Setting.hero_init_pos.y);
+    new HeroPlane(this, Setting.heroInitPos.x, Setting.heroInitPos.y);
   public boolean status = Setting.RUNNING;
 
   // The hash set to store all objects. Each time an object is constructed,
