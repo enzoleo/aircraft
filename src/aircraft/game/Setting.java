@@ -93,4 +93,11 @@ public class Setting {
   static {
     fireProb.put("EnemyLightPlane", 0.01);
   }
+
+  // A very simple implementation to generate a random number given a
+  // bernoulli distribution. Not perfect but enough for us.
+  public static boolean bernoulli(double p) {
+    if (Math.random() < p) return true;
+    return false;
+  }
 }

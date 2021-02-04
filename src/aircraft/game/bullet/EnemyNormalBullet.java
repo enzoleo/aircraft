@@ -21,7 +21,7 @@ public class EnemyNormalBullet extends EnemyBullet {
   public void effect(Plane plane) {
     // Prevent the health point display of hero plane from being
     // a negative number.
-    plane.health -= this.damage;
-    if (plane.health < 0) plane.health = 0;
+    plane.reduceHP(this.damage);
+    if (plane.getHP() < 0) plane.clearHP();
   }
 }

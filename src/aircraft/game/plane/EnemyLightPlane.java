@@ -27,17 +27,17 @@ public class EnemyLightPlane extends EnemyPlane {
     if (location.x < ratio * bound && direction.x == -1) {
       // Calculate adaptive propobility.
       double p = 1 - location.x / (ratio * bound);
-      if (Canvas.bernoulli(p)) direction.x = 1;
+      if (Setting.bernoulli(p)) direction.x = 1;
     } else if (location.x > (1 - ratio) * bound && direction.x == 1) {
       // Calculate adaptive propobility.
       double p = 1 + location.x / (ratio * bound) - 1 / ratio;
-      if (Canvas.bernoulli(p)) this.direction.x = -1;
+      if (Setting.bernoulli(p)) this.direction.x = -1;
     }
   }
 
   @Override
   public void fire() {
-    if (Canvas.bernoulli(Setting.fireProb.get("EnemyLightPlane"))) {
+    if (Setting.bernoulli(Setting.fireProb.get("EnemyLightPlane"))) {
       EnemyNormalBullet enemyBullet = new EnemyNormalBullet(canvas, 0, 0);
       double offset = (image.getWidth() - enemyBullet.image.getWidth()) / 2;
       enemyBullet.location.x = location.x + offset;

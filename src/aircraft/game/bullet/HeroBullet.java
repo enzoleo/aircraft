@@ -19,6 +19,6 @@ public class HeroBullet extends Bullet {
 
   @Override
   public void effect(Plane plane) {
-    plane.health -= this.damage;
+    plane.reduceHP(this.damage);
   }
 }

@@ -22,7 +22,7 @@ public abstract class Plane {
 
   // The health point. The plane will vanish once its health attains zero.
   // Note that only the generic class Plane has attribute health.
-  public int health;
+  protected int health;
 
   // Constructor that inherits from base class.
   protected Plane(String img, Canvas canvas, double x, double y,
@@ -38,6 +38,12 @@ public abstract class Plane {
     this.health = health; // The initial health point.
     this.speed = speed; // The initial speed.
   }
+
+  // Getter and setter of health point.
+  public int getHP() { return health; }
+  public void clearHP() { this.health = 0; } // Directly set to zero.
+  public void reduceHP(int damage) { this.health -= damage; }
+  public void recover(int recovery) { this.health += recovery; }
 
   // The display method: as the name suggests, this method draw the image
   // onto the graphics user interface, so the argument is necessary.

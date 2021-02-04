@@ -54,6 +54,6 @@ public class Supply {
   }
 
   public void effect(Plane plane) {
-    plane.health += this.recovery;
+    plane.recover(this.recovery);
   }
 }

@@ -52,7 +52,6 @@ public class Bomb {
   }
 
   public void effect(Plane plane) {
-    if (plane.health > 0)
-      plane.health = 0;
+    if (plane.getHP() > 0) plane.clearHP();
   }
 }

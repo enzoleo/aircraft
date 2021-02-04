@@ -14,10 +14,9 @@ if __name__ == '__main__':
 
     # The default canvas.
     canvas = Canvas(graphics)
-    
-    quit_game = False
-    while not quit_game:
-        quit_game = canvas.render()
+    while True:
+        if not canvas.render():
+            break
     
     # Safely quit the game.
     pygame.quit()

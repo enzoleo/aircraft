@@ -62,13 +62,13 @@ class Canvas:
             self.newcome.add(Supply(self, x, 0))
 
     def render(self):
-        quit_game = False
+        rendering = True
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit_game = True
+                rendering = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    quit_game = True
+                    rendering = False
                 if event.key == pygame.K_UP:
                     self.hero.direction.y = -1
                 elif event.key == pygame.K_LEFT:
@@ -132,5 +132,4 @@ class Canvas:
         self.graphics.blit(text_sc, (5, 25))
         self.graphics.blit(text_hp, (5, 55))
         pygame.display.update()
-
-        return quit_game
+        return rendering

@@ -24,18 +24,13 @@ public class Canvas extends JPanel {
   // that the sender and receiver of a serialized object have loaded classes
   // for that object that are compatible with respect to serialization. 
   private static final long serialVersionUID = 1L;
-
-  // The game status.
-
   private static final BufferedImage background = ImageLoader.readImg("background.png");
   private static final BufferedImage gameover = ImageLoader.readImg("gameover.png");
 
   // The fundamental components of graphics window.
-  private final int width = Setting.width;
-  private final int height = Setting.height;
+  private final int width, height;
   
-  private final HeroPlane hero = // Initialize the hero plane (player).
-    new HeroPlane(this, Setting.heroInitPos.x, Setting.heroInitPos.y);
+  private final HeroPlane hero;
   public boolean status = Setting.RUNNING;
 
   // The hash set to store all objects. Each time an object is constructed,
@@ -110,8 +105,12 @@ public class Canvas extends JPanel {
     }
   };
   
-  public Canvas() {
-    this.objects.add(hero); 
+  public Canvas(int width, int height) {
+    // Initialize the hero plane (player).
+    this.width = width;
+    this.height = height;
+    hero = new HeroPlane(this, Setting.heroInitPos.x, Setting.heroInitPos.y);
+    this.objects.add(hero);
   }
 
   // Getter of the key listener.
@@ -125,19 +124,12 @@ public class Canvas extends JPanel {
   // Getter of the hero plane.
   public HeroPlane getHeroPlane() { return hero; }
 
-  // A very simple implementation to generate a random number given a
-  // bernoulli distribution. Not perfect but enough for us.
-  public static boolean bernoulli(double p) {
-    if (Math.random() < p) return true;
-    return false;
-  }
-
   private void generateCharacter() {
     HashMap<String, Double> p = Setting.prob;
-    if (bernoulli(p.get("EnemyPlane"))) { // Generate enemies.
+    if (Setting.bernoulli(p.get("EnemyPlane"))) { // Generate enemies.
       double x = (Math.random() * 0.6 + 0.2) * width;
       HashMap<String, Double> prob = Setting.subProb.get("EnemyPlane");
-      if (bernoulli(prob.get("EnemyBoss")) && bossNum < 1) {
+      if (Setting.bernoulli(prob.get("EnemyBoss")) && bossNum < 1) {
         // Generate a boss ship. Note that at most one boss ship can
         // be displayed at a time.
         newcome.add(new EnemyBoss(this, x, 0));
@@ -145,11 +137,11 @@ public class Canvas extends JPanel {
       } else
         newcome.add(new EnemyLightPlane(this, x, 0));
     }
-    if (bernoulli(p.get("Bomb"))) { // Generate bombs.
+    if (Setting.bernoulli(p.get("Bomb"))) { // Generate bombs.
       double x = (Math.random() * 0.6 + 0.2) * width;
       newcome.add(new Bomb(this, x, 0));
     }
-    if (bernoulli(p.get("Supply"))) { // Generate supplies.
+    if (Setting.bernoulli(p.get("Supply"))) { // Generate supplies.
       double x = (Math.random() * 0.6 + 0.2) * width;
       newcome.add(new Supply(this, x, 0));
     }
@@ -177,7 +169,7 @@ public class Canvas extends JPanel {
     graphics.setColor(new Color(0x000000));
     graphics.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
     graphics.drawString("SCORE: " + hero.getScore(), 5, 25);
-    graphics.drawString("HP: " + hero.health, 5, 55);
+    graphics.drawString("HP: " + hero.getHP(), 5, 55);
 
     if (status == Setting.GAMEOVER)
       graphics.drawImage(gameover, 0, 0, null);
@@ -214,7 +206,7 @@ public class Canvas extends JPanel {
             if (plane.isHit(npc)) plane.hitBy(npc);
           }
           // The plane is shot down!
-          if (plane.health <= 0) plane.explode();
+          if (plane.getHP() <= 0) plane.explode();
         }
       }
       // Push all objects that are goind to be displayed in
