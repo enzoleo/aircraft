@@ -1,13 +1,13 @@
 package aircraft.game.plane;
 
-import aircraft.game.AircraftWar;
+import aircraft.game.Canvas;
 import aircraft.game.bullet.HeroBullet;
 
 public abstract class EnemyPlane extends Plane {
   // Constructor.
-  public EnemyPlane(String img, double x, double y, int health, double speed) {
+  public EnemyPlane(String img, Canvas canvas, double x, double y, int health, double speed) {
     // Call the super class constructor.
-    super(img, x, y, health, speed);
+    super(img, canvas, x, y, health, speed);
 
     // Moving direction.
     this.direction.x = (int)(Math.random() + 0.5) * 2 - 1;
@@ -23,12 +23,12 @@ public abstract class EnemyPlane extends Plane {
     if (xmin < 0) {
       location.x = 0;
       direction.x = -direction.x;
-    } else if (xmax > AircraftWar.WIDTH) {
-      location.x = AircraftWar.WIDTH - image.getWidth();
+    } else if (xmax > Canvas.WIDTH) {
+      location.x = Canvas.WIDTH - image.getWidth();
       direction.x = -direction.x;
     }
-    if (ymin < 0 || ymax > AircraftWar.HEIGHT)
-      AircraftWar.trash.add(this);
+    if (ymin < 0 || ymax > Canvas.HEIGHT)
+      canvas.trash.add(this);
   }
 
   @Override
@@ -57,12 +57,12 @@ public abstract class EnemyPlane extends Plane {
     if (object instanceof HeroBullet) {
       HeroBullet bullet = (HeroBullet)object;
       bullet.effect(this);
-      AircraftWar.trash.add(object);
+      canvas.trash.add(object);
     }
   }
 
   @Override
   public void explode() {
-    AircraftWar.trash.add(this);
+    canvas.trash.add(this);
   }
 }

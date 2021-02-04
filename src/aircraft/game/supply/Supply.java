@@ -4,11 +4,12 @@ import java.awt.geom.Point2D;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import aircraft.game.AircraftWar;
+import aircraft.game.Canvas;
 import aircraft.game.ImageLoader;
 import aircraft.game.plane.Plane;
 
 public class Supply {
+  protected Canvas canvas;
   public BufferedImage image;
 
   // The current position.
@@ -16,11 +17,12 @@ public class Supply {
   protected double speed = 1.5; // The speed of the flying object.
   private int recovery = 20;
 
-  public Supply(double x, double y) {
+  public Supply(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
+    this.canvas = canvas;
     image = ImageLoader.readImg("supply.gif");
-    if (image.getWidth()  >= AircraftWar.WIDTH ||
-        image.getHeight() >= AircraftWar.HEIGHT)
+    if (image.getWidth()  >= Canvas.WIDTH ||
+        image.getHeight() >= Canvas.HEIGHT)
       throw new RuntimeException("The size of image is invalid");
     
     location.x = x; location.y = y;
@@ -40,9 +42,9 @@ public class Supply {
     double ymin = location.y; // Bottom boundary.
     double ymax = location.y + image.getHeight(); // Top boundary.
 
-    if (xmin < 0 || xmax > AircraftWar.WIDTH ||
-        ymin < 0 || ymax > AircraftWar.HEIGHT)
-      AircraftWar.trash.add(this);
+    if (xmin < 0 || xmax > Canvas.WIDTH ||
+        ymin < 0 || ymax > Canvas.HEIGHT)
+      canvas.trash.add(this);
   }
 
   // Each object should have a specific move policy.

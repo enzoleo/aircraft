@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import aircraft.game.AircraftWar;
+import aircraft.game.Canvas;
 import aircraft.game.ImageLoader;
 
 public abstract class Plane {
@@ -14,6 +14,7 @@ public abstract class Plane {
   // horizontal direction flags.
   public Point direction = new Point();
   public BufferedImage image;
+  protected final Canvas canvas;
 
   // The current position.
   public Point2D.Double location = new Point2D.Double();
@@ -24,11 +25,12 @@ public abstract class Plane {
   public int health;
 
   // Constructor that inherits from base class.
-  protected Plane(String img, double x, double y, int health, double speed) {
+  protected Plane(String img, Canvas canvas, double x, double y, int health, double speed) {
     // Load the plane from the image directory.
+    this.canvas = canvas;
     image = ImageLoader.readImg(img);
-    if (image.getWidth()  >= AircraftWar.WIDTH ||
-        image.getHeight() >= AircraftWar.HEIGHT)
+    if (image.getWidth()  >= Canvas.WIDTH ||
+        image.getHeight() >= Canvas.HEIGHT)
       throw new RuntimeException("The size of image is invalid");
     
     location.x = x; location.y = y;

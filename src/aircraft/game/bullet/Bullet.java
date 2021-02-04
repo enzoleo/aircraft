@@ -4,11 +4,12 @@ import java.awt.geom.Point2D;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import aircraft.game.AircraftWar;
+import aircraft.game.Canvas;
 import aircraft.game.ImageLoader;
 import aircraft.game.plane.Plane;
 
 public abstract class Bullet {
+  protected final Canvas canvas;
   public BufferedImage image;
 
   // The current position.
@@ -18,11 +19,12 @@ public abstract class Bullet {
   // Each kind of bullet must have a damage power.
   // Of course different kind of bullets have different damage powers.
   protected int damage = 1;
-  protected Bullet(String img, double x, double y) {
+  protected Bullet(String img, Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
+    this.canvas = canvas;
     image = ImageLoader.readImg(img);
-    if (image.getWidth()  >= AircraftWar.WIDTH ||
-        image.getHeight() >= AircraftWar.HEIGHT)
+    if (image.getWidth()  >= Canvas.WIDTH ||
+        image.getHeight() >= Canvas.HEIGHT)
       throw new RuntimeException("The size of image is invalid");
     
     location.x = x; location.y = y;
@@ -42,9 +44,9 @@ public abstract class Bullet {
     double ymin = location.y; // Bottom boundary.
     double ymax = location.y + image.getHeight(); // Top boundary.
 
-    if (xmin < 0 || xmax > AircraftWar.WIDTH ||
-        ymin < 0 || ymax > AircraftWar.HEIGHT)
-      AircraftWar.trash.add(this);
+    if (xmin < 0 || xmax > Canvas.WIDTH ||
+        ymin < 0 || ymax > Canvas.HEIGHT)
+      canvas.trash.add(this);
   }
 
   // Each object should have a specific move policy.

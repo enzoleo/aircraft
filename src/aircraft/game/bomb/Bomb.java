@@ -4,22 +4,24 @@ import java.awt.geom.Point2D;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import aircraft.game.AircraftWar;
+import aircraft.game.Canvas;
 import aircraft.game.ImageLoader;
 import aircraft.game.plane.Plane;
 
 public class Bomb {
+  protected final Canvas canvas;
   public BufferedImage image;
 
   // The current position.
   public Point2D.Double location = new Point2D.Double();
   protected double speed = 1; // The speed of the flying object.
 
-  public Bomb(double x, double y) {
+  public Bomb(Canvas canvas, double x, double y) {
     // Load the bomb from the image directory.
+    this.canvas = canvas;
     image = ImageLoader.readImg("bomb.png");
-    if (image.getWidth()  >= AircraftWar.WIDTH ||
-        image.getHeight() >= AircraftWar.HEIGHT)
+    if (image.getWidth()  >= Canvas.WIDTH ||
+        image.getHeight() >= Canvas.HEIGHT)
       throw new RuntimeException("The size of image is invalid");
     
     location.x = x; location.y = y;
@@ -39,9 +41,9 @@ public class Bomb {
     double ymin = location.y; // Bottom boundary.
     double ymax = location.y + image.getHeight(); // Top boundary.
 
-    if (xmin < 0 || xmax > AircraftWar.WIDTH ||
-        ymin < 0 || ymax > AircraftWar.HEIGHT)
-      AircraftWar.trash.add(this);
+    if (xmin < 0 || xmax > Canvas.WIDTH ||
+        ymin < 0 || ymax > Canvas.HEIGHT)
+      canvas.trash.add(this);
   }
 
   // Each object should have a specific move policy.

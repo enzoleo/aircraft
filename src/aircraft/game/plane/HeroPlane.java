@@ -2,7 +2,7 @@ package aircraft.game.plane;
 
 import java.awt.Graphics;
 
-import aircraft.game.AircraftWar;
+import aircraft.game.Canvas;
 import aircraft.game.bullet.*;
 import aircraft.game.bomb.*;
 import aircraft.game.supply.*;
@@ -15,9 +15,9 @@ public class HeroPlane extends Plane {
   private int coolDown = 0;
 
   // Constructor.
-  public HeroPlane(double x, double y) {
+  public HeroPlane(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
-    super("hero_plane.png", x, y, 100, 2.0);
+    super("hero_plane.png", canvas, x, y, 100, 2.0);
   }
 
   @Override
@@ -45,20 +45,20 @@ public class HeroPlane extends Plane {
 
     if (xmin < 0) location.x = 0;
     if (ymin < 0) location.y = 0;
-    if (xmax > AircraftWar.WIDTH)
-      location.x = AircraftWar.WIDTH - image.getWidth();
-    if (ymax > AircraftWar.HEIGHT)
-      location.y = AircraftWar.HEIGHT - image.getHeight();
+    if (xmax > Canvas.WIDTH)
+      location.x = Canvas.WIDTH - image.getWidth();
+    if (ymax > Canvas.HEIGHT)
+      location.y = Canvas.HEIGHT - image.getHeight();
   }
 
   @Override
   public void fire() {
     if (fireCommand && coolDown == 0) {
-      HeroBullet heroBullet = new HeroBullet(0, 0);
+      HeroBullet heroBullet = new HeroBullet(canvas, 0, 0);
       double offset = (image.getWidth() - heroBullet.image.getWidth()) / 2;
       heroBullet.location.x = location.x + offset;
       heroBullet.location.y = location.y - heroBullet.image.getHeight();
-      AircraftWar.newcome.add(heroBullet);
+      canvas.newcome.add(heroBullet);
       coolDown++;
     }
   }
@@ -99,21 +99,21 @@ public class HeroPlane extends Plane {
   public void hitBy(Object object) {
     if (object instanceof EnemyNormalBullet) {
       ((EnemyNormalBullet)object).effect(this);
-      AircraftWar.trash.add(object);
+      canvas.trash.add(object);
     } else if (object instanceof EnemyCannon) {
       ((EnemyCannon)object).effect(this);
-      AircraftWar.trash.add(object);
+      canvas.trash.add(object);
     } else if (object instanceof Bomb) {
       ((Bomb)object).effect(this);
-      AircraftWar.trash.add(object);
+      canvas.trash.add(object);
     } else if (object instanceof Supply) {
       ((Supply)object).effect(this);
-      AircraftWar.trash.add(object);
+      canvas.trash.add(object);
     }
   }
 
   @Override
   public void explode() {
-    AircraftWar.status = AircraftWar.GAMEOVER;
+    canvas.status = Canvas.GAMEOVER;
   }
 }

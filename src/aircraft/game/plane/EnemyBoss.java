@@ -2,7 +2,7 @@ package aircraft.game.plane;
 
 import java.awt.Graphics;
 
-import aircraft.game.AircraftWar;
+import aircraft.game.Canvas;
 import aircraft.game.bullet.EnemyCannon;
 
 public class EnemyBoss extends EnemyPlane {
@@ -11,9 +11,9 @@ public class EnemyBoss extends EnemyPlane {
   private int coolDown = 0;
 
   // Constructor.
-  public EnemyBoss(double x, double y) {
+  public EnemyBoss(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
-    super("enemy_boss.png", x, y, 800, 1.5);
+    super("enemy_boss.png", canvas, x, y, 800, 1.5);
     this.direction.y = 0; // The boss only moves horizontally from our view.
   }
 
@@ -39,30 +39,30 @@ public class EnemyBoss extends EnemyPlane {
     if (xmin < 0) {
       location.x = 0;
       direction.x = -direction.x;
-    } else if (xmax > AircraftWar.WIDTH) {
-      location.x = AircraftWar.WIDTH - image.getWidth();
+    } else if (xmax > Canvas.WIDTH) {
+      location.x = Canvas.WIDTH - image.getWidth();
       direction.x = -direction.x;
     }
-    if (ymin < 0 || ymax > AircraftWar.HEIGHT) {
-      AircraftWar.trash.add(this);
-      AircraftWar.bossNum--;  
+    if (ymin < 0 || ymax > Canvas.HEIGHT) {
+      canvas.trash.add(this);
+      canvas.bossNum--;  
     }
   }
 
   @Override
   public void fire() {
     if (coolDown == 0) {
-      EnemyCannon enemyCannon = new EnemyCannon(0, 0, 0);
+      EnemyCannon enemyCannon = new EnemyCannon(canvas, 0, 0, 0);
       double offset = (image.getWidth() - enemyCannon.image.getWidth()) / 2;
       enemyCannon.location.x = location.x + offset;
       enemyCannon.location.y = location.y + image.getHeight();
 
       // Shoot three bullets at a time.
-      AircraftWar.newcome.add(enemyCannon);
-      AircraftWar.newcome.add(new EnemyCannon( // Right direction.
-          enemyCannon.location.x, enemyCannon.location.y, 0.2));
-      AircraftWar.newcome.add(new EnemyCannon( // Left direction.
-          enemyCannon.location.x, enemyCannon.location.y, -0.2));
+      canvas.newcome.add(enemyCannon);
+      canvas.newcome.add(new EnemyCannon( // Right direction.
+          canvas, enemyCannon.location.x, enemyCannon.location.y, 0.2));
+      canvas.newcome.add(new EnemyCannon( // Left direction.
+          canvas, enemyCannon.location.x, enemyCannon.location.y, -0.2));
       coolDown++;
     }
   }
@@ -70,7 +70,7 @@ public class EnemyBoss extends EnemyPlane {
   @Override
   public void explode() {
     super.explode();
-    AircraftWar.score += 80;
-    AircraftWar.bossNum--;
+    canvas.score += 80;
+    canvas.bossNum--;
   }
 }

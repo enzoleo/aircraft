@@ -1,6 +1,7 @@
 package aircraft.game.bullet;
 
 import aircraft.game.plane.Plane;
+import aircraft.game.Canvas;
 
 public class EnemyCannon extends EnemyBullet {
   // This member might be a little bit hard to understand.
@@ -10,8 +11,8 @@ public class EnemyCannon extends EnemyBullet {
   private double alpha = 0;
 
   // Constructor.
-  public EnemyCannon(double x, double y, double alpha) {
-    super("enemy_cannon.png", x, y, 8, 3.0);
+  public EnemyCannon(Canvas canvas, double x, double y, double alpha) {
+    super("enemy_cannon.png", canvas, x, y, 8, 3.0);
     this.alpha = alpha;
   }
 
