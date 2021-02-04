@@ -14,11 +14,18 @@ public class HeroPlane extends Plane {
   // the hero plane shoot cannons.
   private int coolDown = 0;
 
+  // The total score of the current plane.
+  private int score = 0;
+
   // Constructor.
   public HeroPlane(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
     super("hero_plane.png", canvas, x, y, 100, 2.0);
   }
+
+  // Getter and setter of the score.
+  public int getScore() { return score; }
+  public void addScore(int bonus) { score += bonus; }
 
   @Override
   public void display(Graphics graphics) {

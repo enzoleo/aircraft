@@ -70,7 +70,7 @@ public class EnemyBoss extends EnemyPlane {
   @Override
   public void explode() {
     super.explode();
-    canvas.score += 80;
+    canvas.getHeroPlane().addScore(80);
     canvas.bossNum--;
   }
 }

@@ -29,14 +29,14 @@ public class Canvas extends JPanel {
   public static final int RUNNING = 0;
   public static final int GAMEOVER = 1;
 
+  private static final BufferedImage background = ImageLoader.readImg("background.png");
+  private static final BufferedImage gameover = ImageLoader.readImg("gameover.png");
+
   // The fundamental components of graphics window.
   private final int width = 400;
   private final int height = 654;
-
-  private static final BufferedImage background = ImageLoader.readImg("background.png");
-  private static final BufferedImage gameover = ImageLoader.readImg("gameover.png");
   
-  private HeroPlane hero = new HeroPlane(this, 150., 400.);
+  private final HeroPlane hero = new HeroPlane(this, 150., 400.);
   public int status = RUNNING;
 
   // The hash set to store all objects. Each time an object is constructed,
@@ -46,7 +46,6 @@ public class Canvas extends JPanel {
   public LinkedList<Object> trash = new LinkedList<>();
   public LinkedList<Object> newcome = new LinkedList<>();
   
-  public int score = 0;
   public int bossNum = 0;
 
   // Add keylistener to the game in order to obtain the user manipulation, and
@@ -124,6 +123,9 @@ public class Canvas extends JPanel {
   public int getWidth() { return this.width; }
   public int getHeight() { return this.height; }
 
+  // Getter of the hero plane.
+  public HeroPlane getHeroPlane() { return hero; }
+
   // A very simple implementation to generate a random number given a
   // bernoulli distribution. Not perfect but enough for us.
   public static boolean bernoulli(double p) {
@@ -173,7 +175,7 @@ public class Canvas extends JPanel {
     // Draw health point and game score on the screen.
     graphics.setColor(new Color(0x000000));
     graphics.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 24));
-    graphics.drawString("SCORE: " + score, 5, 25);
+    graphics.drawString("SCORE: " + hero.getScore(), 5, 25);
     graphics.drawString("HP: " + hero.health, 5, 55);
 
     if (status == GAMEOVER)

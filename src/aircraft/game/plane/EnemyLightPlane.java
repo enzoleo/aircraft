@@ -45,6 +45,6 @@ public class EnemyLightPlane extends EnemyPlane {
   @Override
   public void explode() {
     super.explode();
-    canvas.score += 10;
+    canvas.getHeroPlane().addScore(10);
   }
 }
