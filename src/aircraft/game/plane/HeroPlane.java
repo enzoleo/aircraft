@@ -45,10 +45,10 @@ public class HeroPlane extends Plane {
 
     if (xmin < 0) location.x = 0;
     if (ymin < 0) location.y = 0;
-    if (xmax > Canvas.WIDTH)
-      location.x = Canvas.WIDTH - image.getWidth();
-    if (ymax > Canvas.HEIGHT)
-      location.y = Canvas.HEIGHT - image.getHeight();
+    if (xmax > canvas.getWidth())
+      location.x = canvas.getWidth() - image.getWidth();
+    if (ymax > canvas.getHeight())
+      location.y = canvas.getHeight() - image.getHeight();
   }
 
   @Override

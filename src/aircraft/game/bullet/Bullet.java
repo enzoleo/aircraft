@@ -23,8 +23,8 @@ public abstract class Bullet {
     // Load the plane from the image directory.
     this.canvas = canvas;
     image = ImageLoader.readImg(img);
-    if (image.getWidth()  >= Canvas.WIDTH ||
-        image.getHeight() >= Canvas.HEIGHT)
+    if (image.getWidth()  >= canvas.getWidth() ||
+        image.getHeight() >= canvas.getHeight())
       throw new RuntimeException("The size of image is invalid");
     
     location.x = x; location.y = y;
@@ -44,8 +44,8 @@ public abstract class Bullet {
     double ymin = location.y; // Bottom boundary.
     double ymax = location.y + image.getHeight(); // Top boundary.
 
-    if (xmin < 0 || xmax > Canvas.WIDTH ||
-        ymin < 0 || ymax > Canvas.HEIGHT)
+    if (xmin < 0 || xmax > canvas.getWidth() ||
+        ymin < 0 || ymax > canvas.getHeight())
       canvas.trash.add(this);
   }
 

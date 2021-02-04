@@ -25,13 +25,13 @@ public class Canvas extends JPanel {
   // for that object that are compatible with respect to serialization. 
   private static final long serialVersionUID = 1L;
 
-  // The fundamental components of graphics window.
-  public static final int WIDTH = 400;
-  public static final int HEIGHT = 654;
-
   // The game status.
   public static final int RUNNING = 0;
   public static final int GAMEOVER = 1;
+
+  // The fundamental components of graphics window.
+  private final int width = 400;
+  private final int height = 654;
 
   private static final BufferedImage background = ImageLoader.readImg("background.png");
   private static final BufferedImage gameover = ImageLoader.readImg("gameover.png");
@@ -116,9 +116,13 @@ public class Canvas extends JPanel {
     this.objects.add(hero); 
   }
 
+  // Getter of the key listener.
   public KeyListener getKeyListener() {
     return this.keyListener;
   }
+  // Getters of canvas width and height.
+  public int getWidth() { return this.width; }
+  public int getHeight() { return this.height; }
 
   // A very simple implementation to generate a random number given a
   // bernoulli distribution. Not perfect but enough for us.
@@ -127,9 +131,9 @@ public class Canvas extends JPanel {
     return false;
   }
 
-  public void generateCharacter() {
+  private void generateCharacter() {
     if (bernoulli(0.01)) { // Generate enemies.
-      double x = (Math.random() * 0.6 + 0.2) * WIDTH;
+      double x = (Math.random() * 0.6 + 0.2) * width;
       if (bernoulli(0.2) && bossNum < 1) {
         // Generate a boss ship. Note that at most one boss ship can
         // be displayed at a time.
@@ -139,11 +143,11 @@ public class Canvas extends JPanel {
         newcome.add(new EnemyLightPlane(this, x, 0));
     }
     if (bernoulli(0.001)) { // Generate bombs.
-      double x = (Math.random() * 0.6 + 0.2) * WIDTH;
+      double x = (Math.random() * 0.6 + 0.2) * width;
       newcome.add(new Bomb(this, x, 0));
     }
     if (bernoulli(0.004)) { // Generate supplies.
-      double x = (Math.random() * 0.6 + 0.2) * WIDTH;
+      double x = (Math.random() * 0.6 + 0.2) * width;
       newcome.add(new Supply(this, x, 0));
     }
   }

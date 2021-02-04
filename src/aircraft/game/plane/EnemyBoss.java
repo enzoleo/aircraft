@@ -39,11 +39,11 @@ public class EnemyBoss extends EnemyPlane {
     if (xmin < 0) {
       location.x = 0;
       direction.x = -direction.x;
-    } else if (xmax > Canvas.WIDTH) {
-      location.x = Canvas.WIDTH - image.getWidth();
+    } else if (xmax > canvas.getWidth()) {
+      location.x = canvas.getWidth() - image.getWidth();
       direction.x = -direction.x;
     }
-    if (ymin < 0 || ymax > Canvas.HEIGHT) {
+    if (ymin < 0 || ymax > canvas.getHeight()) {
       canvas.trash.add(this);
       canvas.bossNum--;  
     }

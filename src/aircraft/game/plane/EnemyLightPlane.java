@@ -16,7 +16,7 @@ public class EnemyLightPlane extends EnemyPlane {
     location.x += speed * direction.x;
     location.y += speed * direction.y;
 
-    double bound = Canvas.WIDTH;
+    double bound = canvas.getWidth();
     double ratio = 0.2; // Must be inside the interval [0, 0.5].
 
     // Rebound when hitting the left/right boundary.

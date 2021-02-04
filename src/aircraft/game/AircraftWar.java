@@ -15,7 +15,7 @@ public class AircraftWar extends JPanel {
     JFrame frame = new JFrame("AircraftWar");
     Canvas canvas = new Canvas();
     frame.add(canvas);
-    frame.setSize(Canvas.WIDTH, Canvas.HEIGHT);
+    frame.setSize(canvas.getWidth(), canvas.getHeight());
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setLocationRelativeTo(null);
 
