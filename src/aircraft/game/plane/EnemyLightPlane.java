@@ -1,13 +1,17 @@
 package aircraft.game.plane;
 
 import aircraft.game.Canvas;
+import aircraft.game.Setting;
 import aircraft.game.bullet.EnemyNormalBullet;
 
 public class EnemyLightPlane extends EnemyPlane {
   // Constructor.
   public EnemyLightPlane(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
-    super("enemy_light_plane.png", canvas, x, y, 20, 1.5);
+    super("enemy_light_plane.png", canvas, x, y,
+          Setting.health.get("EnemyLightPlane"),
+          Setting.speed.get("EnemyLightPlane"),
+          Setting.bonus.get("EnemyLightPlane"));
     this.direction.y = 1;
   }
 
@@ -33,7 +37,7 @@ public class EnemyLightPlane extends EnemyPlane {
 
   @Override
   public void fire() {
-    if (Canvas.bernoulli(0.01)) {
+    if (Canvas.bernoulli(Setting.fireProb.get("EnemyLightPlane"))) {
       EnemyNormalBullet enemyBullet = new EnemyNormalBullet(canvas, 0, 0);
       double offset = (image.getWidth() - enemyBullet.image.getWidth()) / 2;
       enemyBullet.location.x = location.x + offset;

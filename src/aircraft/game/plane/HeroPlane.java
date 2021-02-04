@@ -3,6 +3,7 @@ package aircraft.game.plane;
 import java.awt.Graphics;
 
 import aircraft.game.Canvas;
+import aircraft.game.Setting;
 import aircraft.game.bullet.*;
 import aircraft.game.bomb.*;
 import aircraft.game.supply.*;
@@ -13,6 +14,7 @@ public class HeroPlane extends Plane {
   // Cool down time to fire. Only when the coolDown variable is zero can
   // the hero plane shoot cannons.
   private int coolDown = 0;
+  private int coolDownTime = Setting.coolDownTime.get("HeroPlane");
 
   // The total score of the current plane.
   private int score = 0;
@@ -20,7 +22,8 @@ public class HeroPlane extends Plane {
   // Constructor.
   public HeroPlane(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
-    super("hero_plane.png", canvas, x, y, 100, 2.0);
+    super("hero_plane.png", canvas, x, y,
+          Setting.health.get("HeroPlane"), Setting.speed.get("HeroPlane"));
   }
 
   // Getter and setter of the score.
@@ -31,7 +34,7 @@ public class HeroPlane extends Plane {
   public void display(Graphics graphics) {
     super.display(graphics);
     if (coolDown > 0)
-      coolDown = (coolDown + 1) % 15; // Update cool down time.
+      coolDown = (coolDown + 1) % coolDownTime; // Update cool down time.
   }
 
   // Implement the abstract method of the base class. The move method is
@@ -121,6 +124,6 @@ public class HeroPlane extends Plane {
 
   @Override
   public void explode() {
-    canvas.status = Canvas.GAMEOVER;
+    canvas.status = Setting.GAMEOVER;
   }
 }

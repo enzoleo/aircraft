@@ -3,17 +3,21 @@ package aircraft.game.plane;
 import java.awt.Graphics;
 
 import aircraft.game.Canvas;
+import aircraft.game.Setting;
 import aircraft.game.bullet.EnemyCannon;
 
 public class EnemyBoss extends EnemyPlane {
   // Cool down time to fire. Only when the coolDown variable is zero can
   // the boss ship shoot cannons.
   private int coolDown = 0;
+  private int coolDownTime = Setting.coolDownTime.get("EnemyBoss");
 
   // Constructor.
   public EnemyBoss(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
-    super("enemy_boss.png", canvas, x, y, 800, 1.5);
+    super("enemy_boss.png", canvas, x, y,
+          Setting.health.get("EnemyBoss"), Setting.speed.get("EnemyBoss"),
+          Setting.bonus.get("EnemyBoss"));
     this.direction.y = 0; // The boss only moves horizontally from our view.
   }
 
@@ -26,7 +30,7 @@ public class EnemyBoss extends EnemyPlane {
   public void display(Graphics graphics) {
     super.display(graphics);
     if (coolDown > 0)
-      coolDown = (coolDown + 1) % 60; // Update cool down time.
+      coolDown = (coolDown + 1) % coolDownTime; // Update cool down time.
   }
 
   @Override

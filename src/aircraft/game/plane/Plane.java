@@ -25,7 +25,8 @@ public abstract class Plane {
   public int health;
 
   // Constructor that inherits from base class.
-  protected Plane(String img, Canvas canvas, double x, double y, int health, double speed) {
+  protected Plane(String img, Canvas canvas, double x, double y,
+                  int health, double speed) {
     // Load the plane from the image directory.
     this.canvas = canvas;
     image = ImageLoader.readImg(img);

@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import aircraft.game.Canvas;
 import aircraft.game.ImageLoader;
 import aircraft.game.plane.Plane;
+import aircraft.game.Setting;
 
 public class Supply {
   protected Canvas canvas;
@@ -15,7 +16,7 @@ public class Supply {
   // The current position.
   public Point2D.Double location = new Point2D.Double();
   protected double speed = 1.5; // The speed of the flying object.
-  private int recovery = 20;
+  private int recovery = Setting.recovery.get("Supply");
 
   public Supply(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.

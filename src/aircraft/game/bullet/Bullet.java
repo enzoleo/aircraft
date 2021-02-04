@@ -19,7 +19,8 @@ public abstract class Bullet {
   // Each kind of bullet must have a damage power.
   // Of course different kind of bullets have different damage powers.
   protected int damage = 1;
-  protected Bullet(String img, Canvas canvas, double x, double y) {
+  protected Bullet(String img, Canvas canvas, double x, double y,
+                   int damage, double speed) {
     // Load the plane from the image directory.
     this.canvas = canvas;
     image = ImageLoader.readImg(img);
@@ -28,6 +29,8 @@ public abstract class Bullet {
       throw new RuntimeException("The size of image is invalid");
     
     location.x = x; location.y = y;
+    this.damage = damage;
+    this.speed = speed;
   }
 
   // The display method: as the name suggests, this method draw the image

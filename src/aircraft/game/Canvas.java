@@ -11,7 +11,7 @@ import java.awt.Font;
 
 import java.util.Set;
 import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import aircraft.game.plane.*;
@@ -26,25 +26,24 @@ public class Canvas extends JPanel {
   private static final long serialVersionUID = 1L;
 
   // The game status.
-  public static final int RUNNING = 0;
-  public static final int GAMEOVER = 1;
 
   private static final BufferedImage background = ImageLoader.readImg("background.png");
   private static final BufferedImage gameover = ImageLoader.readImg("gameover.png");
 
   // The fundamental components of graphics window.
-  private final int width = 400;
-  private final int height = 654;
+  private final int width = Setting.width;
+  private final int height = Setting.height;
   
-  private final HeroPlane hero = new HeroPlane(this, 150., 400.);
-  public int status = RUNNING;
+  private final HeroPlane hero = // Initialize the hero plane (player).
+    new HeroPlane(this, Setting.hero_init_pos.x, Setting.hero_init_pos.y);
+  public boolean status = Setting.RUNNING;
 
   // The hash set to store all objects. Each time an object is constructed,
   // it should be added into this set, e.g. the push operation should be
   // called in the base constructor.
   public HashSet<Object> objects = new HashSet<>();
-  public LinkedList<Object> trash = new LinkedList<>();
-  public LinkedList<Object> newcome = new LinkedList<>();
+  public HashSet<Object> trash = new HashSet<>();
+  public HashSet<Object> newcome = new HashSet<>();
   
   public int bossNum = 0;
 
@@ -134,9 +133,11 @@ public class Canvas extends JPanel {
   }
 
   private void generateCharacter() {
-    if (bernoulli(0.01)) { // Generate enemies.
+    HashMap<String, Double> p = Setting.prob;
+    if (bernoulli(p.get("EnemyPlane"))) { // Generate enemies.
       double x = (Math.random() * 0.6 + 0.2) * width;
-      if (bernoulli(0.2) && bossNum < 1) {
+      HashMap<String, Double> prob = Setting.subProb.get("EnemyPlane");
+      if (bernoulli(prob.get("EnemyBoss")) && bossNum < 1) {
         // Generate a boss ship. Note that at most one boss ship can
         // be displayed at a time.
         newcome.add(new EnemyBoss(this, x, 0));
@@ -144,11 +145,11 @@ public class Canvas extends JPanel {
       } else
         newcome.add(new EnemyLightPlane(this, x, 0));
     }
-    if (bernoulli(0.001)) { // Generate bombs.
+    if (bernoulli(p.get("Bomb"))) { // Generate bombs.
       double x = (Math.random() * 0.6 + 0.2) * width;
       newcome.add(new Bomb(this, x, 0));
     }
-    if (bernoulli(0.004)) { // Generate supplies.
+    if (bernoulli(p.get("Supply"))) { // Generate supplies.
       double x = (Math.random() * 0.6 + 0.2) * width;
       newcome.add(new Supply(this, x, 0));
     }
@@ -178,12 +179,12 @@ public class Canvas extends JPanel {
     graphics.drawString("SCORE: " + hero.getScore(), 5, 25);
     graphics.drawString("HP: " + hero.health, 5, 55);
 
-    if (status == GAMEOVER)
+    if (status == Setting.GAMEOVER)
       graphics.drawImage(gameover, 0, 0, null);
   }
 
   public void render() {
-    if (status == RUNNING) {
+    if (status == Setting.RUNNING) {
       generateCharacter();
       for (Object object : objects) {
         if (object instanceof Bullet) {

@@ -4,13 +4,16 @@ import aircraft.game.Canvas;
 import aircraft.game.bullet.HeroBullet;
 
 public abstract class EnemyPlane extends Plane {
-  // Constructor.
-  public EnemyPlane(String img, Canvas canvas, double x, double y, int health, double speed) {
+  // The bonus player can get once take down this plane.
+  protected int bonus;
+  public EnemyPlane(String img, Canvas canvas, double x, double y,
+                    int health, double speed, int bonus) {
     // Call the super class constructor.
     super(img, canvas, x, y, health, speed);
 
     // Moving direction.
     this.direction.x = (int)(Math.random() + 0.5) * 2 - 1;
+    this.bonus = bonus;
   }
 
   @Override
