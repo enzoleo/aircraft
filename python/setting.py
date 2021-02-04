@@ -1,6 +1,3 @@
-import pygame
-import imgloader
-
 # This file only contains global settings. Everything defined here is
 # actually associated to the system settings of the game. To better
 # control the hyperparameters you may encounter in designing this game,
@@ -8,12 +5,6 @@ import imgloader
 
 # Default window size.
 width, height = 400, 654
-
-# DO NOT touch this one. this is the default window of the graphical
-# user interface.
-graphics = pygame.display.set_mode((width, height), 0, 32)
-background = imgloader.load("background.png")
-gameover = imgloader.load("gameover.png")
 
 # Default game status.
 RUNNING, GAMEOVER = True, False

@@ -1,20 +1,21 @@
 from point2d import Point2D
 import imgloader
 import setting
-from setting import AircraftWar
 
 class Supply:
-    def __init__(self, x, y):
+    def __init__(self, canvas, x, y):
         """Initialize the supply class.
 
         Keyword arguments:
+        canvas -- the canvas for gui.
         x -- the x coordinate of location.
         y -- the y coordinate of location.
         """
         # Read image and check its size.
+        self.canvas = canvas
         self.image = imgloader.load("supply.gif")
         w, h = self.image.get_rect().size
-        if w >= setting.width or h >= setting.height:
+        if w >= self.canvas.width or h >= self.canvas.height:
             raise ValueError("The size of image is invalid")
 
         self.location = Point2D(x, y)
@@ -35,9 +36,9 @@ class Supply:
         once it moves out of the current game window.
         """
         w, h = self.image.get_rect().size
-        if self.location.x < 0 or self.location.x + w > setting.width or \
-           self.location.y < 0 or self.location.y + h > setting.height:
-            AircraftWar.trash.add(self)
+        if self.location.x < 0 or self.location.x + w > self.canvas.width or \
+           self.location.y < 0 or self.location.y + h > self.canvas.height:
+            self.canvas.trash.add(self)
 
     def move(self):
         """Move the supply to the next location at the next frame, according to

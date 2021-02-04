@@ -2,23 +2,24 @@ from abc import ABC, abstractmethod
 from point2d import Point2D
 import imgloader
 import setting
-from setting import AircraftWar
 
 class Bullet(ABC):
-    def __init__(self, path, x, y, damage, speed):
+    def __init__(self, path, canvas, x, y, damage, speed):
         """Initialize the bullet.
 
         Keyword arguments:
         path -- the image path to be specified into image loader.
+        canvas -- the canvas for gui.
         x -- the x coordinate of location.
         y -- the y coordinate of location.
         damage -- the initial damage power of the bullet.
         speed -- the initial speed of the bullet.
         """
         # Read image and check its size.
+        self.canvas = canvas
         self.image = imgloader.load(path)
         w, h = self.image.get_rect().size
-        if w >= setting.width or h >= setting.height:
+        if w >= self.canvas.width or h >= self.canvas.height:
             raise ValueError("The size of image is invalid")
         
         self.location = Point2D(x, y)
@@ -38,9 +39,9 @@ class Bullet(ABC):
         current game window.
         """
         w, h = self.image.get_rect().size
-        if self.location.x < 0 or self.location.x + w > setting.width or \
-           self.location.y < 0 or self.location.y + h > setting.height:
-            AircraftWar.trash.add(self)
+        if self.location.x < 0 or self.location.x + w > self.canvas.width or \
+           self.location.y < 0 or self.location.y + h > self.canvas.height:
+            self.canvas.trash.add(self)
 
     @abstractmethod
     def move(self): pass
@@ -49,16 +50,17 @@ class Bullet(ABC):
     def effect(self, plane): pass
 
 class HeroBullet(Bullet):
-    def __init__(self, x, y):
+    def __init__(self, canvas, x, y):
         """Initialize the bullet.
 
         Keyword arguments:
+        canvas -- the canvas for gui.
         x -- the x coordinate of location.
         y -- the y coordinate of location.
         """
         damage = setting.damage["HeroBullet"]
         speed = setting.speed["HeroBullet"]
-        super().__init__("hero_bullet.png", x, y, damage, speed)
+        super().__init__("hero_bullet.png", canvas, x, y, damage, speed)
     
     def move(self):
         """Move the bullet to the next location at the next frame, according to
@@ -72,30 +74,32 @@ class HeroBullet(Bullet):
         plane.health -= self.damage
 
 class EnemyBullet(Bullet):
-    def __init__(self, path, x, y, damage, speed):
+    def __init__(self, path, canvas, x, y, damage, speed):
         """Initialize the bullet.
 
         Keyword arguments:
         path -- the image path to be specified into image loader.
+        canvas -- the canvas for gui.
         x -- the x coordinate of location.
         y -- the y coordinate of location.
         damage -- the initial damage power of the bullet.
         speed -- the initial speed of the bullet.
         """
         # Exactly follow the super class constructor.
-        super().__init__(path, x, y, damage, speed)
+        super().__init__(path, canvas, x, y, damage, speed)
 
 class EnemyNormalBullet(EnemyBullet):
-    def __init__(self, x, y):
+    def __init__(self, canvas, x, y):
         """Initialize the bullet.
 
         Keyword arguments:
+        canvas -- the canvas for gui.
         x -- the x coordinate of location.
         y -- the y coordinate of location.
         """
         damage = setting.damage["EnemyNormalBullet"]
         speed = setting.speed["EnemyNormalBullet"]
-        super().__init__("enemy_normal_bullet.png", x, y, damage, speed)
+        super().__init__("enemy_normal_bullet.png", canvas, x, y, damage, speed)
 
     def move(self):
         """Move the bullet to the next location at the next frame, according to
@@ -112,7 +116,7 @@ class EnemyNormalBullet(EnemyBullet):
         if plane.health < 0: plane.health = 0
 
 class EnemyCannon(EnemyBullet):
-    def __init__(self, x, y, alpha = 0):
+    def __init__(self, canvas, x, y, alpha = 0):
         """Initialize the bullet.
 
         Keyword arguments:
@@ -121,7 +125,7 @@ class EnemyCannon(EnemyBullet):
         """
         damage = setting.damage["EnemyCannon"]
         speed = setting.speed["EnemyCannon"]
-        super().__init__("enemy_cannon.png", x, y, damage, speed)
+        super().__init__("enemy_cannon.png", canvas, x, y, damage, speed)
         self.__alpha = alpha
 
     def move(self):
