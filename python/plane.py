@@ -48,8 +48,13 @@ class Plane(ABC):
     @abstractmethod
     def is_hit(self, obj): pass
 
-    @abstractmethod
-    def hit_by(self, obj): pass
+    def hit_by(self, obj):
+        """Once the hero plane is hit by some objects, take specific actions,
+        increasing or decreasing health point, etc.
+        """
+        # The hero plane will be effected by any kinds of objects excepts planes.
+        obj.effect(self)
+        self.canvas.objects["trash"].add(obj)
 
     @abstractmethod
     def explode(self): pass
@@ -149,14 +154,6 @@ class HeroPlane(Plane):
             self.location.y > y and self.location.y < y + h)
         return (flag1 or flag2)
 
-    def hit_by(self, obj):
-        """Once the hero plane is hit by some objects, take specific actions,
-        increasing or decreasing health point, etc.
-        """
-        # The hero plane will be effected by any kinds of objects excepts planes.
-        obj.effect(self)
-        self.canvas.objects["trash"].add(obj)
-
     def explode(self):
         """The plane explode when health point attains zero.
         """
@@ -226,14 +223,6 @@ class EnemyPlane(Plane):
             self.location.x > x and self.location.x < x + w and
             self.location.y > y and self.location.y < y + h)
         return (flag1 or flag2)
-
-    def hit_by(self, obj):
-        """Once the hero plane is hit by some objects, take specific actions,
-        increasing or decreasing health point, etc.
-        """
-        # Enemy planes will be only effected by hero bullets.
-        obj.effect(self)
-        self.canvas.objects["trash"].add(obj)
 
     def explode(self):
         """The plane explode when health point attains zero.

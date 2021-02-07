@@ -62,38 +62,65 @@ class Canvas:
             x = scipy.stats.uniform.rvs(0.2, 0.6) * self.width
             self.objects["newcome"].add(Supply(self, x, 0))
 
-    def render(self):
-        rendering = True
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                rendering = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    rendering = False
-                if event.key == pygame.K_UP:
-                    self.hero.direction.y = -1
-                elif event.key == pygame.K_LEFT:
-                    self.hero.direction.x = -1
-                elif event.key == pygame.K_DOWN:
-                    self.hero.direction.y = 1
-                elif event.key == pygame.K_RIGHT:
-                    self.hero.direction.x = 1
-                elif event.key == pygame.K_SPACE:
-                    self.hero.fire_command = True
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_UP:
-                    if self.hero.direction.y == -1: self.hero.direction.y = 0
-                if event.key == pygame.K_LEFT:
-                    if self.hero.direction.x == -1: self.hero.direction.x = 0
-                if event.key == pygame.K_DOWN:
-                    if self.hero.direction.y == 1: self.hero.direction.y = 0
-                if event.key == pygame.K_RIGHT:
-                    if self.hero.direction.x == 1: self.hero.direction.x = 0
-                if event.key == pygame.K_SPACE:
-                    self.hero.fire_command = False
+    def paint(self):
+        """Paint all objects on the screen.
+        """
+        # Draw everything including bullets, planes, supplies, etc.
+        self.graphics.blit(self.background, (0, 0))
+        for object in self.planes["current"] | self.objects["current"]:
+            object.display(self.graphics)
 
-        self.graphics.blit(self.background, (0, 0))        
-        if self.status:
+        # Draw health point and game score on the screen.
+        font = pygame.font.SysFont(pygame.font.get_default_font(), 36)
+        text_sc = font.render("SCORE:" + str(self.hero.score), 1, (0, 0, 0))
+        text_hp = font.render("HP:" + str(self.hero.health), 1, (0, 0, 0))
+        self.graphics.blit(text_sc, (5, 25))
+        self.graphics.blit(text_hp, (5, 55))
+        if self.status == setting.GAMEOVER:
+            self.graphics.blit(self.gameover, (0, 0))
+        pygame.display.update()
+
+    def key_event(self):
+        class KeyListener:
+            @staticmethod
+            def response():
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        return False # Stop rendering and exit.
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            return False # Stop rendering and exit.
+                        if event.key == pygame.K_UP:
+                            self.hero.direction.y = -1
+                        elif event.key == pygame.K_LEFT:
+                            self.hero.direction.x = -1
+                        elif event.key == pygame.K_DOWN:
+                            self.hero.direction.y = 1
+                        elif event.key == pygame.K_RIGHT:
+                            self.hero.direction.x = 1
+                        elif event.key == pygame.K_SPACE:
+                            self.hero.fire_command = True
+                    if event.type == pygame.KEYUP:
+                        if event.key == pygame.K_UP:
+                            if self.hero.direction.y == -1:
+                                self.hero.direction.y = 0
+                        if event.key == pygame.K_LEFT:
+                            if self.hero.direction.x == -1:
+                                self.hero.direction.x = 0
+                        if event.key == pygame.K_DOWN:
+                            if self.hero.direction.y == 1:
+                                self.hero.direction.y = 0
+                        if event.key == pygame.K_RIGHT:
+                            if self.hero.direction.x == 1:
+                                self.hero.direction.x = 0
+                        if event.key == pygame.K_SPACE:
+                            self.hero.fire_command = False
+                # Continue to render the game.
+                return True
+        return KeyListener()
+
+    def render(self):
+        if self.status == setting.RUNNING:
             self.generate_character()
             for object in self.objects["current"]:
                 object.move()
@@ -118,18 +145,4 @@ class Canvas:
                 for obj in s["trash"]: s["current"].discard(obj)
                 # Reset the newcome and trash set.
                 s["newcome"], s["trash"] = set(), set()
-        else:
-            self.graphics.blit(self.gameover, (0, 0))
-
-        # Draw everything including bullets, planes, supplies, etc.
-        for object in self.planes["current"] | self.objects["current"]:
-            object.display(self.graphics)
-
-        # Draw health point and game score on the screen.
-        font = pygame.font.SysFont(pygame.font.get_default_font(), 36)
-        text_sc = font.render("SCORE:" + str(self.hero.score), 1, (0, 0, 0))
-        text_hp = font.render("HP:" + str(self.hero.health), 1, (0, 0, 0))
-        self.graphics.blit(text_sc, (5, 25))
-        self.graphics.blit(text_hp, (5, 55))
-        pygame.display.update()
-        return rendering
+        self.paint()

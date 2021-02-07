@@ -14,9 +14,11 @@ if __name__ == '__main__':
 
     # The default canvas.
     canvas = Canvas(graphics)
+    key_listerner = canvas.key_event()
     while True:
-        if not canvas.render():
-            break
+        rendering = key_listerner.response()
+        canvas.render()
+        if not rendering: break # Stop rendering and close the window.
     
     # Safely quit the game.
     pygame.quit()
