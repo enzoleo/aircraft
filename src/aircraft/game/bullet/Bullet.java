@@ -49,11 +49,14 @@ public abstract class Bullet {
 
     if (xmin < 0 || xmax > canvas.getWidth() ||
         ymin < 0 || ymax > canvas.getHeight())
-      canvas.trash.add(this);
+      canvas.objects.get("trash").add(this);
   }
 
   // Each object should have a specific move policy.
   public abstract void move();
 
   public abstract void effect(Plane plane);
+
+  // Return the camp of this object.
+  public abstract int camp();
 }

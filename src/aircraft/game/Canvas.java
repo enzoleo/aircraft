@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.Color;
 import java.awt.Font;
 
+import java.lang.Object;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.HashMap;
@@ -36,9 +37,8 @@ public class Canvas extends JPanel {
   // The hash set to store all objects. Each time an object is constructed,
   // it should be added into this set, e.g. the push operation should be
   // called in the base constructor.
-  public HashSet<Object> objects = new HashSet<>();
-  public HashSet<Object> trash = new HashSet<>();
-  public HashSet<Object> newcome = new HashSet<>();
+  public HashMap<String, HashSet<Object> > planes  = new HashMap<>();
+  public HashMap<String, HashSet<Object> > objects = new HashMap<>();
   
   public int bossNum = 0;
 
@@ -110,7 +110,13 @@ public class Canvas extends JPanel {
     this.width = width;
     this.height = height;
     hero = new HeroPlane(this, Setting.heroInitPos.x, Setting.heroInitPos.y);
-    this.objects.add(hero);
+    this.planes.put("newcome", new HashSet<>());
+    this.planes.put("trash", new HashSet<>());
+    this.planes.put("current", new HashSet<>());
+    this.objects.put("newcome", new HashSet<>());
+    this.objects.put("trash", new HashSet<>());
+    this.objects.put("current", new HashSet<>());
+    this.planes.get("current").add(hero);
   }
 
   // Getter of the key listener.
@@ -132,18 +138,18 @@ public class Canvas extends JPanel {
       if (Setting.bernoulli(prob.get("EnemyBoss")) && bossNum < 1) {
         // Generate a boss ship. Note that at most one boss ship can
         // be displayed at a time.
-        newcome.add(new EnemyBoss(this, x, 0));
+        this.planes.get("newcome").add(new EnemyBoss(this, x, 0));
         bossNum++;
       } else
-        newcome.add(new EnemyLightPlane(this, x, 0));
+        this.planes.get("newcome").add(new EnemyLightPlane(this, x, 0));
     }
     if (Setting.bernoulli(p.get("Bomb"))) { // Generate bombs.
       double x = (Math.random() * 0.6 + 0.2) * width;
-      newcome.add(new Bomb(this, x, 0));
+      this.objects.get("newcome").add(new Bomb(this, x, 0));
     }
     if (Setting.bernoulli(p.get("Supply"))) { // Generate supplies.
       double x = (Math.random() * 0.6 + 0.2) * width;
-      newcome.add(new Supply(this, x, 0));
+      this.objects.get("newcome").add(new Supply(this, x, 0));
     }
   }
 
@@ -153,17 +159,17 @@ public class Canvas extends JPanel {
     graphics.drawImage(background, 0, 0, null);
     // The toArray method is applied, instead of iterating the set
     // itself. This is an immediate solution to fix CME.
-    for (Object object : objects.toArray(new Object[0])) {
+    for (Object object : this.objects.get("current").toArray(new Object[0])) {
       if (object instanceof Bullet) {
         ((Bullet)object).display(graphics);
-      } else if (object instanceof Plane) {
-        ((Plane)object).display(graphics);
       } else if (object instanceof Bomb) {
         ((Bomb)object).display(graphics);
       } else if (object instanceof Supply) {
         ((Supply)object).display(graphics);
       }
     }
+    for (Object object : this.planes.get("current").toArray(new Object[0]))
+      ((Plane)object).display(graphics);
 
     // Draw health point and game score on the screen.
     graphics.setColor(new Color(0x000000));
@@ -178,14 +184,10 @@ public class Canvas extends JPanel {
   public void render() {
     if (status == Setting.RUNNING) {
       generateCharacter();
-      for (Object object : objects) {
+      for (Object object : this.objects.get("current")) {
         if (object instanceof Bullet) {
           ((Bullet)object).move();
           ((Bullet)object).boundaryCheck();
-        } else if (object instanceof Plane) {
-          ((Plane)object).move();
-          ((Plane)object).boundaryCheck();
-          ((Plane)object).fire();
         } else if (object instanceof Bomb) {
           ((Bomb)object).move();
           ((Bomb)object).boundaryCheck();
@@ -194,30 +196,41 @@ public class Canvas extends JPanel {
           ((Supply)object).boundaryCheck();
         }
       }
+      for (Object object : this.planes.get("current")) {
+        ((Plane)object).move();
+        ((Plane)object).boundaryCheck();
+        ((Plane)object).fire();
+      }     
 
-      for (Object object : objects) {
-        if (object instanceof Plane) {
-          // Check whether a plane (hero/enemy) is hit by some other
-          // objects like bullets, supplies, barriers, etc.
-          Plane plane = (Plane)object;
-          for (Object npc : objects) {
+      for (Object object : this.planes.get("current")) {
+        // Check whether a plane (hero/enemy) is hit by some other
+        // objects like bullets, supplies, barriers, etc.
+        Plane plane = (Plane)object;
+        for (Object npc : this.objects.get("current")) {
             // If a plane is hit by an npc (bullets/bombs/...), take
             // specific actions. Different planes may react differently.
             if (plane.isHit(npc)) plane.hitBy(npc);
           }
           // The plane is shot down!
           if (plane.getHP() <= 0) plane.explode();
-        }
       }
       // Push all objects that are goind to be displayed in
       // the next frame to the objects set.
-      for (Object object : newcome) objects.add(object);
-      newcome.clear();
+      for (Object plane : this.planes.get("newcome"))
+        planes.get("current").add(plane);
+      this.planes.get("newcome").clear();
+      for (Object object : this.objects.get("newcome"))
+        objects.get("current").add(object);
+      this.objects.get("newcome").clear();
 
       // Remove all objects that are going to be deleted.
       // Then the trash bin will be cleared and reused.
-      for (Object object : trash) objects.remove(object);
-      trash.clear();
+      for (Object plane : this.planes.get("trash"))
+        planes.get("current").remove(plane);
+      this.planes.get("trash").clear();
+      for (Object object : this.objects.get("trash"))
+        objects.get("current").remove(object);
+      this.objects.get("trash").clear();
     }
     repaint();
   }

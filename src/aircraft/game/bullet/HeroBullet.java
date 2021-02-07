@@ -21,4 +21,10 @@ public class HeroBullet extends Bullet {
   public void effect(Plane plane) {
     plane.reduceHP(this.damage);
   }
+
+  // Return the camp of this object.
+  @Override
+  public int camp() {
+    return Setting.HERO;
+  }
 }

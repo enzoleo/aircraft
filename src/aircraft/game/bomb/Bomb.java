@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import aircraft.game.Canvas;
 import aircraft.game.ImageLoader;
+import aircraft.game.Setting;
 import aircraft.game.plane.Plane;
 
 public class Bomb {
@@ -43,7 +44,7 @@ public class Bomb {
 
     if (xmin < 0 || xmax > canvas.getWidth() ||
         ymin < 0 || ymax > canvas.getHeight())
-      canvas.trash.add(this);
+      canvas.objects.get("trash").add(this);
   }
 
   // Each object should have a specific move policy.
@@ -53,5 +54,10 @@ public class Bomb {
 
   public void effect(Plane plane) {
     if (plane.getHP() > 0) plane.clearHP();
+  }
+
+  // Return the camp of this object.
+  public int camp() {
+    return Setting.NEUTRAL;
   }
 }

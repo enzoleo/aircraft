@@ -12,6 +12,11 @@ public class Setting {
   public static final boolean RUNNING = true;
   public static final boolean GAMEOVER = false;
 
+  // Camp constants.
+  public static final int NEUTRAL = 0;
+  public static final int HERO = 1;
+  public static final int ENEMY = 2;
+
   // The initial position of the hero plane. Feel free to edit it.
   public static final Point2D.Double heroInitPos = new Point2D.Double(150, 500);
 

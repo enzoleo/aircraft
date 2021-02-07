@@ -1,6 +1,7 @@
 package aircraft.game.bullet;
 
 import aircraft.game.Canvas;
+import aircraft.game.Setting;
 import aircraft.game.plane.Plane;
 
 public abstract class EnemyBullet extends Bullet {
@@ -16,5 +17,11 @@ public abstract class EnemyBullet extends Bullet {
     // a negative number.
     plane.reduceHP(this.damage);
     if (plane.getHP() < 0) plane.clearHP();
+  }
+
+  // Return the camp of this object.
+  @Override
+  public int camp() {
+    return Setting.ENEMY;
   }
 }

@@ -68,7 +68,7 @@ public class HeroPlane extends Plane {
       double offset = (image.getWidth() - heroBullet.image.getWidth()) / 2;
       heroBullet.location.x = location.x + offset;
       heroBullet.location.y = location.y - heroBullet.image.getHeight();
-      canvas.newcome.add(heroBullet);
+      canvas.objects.get("newcome").add(heroBullet);
       coolDown++;
     }
   }
@@ -76,25 +76,38 @@ public class HeroPlane extends Plane {
   @Override
   public boolean isHit(Object object) {
     double x, y, w, h;
-    if (object instanceof EnemyNormalBullet) {
+    int camp = Setting.NEUTRAL;
+    if (object instanceof HeroBullet) {
+      HeroBullet bullet = (HeroBullet)object;
+      x = bullet.location.x; y = bullet.location.y;
+      w = bullet.image.getWidth(); h = bullet.image.getHeight();
+      camp = bullet.camp();
+    } else if (object instanceof EnemyNormalBullet) {
       EnemyNormalBullet bullet = (EnemyNormalBullet)object;
       x = bullet.location.x; y = bullet.location.y;
       w = bullet.image.getWidth(); h = bullet.image.getHeight();
+      camp = bullet.camp();
     } else if (object instanceof EnemyCannon) {
       EnemyCannon cannon = (EnemyCannon)object;
       x = cannon.location.x; y = cannon.location.y;
       w = cannon.image.getWidth(); h = cannon.image.getHeight();
+      camp = cannon.camp();
     } else if (object instanceof Bomb) {
       Bomb bomb = (Bomb)object;
       x = bomb.location.x; y = bomb.location.y;
       w = bomb.image.getWidth(); h = bomb.image.getHeight();
+      camp = bomb.camp();
     } else if (object instanceof Supply) {
       Supply supply = (Supply)object;
       x = supply.location.x; y = supply.location.y;
       w = supply.image.getWidth(); h = supply.image.getHeight();
-    } else {
-      return false;
-    }
+      camp = supply.camp();
+    } else return false;
+    // Only be effected by hero camps (i.e. hero bullets).
+    // In fact, we do not need to check all types of bullets, Please
+    // compare this method with duck typing and find the conveniences
+    // of it.
+    if (camp == Setting.HERO) return false;
 
     boolean flag1 = // Object (x,y) locates inside the hero plane.
       x > location.x && x < location.x + image.getWidth() &&
@@ -106,24 +119,12 @@ public class HeroPlane extends Plane {
   }
 
   @Override
-  public void hitBy(Object object) {
-    if (object instanceof EnemyNormalBullet) {
-      ((EnemyNormalBullet)object).effect(this);
-      canvas.trash.add(object);
-    } else if (object instanceof EnemyCannon) {
-      ((EnemyCannon)object).effect(this);
-      canvas.trash.add(object);
-    } else if (object instanceof Bomb) {
-      ((Bomb)object).effect(this);
-      canvas.trash.add(object);
-    } else if (object instanceof Supply) {
-      ((Supply)object).effect(this);
-      canvas.trash.add(object);
-    }
+  public void explode() {
+    canvas.status = Setting.GAMEOVER;
   }
 
   @Override
-  public void explode() {
-    canvas.status = Setting.GAMEOVER;
+  public int camp() {
+    return Setting.HERO;
   }
 }

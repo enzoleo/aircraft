@@ -48,7 +48,7 @@ public class EnemyBoss extends EnemyPlane {
       direction.x = -direction.x;
     }
     if (ymin < 0 || ymax > canvas.getHeight()) {
-      canvas.trash.add(this);
+      canvas.planes.get("trash").add(this);
       canvas.bossNum--;  
     }
   }
@@ -62,10 +62,10 @@ public class EnemyBoss extends EnemyPlane {
       enemyCannon.location.y = location.y + image.getHeight();
 
       // Shoot three bullets at a time.
-      canvas.newcome.add(enemyCannon);
-      canvas.newcome.add(new EnemyCannon( // Right direction.
+      canvas.objects.get("newcome").add(enemyCannon);
+      canvas.objects.get("newcome").add(new EnemyCannon( // Right direction.
           canvas, enemyCannon.location.x, enemyCannon.location.y, 0.2));
-      canvas.newcome.add(new EnemyCannon( // Left direction.
+      canvas.objects.get("newcome").add(new EnemyCannon( // Left direction.
           canvas, enemyCannon.location.x, enemyCannon.location.y, -0.2));
       coolDown++;
     }

@@ -7,6 +7,9 @@ import java.awt.image.BufferedImage;
 
 import aircraft.game.Canvas;
 import aircraft.game.ImageLoader;
+import aircraft.game.bullet.*;
+import aircraft.game.bomb.*;
+import aircraft.game.supply.*;
 
 public abstract class Plane {
   // The moving direction of the hero plane. It contains two components which
@@ -69,9 +72,24 @@ public abstract class Plane {
   public abstract boolean isHit(Object object);
 
   // Take specific actions once hit by an object.
-  public abstract void hitBy(Object object);
+  // Note that this method is not abstract!
+  public void hitBy(Object object) {
+    if (object instanceof Bullet) {
+      ((Bullet)object).effect(this);
+      canvas.objects.get("trash").add(object);
+    } else if (object instanceof Bomb) {
+      ((Bomb)object).effect(this);
+      canvas.objects.get("trash").add(object);
+    } else if (object instanceof Supply) {
+      ((Supply)object).effect(this);
+      canvas.objects.get("trash").add(object);
+    }
+  }
 
   // When the health point of the plane attains zero, it automatically
   // explodes. It is only called when health point attains zero.
   public abstract void explode();
+
+  // Return the camp of this plane.
+  public abstract int camp();
 }

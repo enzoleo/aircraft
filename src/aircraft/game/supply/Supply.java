@@ -45,7 +45,7 @@ public class Supply {
 
     if (xmin < 0 || xmax > canvas.getWidth() ||
         ymin < 0 || ymax > canvas.getHeight())
-      canvas.trash.add(this);
+      canvas.objects.get("trash").add(this);
   }
 
   // Each object should have a specific move policy.
@@ -55,5 +55,10 @@ public class Supply {
 
   public void effect(Plane plane) {
     plane.recover(this.recovery);
+  }
+
+  // Return the camp of this object.
+  public int camp() {
+    return Setting.NEUTRAL;
   }
 }

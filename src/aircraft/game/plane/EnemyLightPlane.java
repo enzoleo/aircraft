@@ -42,7 +42,7 @@ public class EnemyLightPlane extends EnemyPlane {
       double offset = (image.getWidth() - enemyBullet.image.getWidth()) / 2;
       enemyBullet.location.x = location.x + offset;
       enemyBullet.location.y = location.y + image.getHeight();
-      canvas.newcome.add(enemyBullet);
+      canvas.objects.get("newcome").add(enemyBullet);
     }
   }
 
