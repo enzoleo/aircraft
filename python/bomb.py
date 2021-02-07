@@ -37,7 +37,7 @@ class Bomb:
         w, h = self.image.get_rect().size
         if self.location.x < 0 or self.location.x + w > self.canvas.width or \
            self.location.y < 0 or self.location.y + h > self.canvas.height:
-            self.canvas.trash.add(self)
+            self.canvas.objects["trash"].add(self)
 
     def move(self):
         """Move the bomb to the next location at the next frame, according to

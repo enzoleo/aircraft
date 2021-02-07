@@ -27,8 +27,9 @@ class Canvas:
 
         # ALSO DO NOT touch these variables. They are used to control what 
         # the pygame will display on the screen.
-        self.newcome, self.trash, self.objects = set(), set(), set()
-        self.objects.add(self.hero)
+        self.planes  = { "newcome": set(), "trash": set(), "current": set() }
+        self.objects = { "newcome": set(), "trash": set(), "current": set() }
+        self.planes["current"].add(self.hero)
 
         # We use this variable to control the number of boss ships. Clearly,
         # you don't want too many boss to appear at the same time... Only one
@@ -50,16 +51,16 @@ class Canvas:
             if scipy.stats.bernoulli.rvs(prob) and self.boss_num < 1:
                 # Generate a boss ship. Note that at most one boss ship can
                 # be displayed at a time.
-                self.newcome.add(EnemyBoss(self, x, 0))
+                self.planes["newcome"].add(EnemyBoss(self, x, 0))
                 self.boss_num += 1
             else:
-                self.newcome.add(EnemyLightPlane(self, x, 0))
+                self.planes["newcome"].add(EnemyLightPlane(self, x, 0))
         if scipy.stats.bernoulli.rvs(p["Bomb"]): # Generate bombs.
             x = scipy.stats.uniform.rvs(0.2, 0.6) * self.width
-            self.newcome.add(Bomb(self, x, 0))
+            self.objects["newcome"].add(Bomb(self, x, 0))
         if scipy.stats.bernoulli.rvs(p["Supply"]): # Generate supplies.
             x = scipy.stats.uniform.rvs(0.2, 0.6) * self.width
-            self.newcome.add(Supply(self, x, 0))
+            self.objects["newcome"].add(Supply(self, x, 0))
 
     def render(self):
         rendering = True
@@ -94,35 +95,34 @@ class Canvas:
         self.graphics.blit(self.background, (0, 0))        
         if self.status:
             self.generate_character()
-            for object in self.objects:
+            for object in self.objects["current"]:
                 object.move()
                 object.boundary_check()
-                if isinstance(object, Plane):
-                    object.fire()
+            for object in self.planes["current"]:
+                object.move()
+                object.boundary_check()
+                object.fire()
 
-            for object in self.objects:
-                if isinstance(object, Plane):
-                    # Check whether a plane (self.hero/enemy) is hit by some other
-                    # objects like bullets, supplies, barriers, etc.
-                    for npc in self.objects:
-                        # If a plane is hit by an npc (bullets/bombs/...), take
-                        # specific actions. Different planes may react differently.
-                        if object.is_hit(npc): object.hit_by(npc)
-                    # The plane is shot down!
-                    if object.health <= 0: object.explode()
+            for plane in self.planes["current"]:
+                # Check whether a plane (self.hero/enemy) is hit by some other
+                # objects like bullets, supplies, barriers, etc.
+                for obj in self.objects["current"]:
+                    # If a plane is hit by an npc (bullets/bombs/...), take
+                    # specific actions. Different planes may react differently.
+                    if plane.is_hit(obj): plane.hit_by(obj)
+                # The plane is shot down!
+                if plane.health <= 0: plane.explode()
 
-            for object in self.newcome:
-                self.objects.add(object)
-            self.newcome = set() # Reset the newcome list.
-
-            for object in self.trash:
-                self.objects.discard(object)
-            self.trash = set() # Reset the newcome list.
+            for s in [self.planes, self.objects]:
+                for obj in s["newcome"]: s["current"].add(obj)
+                for obj in s["trash"]: s["current"].discard(obj)
+                # Reset the newcome and trash set.
+                s["newcome"], s["trash"] = set(), set()
         else:
             self.graphics.blit(self.gameover, (0, 0))
 
         # Draw everything including bullets, planes, supplies, etc.
-        for object in self.objects:
+        for object in self.planes["current"] | self.objects["current"]:
             object.display(self.graphics)
 
         # Draw health point and game score on the screen.

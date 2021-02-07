@@ -108,7 +108,7 @@ class HeroPlane(Plane):
             # Update the real location of the bullet.
             hero_bullet.location.x = self.location.x + (width - w) * 0.5
             hero_bullet.location.y = self.location.y - h
-            self.canvas.newcome.add(hero_bullet)
+            self.canvas.objects["newcome"].add(hero_bullet)
 
             # Once the plane fires, it should be pushed into cool down stage,
             # which means that only a specific number of frames have been drawn
@@ -120,7 +120,6 @@ class HeroPlane(Plane):
         the hero plane can be hit by any other characters except planes.
         """
         # The hero plane will be effected by any kinds of objects excepts planes.
-        if isinstance(obj, Plane): return False
         x, y = obj.location.cartesian()
         w, h = obj.image.get_rect().size
         width, height = self.image.get_rect().size
@@ -138,9 +137,8 @@ class HeroPlane(Plane):
         increasing or decreasing health point, etc.
         """
         # The hero plane will be effected by any kinds of objects excepts planes.
-        if isinstance(obj, Plane): return False
         obj.effect(self)
-        self.canvas.trash.add(obj)
+        self.canvas.objects["trash"].add(obj)
 
     def explode(self):
         """The plane explode when health point attains zero.
@@ -181,7 +179,7 @@ class EnemyPlane(Plane):
             self.location.x = self.canvas.width - w
             self.direction.x = -self.direction.x
         if self.location.y < 0 or self.location.y > self.canvas.height - h:
-            self.canvas.trash.add(self)
+            self.canvas.planes["trash"].add(self)
     
     @abstractmethod
     def move(self): pass
@@ -212,14 +210,13 @@ class EnemyPlane(Plane):
         increasing or decreasing health point, etc.
         """
         # Enemy planes will be only effected by hero bullets.
-        if not isinstance(obj, HeroBullet): return False
         obj.effect(self)
-        self.canvas.trash.add(obj)
+        self.canvas.objects["trash"].add(obj)
 
     def explode(self):
         """The plane explode when health point attains zero.
         """
-        self.canvas.trash.add(self)
+        self.canvas.planes["trash"].add(self)
 
 class EnemyLightPlane(EnemyPlane):
     def __init__(self, canvas, x, y):
@@ -268,7 +265,7 @@ class EnemyLightPlane(EnemyPlane):
              # Update the real location of the bullet.
             bullet.location.x = self.location.x + (width - w) * 0.5
             bullet.location.y = self.location.y + height
-            self.canvas.newcome.add(bullet)
+            self.canvas.objects["newcome"].add(bullet)
 
     def explode(self):
         """The plane explode when health point attains zero.
@@ -316,7 +313,7 @@ class EnemyBoss(EnemyPlane):
             self.location.x = self.canvas.width - w
             self.direction.x = -self.direction.x
         if self.location.y < 0 or self.location.y + h > self.canvas.height:
-            self.canvas.trash.add(self)
+            self.canvas.planes["trash"].add(self)
             self.canvas.boss_num -= 1
     
     def move(self):
@@ -339,10 +336,10 @@ class EnemyBoss(EnemyPlane):
             cannon.location.y = self.location.y + height
 
             # Shoot three bullets at a time.
-            self.canvas.newcome.add(cannon)
-            self.canvas.newcome.add( # Right direction.
+            self.canvas.objects["newcome"].add(cannon)
+            self.canvas.objects["newcome"].add( # Right direction.
                 EnemyCannon(self.canvas, cannon.location.x, cannon.location.y, 0.2))
-            self.canvas.newcome.add( # Left direction.
+            self.canvas.objects["newcome"].add( # Left direction.
                 EnemyCannon(self.canvas, cannon.location.x, cannon.location.y, -0.2))
 
             # Once the boss fires, it should be pushed into cool down stage,
