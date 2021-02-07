@@ -20,7 +20,7 @@ class Supply:
 
         self.location = Point2D(x, y)
         self.speed = setting.speed["Supply"] # The speed of the flying object.
-        self.__recovery = setting.recovery["Supply"]
+        self._recovery = setting.recovery["Supply"]
 
     def display(self, graphics):
         """Display image on the screen.
@@ -47,4 +47,9 @@ class Supply:
         self.location.y += self.speed
 
     def effect(self, plane):
-        plane.health += self.__recovery
+        plane.health += self._recovery
+
+    def camp(self):
+        """Return the camp of this object.
+        """
+        return setting.NEUTRAL

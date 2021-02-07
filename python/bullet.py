@@ -49,6 +49,9 @@ class Bullet(ABC):
     @abstractmethod
     def effect(self, plane): pass
 
+    @abstractmethod
+    def camp(self): pass
+
 class HeroBullet(Bullet):
     def __init__(self, canvas, x, y):
         """Initialize the bullet.
@@ -73,6 +76,11 @@ class HeroBullet(Bullet):
         """
         plane.health -= self.damage
 
+    def camp(self):
+        """Return the camp of this object.
+        """
+        return setting.HERO
+
 class EnemyBullet(Bullet):
     def __init__(self, path, canvas, x, y, damage, speed):
         """Initialize the bullet.
@@ -87,6 +95,11 @@ class EnemyBullet(Bullet):
         """
         # Exactly follow the super class constructor.
         super().__init__(path, canvas, x, y, damage, speed)
+
+    def camp(self):
+        """Return the camp of this object.
+        """
+        return setting.ENEMY
 
 class EnemyNormalBullet(EnemyBullet):
     def __init__(self, canvas, x, y):
@@ -126,13 +139,13 @@ class EnemyCannon(EnemyBullet):
         damage = setting.damage["EnemyCannon"]
         speed = setting.speed["EnemyCannon"]
         super().__init__("enemy_cannon.png", canvas, x, y, damage, speed)
-        self.__alpha = alpha
+        self._alpha = alpha
 
     def move(self):
         """Move the bullet to the next location at the next frame, according to
         the current speed and direction.
         """
-        self.location.x += self.speed * self.__alpha
+        self.location.x += self.speed * self._alpha
         self.location.y += self.speed
 
     def effect(self, plane):

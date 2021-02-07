@@ -54,6 +54,9 @@ class Plane(ABC):
     @abstractmethod
     def explode(self): pass
 
+    @abstractmethod
+    def camp(self): pass
+
 class HeroPlane(Plane):
     def __init__(self, canvas, x, y):
         """Initialize the hero plane.
@@ -66,17 +69,30 @@ class HeroPlane(Plane):
         health = setting.health["HeroPlane"]
         speed = setting.speed["HeroPlane"]
         super().__init__("hero_plane.png", canvas, x, y, health, speed)
-        self.__cool_down = 0
-        self.fire_command = False
-        self.score = 0
-        self.cool_down_time = setting.cool_down_time["HeroPlane"]
+        self._cool_down = 0
+        self._fire_command = False
+        self._score = 0
+        self._cool_down_time = setting.cool_down_time["HeroPlane"]
+    
+    @property
+    def score(self): return self._score
+
+    @property
+    def fire_command(self): return self._fire_command
+    @fire_command.setter
+    def fire_command(self, value): self._fire_command = value
+    
+    def add_score(self, bonus):
+        """Add bonus to the total score of the hero.
+        """
+        self._score += bonus
     
     def display(self, graphics):
         """Display image on the screen.
         """
         super().display(graphics)
-        if self.__cool_down > 0: # Update cool down time.
-            self.__cool_down = (self.__cool_down + 1) % self.cool_down_time
+        if self._cool_down > 0: # Update cool down time.
+            self._cool_down = (self._cool_down + 1) % self._cool_down_time
     
     def boundary_check(self):
         """Check whether the hero plane moves out of window.
@@ -99,7 +115,7 @@ class HeroPlane(Plane):
     def fire(self):
         """Fire some bullets to your enemies.
         """
-        if self.fire_command and self.__cool_down == 0:
+        if self._fire_command and self._cool_down == 0:
             # Initialize the bullet first to obtain its image size.
             hero_bullet = HeroBullet(self.canvas, 0, 0)
             w, h = hero_bullet.image.get_rect().size # The image size of bullet.
@@ -113,13 +129,14 @@ class HeroPlane(Plane):
             # Once the plane fires, it should be pushed into cool down stage,
             # which means that only a specific number of frames have been drawn
             # can this plane fire again.
-            self.__cool_down += 1
+            self._cool_down += 1
 
     def is_hit(self, obj):
         """Check whether the current plane is hit by other objects. Specifically,
         the hero plane can be hit by any other characters except planes.
         """
         # The hero plane will be effected by any kinds of objects excepts planes.
+        if obj.camp() == setting.HERO: return False
         x, y = obj.location.cartesian()
         w, h = obj.image.get_rect().size
         width, height = self.image.get_rect().size
@@ -144,6 +161,11 @@ class HeroPlane(Plane):
         """The plane explode when health point attains zero.
         """
         self.canvas.status = False
+
+    def camp(self):
+        """Return the camp of this plane.
+        """
+        return setting.HERO
 
 class EnemyPlane(Plane):
     def __init__(self, path, canvas, x, y, health, speed, bonus):
@@ -192,7 +214,7 @@ class EnemyPlane(Plane):
         enemy planes will be only effected by hero bullets. All other characters
         like supplies, bombs, etc. have no effect on enemy planes.
         """
-        if not isinstance(obj, HeroBullet): return False
+        if obj.camp() != setting.HERO: return False
         x, y = obj.location.cartesian()
         w, h = obj.image.get_rect().size
         width, height = self.image.get_rect().size
@@ -217,6 +239,11 @@ class EnemyPlane(Plane):
         """The plane explode when health point attains zero.
         """
         self.canvas.planes["trash"].add(self)
+
+    def camp(self):
+        """Return the camp of this plane.
+        """
+        return setting.ENEMY
 
 class EnemyLightPlane(EnemyPlane):
     def __init__(self, canvas, x, y):
@@ -271,7 +298,7 @@ class EnemyLightPlane(EnemyPlane):
         """The plane explode when health point attains zero.
         """
         super().explode()
-        self.canvas.hero.score += self.bonus
+        self.canvas.hero.add_score(self.bonus)
 
 class EnemyBoss(EnemyPlane):
     def __init__(self, canvas, x, y):
@@ -286,16 +313,16 @@ class EnemyBoss(EnemyPlane):
         speed = setting.speed["EnemyBoss"]
         super().__init__("enemy_boss.png", canvas, x, y, health, speed,
                          setting.bonus["EnemyBoss"])
-        self.__cool_down = 0
-        self.cool_down_time = setting.cool_down_time["EnemyBoss"]
+        self._cool_down = 0
+        self._cool_down_time = setting.cool_down_time["EnemyBoss"]
         self.direction.y = 0
 
     def display(self, graphics):
         """Display image on the screen.
         """
         super().display(graphics)
-        if self.__cool_down > 0: # Update cool down time.
-            self.__cool_down = (self.__cool_down + 1) % self.cool_down_time
+        if self._cool_down > 0: # Update cool down time.
+            self._cool_down = (self._cool_down + 1) % self._cool_down_time
     
     def boundary_check(self):
         """Check whether the enemy boss moves out of window.
@@ -325,7 +352,7 @@ class EnemyBoss(EnemyPlane):
     def fire(self):
         """Fire some bullets to your enemies.
         """
-        if self.__cool_down == 0:
+        if self._cool_down == 0:
             # Initialize the cannon first to obtain its image size.
             cannon = EnemyCannon(self.canvas, 0, 0)
             w, _ = cannon.image.get_rect().size # The image size of cannon.
@@ -345,11 +372,11 @@ class EnemyBoss(EnemyPlane):
             # Once the boss fires, it should be pushed into cool down stage,
             # which means that only a specific number of frames have been drawn
             # can this boss fire again.
-            self.__cool_down += 1
+            self._cool_down += 1
 
     def explode(self):
         """The plane explode when health point attains zero.
         """
         super().explode()
-        self.canvas.hero.score += self.bonus
+        self.canvas.hero.add_score(self.bonus)
         self.canvas.boss_num -= 1

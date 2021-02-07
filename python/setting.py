@@ -9,6 +9,9 @@ width, height = 400, 654
 # Default game status.
 RUNNING, GAMEOVER = True, False
 
+# The camp constants.
+NEUTRAL, HERO, ENEMY = 0, 1, 2
+
 # The initial position of the hero plane. Feel free to edit it.
 hero_init_pos = (150, 500)
 

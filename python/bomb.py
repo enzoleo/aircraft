@@ -49,3 +49,8 @@ class Bomb:
         """A bomb make the plane explode directly.
         """
         if plane.health > 0: plane.health = 0
+    
+    def camp(self):
+        """Return the camp of this object.
+        """
+        return setting.NEUTRAL
