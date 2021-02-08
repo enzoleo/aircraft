@@ -7,12 +7,11 @@ Before running the game from the provided source files, you should quickly setup
 
 ### Java
 
-The source files can be compiled on `Ubuntu 20.04` system. For other operating systems, we do not have a check in detail but it should still work fine in a correct environment.
+The source files can be compiled on `Ubuntu 20.04` system. Some other versions may also suitable. For other operating systems, we do not have a check in detail but it should still work fine in a correct environment.
 
 ```shell
 sudo apt-get update
 sudo apt-get install openjdk-14-jdk
-sudo apt-get install openjdk-14-jre
 ```
 
 After executing this command in terminal, you should have already installed `OpenJDK` and `OpenJRE` correctly. Check the `java` version by `java -version` and you will get the following output if everything goes fine:
