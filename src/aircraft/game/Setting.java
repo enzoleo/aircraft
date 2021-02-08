@@ -20,6 +20,19 @@ public class Setting {
   // The initial position of the hero plane. Feel free to edit it.
   public static final Point2D.Double heroInitPos = new Point2D.Double(150, 500);
 
+  // The image filenames.
+  public static final HashMap<String, String> images = new HashMap<>();
+  static {
+    images.put("HeroPlane", "hero_plane.png");
+    images.put("EnemyLightPlane", "enemy_light_plane.png");
+    images.put("EnemyBoss", "enemy_boss.png");
+    images.put("HeroBullet", "hero_bullet.png");
+    images.put("EnemyNormalBullet", "enemy_normal_bullet.png");
+    images.put("EnemyCannon", "enemy_cannon.png");
+    images.put("Bomb", "bomb.png");
+    images.put("Supply", "supply.gif"); 
+ }
+
   // Probabilities when generating characters at the beginning of every
   // frame. Feel free to modify them.
   public static final HashMap<String, Double> prob = new HashMap<>();

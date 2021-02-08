@@ -22,7 +22,7 @@ public class HeroPlane extends Plane {
   // Constructor.
   public HeroPlane(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
-    super("hero_plane.png", canvas, x, y,
+    super(Setting.images.get("HeroPlane"), canvas, x, y,
           Setting.health.get("HeroPlane"), Setting.speed.get("HeroPlane"));
   }
 

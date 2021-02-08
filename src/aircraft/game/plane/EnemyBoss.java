@@ -15,7 +15,7 @@ public class EnemyBoss extends EnemyPlane {
   // Constructor.
   public EnemyBoss(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
-    super("enemy_boss.png", canvas, x, y,
+    super(Setting.images.get("EnemyBoss"), canvas, x, y,
           Setting.health.get("EnemyBoss"), Setting.speed.get("EnemyBoss"),
           Setting.bonus.get("EnemyBoss"));
     this.direction.y = 0; // The boss only moves horizontally from our view.

@@ -12,7 +12,7 @@ public class EnemyCannon extends EnemyBullet {
 
   // Constructor.
   public EnemyCannon(Canvas canvas, double x, double y, double alpha) {
-    super("enemy_cannon.png", canvas, x, y,
+    super(Setting.images.get("EnemyCannon"), canvas, x, y,
           Setting.damage.get("EnemyCannon"),
           Setting.speed.get("EnemyCannon"));
     this.alpha = alpha;

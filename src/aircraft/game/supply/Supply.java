@@ -21,7 +21,7 @@ public class Supply {
   public Supply(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
     this.canvas = canvas;
-    image = ImageLoader.readImg("supply.gif");
+    image = ImageLoader.readImg(Setting.images.get("Supply"));
     if (image.getWidth()  >= canvas.getWidth() ||
         image.getHeight() >= canvas.getHeight())
       throw new RuntimeException("The size of image is invalid");

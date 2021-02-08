@@ -8,7 +8,7 @@ public class EnemyLightPlane extends EnemyPlane {
   // Constructor.
   public EnemyLightPlane(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
-    super("enemy_light_plane.png", canvas, x, y,
+    super(Setting.images.get("EnemyLightPlane"), canvas, x, y,
           Setting.health.get("EnemyLightPlane"),
           Setting.speed.get("EnemyLightPlane"),
           Setting.bonus.get("EnemyLightPlane"));

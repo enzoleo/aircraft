@@ -13,7 +13,7 @@ class Bomb:
         """
         # Read image and check its size.
         self.canvas = canvas
-        self.image = imgloader.load("bomb.png")
+        self.image = imgloader.load(setting.images["Bomb"])
         w, h = self.image.get_rect().size
         if w >= self.canvas.width or h >= self.canvas.height:
             raise ValueError("The size of image is invalid")

@@ -15,6 +15,18 @@ NEUTRAL, HERO, ENEMY = 0, 1, 2
 # The initial position of the hero plane. Feel free to edit it.
 hero_init_pos = (150, 500)
 
+# Image filenames
+images = {
+    "HeroPlane": "hero_plane.png",
+    "EnemyLightPlane": "enemy_light_plane.png",
+    "EnemyBoss": "enemy_boss.png",
+    "HeroBullet": "hero_bullet.png",
+    "EnemyNormalBullet": "enemy_normal_bullet.png",
+    "EnemyCannon": "enemy_cannon.png",
+    "Bomb": "bomb.png",
+    "Supply": "supply.gif" 
+}
+
 # Probabilities when generating characters at the beginning of every
 # frame. Feel free to modify them.
 prob = {

@@ -13,7 +13,7 @@ class Supply:
         """
         # Read image and check its size.
         self.canvas = canvas
-        self.image = imgloader.load("supply.gif")
+        self.image = imgloader.load(setting.images["Supply"])
         w, h = self.image.get_rect().size
         if w >= self.canvas.width or h >= self.canvas.height:
             raise ValueError("The size of image is invalid")

@@ -63,7 +63,7 @@ class HeroBullet(Bullet):
         """
         damage = setting.damage["HeroBullet"]
         speed = setting.speed["HeroBullet"]
-        super().__init__("hero_bullet.png", canvas, x, y, damage, speed)
+        super().__init__(setting.images["HeroBullet"], canvas, x, y, damage, speed)
     
     def move(self):
         """Move the bullet to the next location at the next frame, according to
@@ -112,7 +112,7 @@ class EnemyNormalBullet(EnemyBullet):
         """
         damage = setting.damage["EnemyNormalBullet"]
         speed = setting.speed["EnemyNormalBullet"]
-        super().__init__("enemy_normal_bullet.png", canvas, x, y, damage, speed)
+        super().__init__(setting.images["EnemyNormalBullet"], canvas, x, y, damage, speed)
 
     def move(self):
         """Move the bullet to the next location at the next frame, according to
@@ -138,7 +138,7 @@ class EnemyCannon(EnemyBullet):
         """
         damage = setting.damage["EnemyCannon"]
         speed = setting.speed["EnemyCannon"]
-        super().__init__("enemy_cannon.png", canvas, x, y, damage, speed)
+        super().__init__(setting.images["EnemyCannon"], canvas, x, y, damage, speed)
         self._alpha = alpha
 
     def move(self):

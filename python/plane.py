@@ -73,7 +73,7 @@ class HeroPlane(Plane):
         """
         health = setting.health["HeroPlane"]
         speed = setting.speed["HeroPlane"]
-        super().__init__("hero_plane.png", canvas, x, y, health, speed)
+        super().__init__(setting.images["HeroPlane"], canvas, x, y, health, speed)
         self._cool_down = 0
         self._fire_command = False
         self._score = 0
@@ -244,7 +244,7 @@ class EnemyLightPlane(EnemyPlane):
         """
         health = setting.health["EnemyLightPlane"]
         speed = setting.speed["EnemyLightPlane"]
-        super().__init__("enemy_light_plane.png", canvas, x, y,
+        super().__init__(setting.images["EnemyLightPlane"], canvas, x, y,
                          health, speed, setting.bonus["EnemyLightPlane"])
         self.direction.y = 1
 
@@ -300,7 +300,7 @@ class EnemyBoss(EnemyPlane):
         """
         health = setting.health["EnemyBoss"]
         speed = setting.speed["EnemyBoss"]
-        super().__init__("enemy_boss.png", canvas, x, y, health, speed,
+        super().__init__(setting.images["EnemyBoss"], canvas, x, y, health, speed,
                          setting.bonus["EnemyBoss"])
         self._cool_down = 0
         self._cool_down_time = setting.cool_down_time["EnemyBoss"]

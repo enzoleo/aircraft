@@ -7,7 +7,7 @@ import aircraft.game.Setting;
 public class HeroBullet extends Bullet {
   // Constructor.
   public HeroBullet(Canvas canvas, double x, double y) {
-    super("hero_bullet.png", canvas, x, y,
+    super(Setting.images.get("HeroBullet"), canvas, x, y,
           Setting.damage.get("HeroBullet"),
           Setting.speed.get("HeroBullet"));
   }

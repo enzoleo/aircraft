@@ -7,7 +7,7 @@ import aircraft.game.Setting;
 public class EnemyNormalBullet extends EnemyBullet {
   // Constructor.
   public EnemyNormalBullet(Canvas canvas, double x, double y) {
-    super("enemy_normal_bullet.png", canvas, x, y,
+    super(Setting.images.get("EnemyNormalBullet"), canvas, x, y,
           Setting.damage.get("EnemyNormalBullet"),
           Setting.speed.get("EnemyNormalBullet"));
   }
