@@ -6,6 +6,9 @@
 # Default window size.
 width, height = 400, 654
 
+# Max frame per second.
+fps = 120
+
 # Default game status.
 RUNNING, GAMEOVER = True, False
 
@@ -24,7 +27,7 @@ images = {
     "EnemyNormalBullet": "enemy_normal_bullet.png",
     "EnemyCannon": "enemy_cannon.png",
     "Bomb": "bomb.png",
-    "Supply": "supply.gif" 
+    "Supply": "supply.png" 
 }
 
 # Probabilities when generating characters at the beginning of every

@@ -7,7 +7,8 @@ class ImgLoader:
         self.dir = path
 
     def load(self, path):
-        return pygame.image.load(self.dir + "/" + path)
+        img = pygame.image.load(self.dir + "/" + path)
+        return pygame.transform.scale(img, img.get_rect().size)
 
 # DO NOT change the default path!
 # The variable is global in the current python file. All image sources
