@@ -47,6 +47,8 @@ Then simply execute `make` in your terminal and everything will be built automat
 
 The `python` packages you require
 
-- `scipy.stats`.
-- `pagame`.
-- `point2d`.
+- [`scipy.stats`](https://pypi.org/project/scipy/). This library is an open-source software for science. We only require its `stat` module for generation of random boolean values according to a Bernoulli distribution. You can install this module via `pip` by executing command `pip3 install scipy`.
+- [`pygame`](https://pypi.org/project/pygame/). This module is an open-source library to develop multimedia applications. We import this module to render the graphic user interface of the game. You can install this module via `pip` by executing command `pip3 install pygame`.
+- [`point2d`](https://pypi.org/project/point2d/). The module mainly contains a class named `Point2d` that describes Cartesian coordinates of two-dimensional points. Please refer to [PyPI](https://pypi.org/project/point2d/) for more details. You can install this module via `pip` by executing command `pip3 install point2d`.
+
+Once you have installed all the required packages, simply go into `python` directory and execute `python aircraft.py` to start the game.
