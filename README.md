@@ -1,4 +1,7 @@
-# Aircraft War 
+# Aircraft War
+![Java](https://img.shields.io/badge/Java-OpenJDK-orange.svg?style=flat-square&logo=java)
+![Python](https://img.shields.io/badge/Python-3-blue.svg?style=flat-square&logo=python)
+
 Quick implementation of a simplified aircraft war game with a graphics user interface. This simple game is implemented in `Java` and `python`.
 
 ## Quick Setup
