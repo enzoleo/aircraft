@@ -30,7 +30,7 @@ public class Setting {
     images.put("EnemyNormalBullet", "enemy_normal_bullet.png");
     images.put("EnemyCannon", "enemy_cannon.png");
     images.put("Bomb", "bomb.png");
-    images.put("Supply", "supply.gif"); 
+    images.put("Supply", "supply.png"); 
  }
 
   // Probabilities when generating characters at the beginning of every
