@@ -17,7 +17,7 @@ sudo apt-get update
 sudo apt-get install openjdk-14-jdk
 ```
 
-After executing this command in terminal, you should have already installed `OpenJDK` and `OpenJRE` correctly. Check the `java` version by `java -version` and you will get the following output if everything goes fine:
+After executing this command in terminal, you should have already installed `OpenJDK` correctly. Check the `java` version by `java -version` and you will get the following output if everything goes fine:
 
 ```reStructuredText
 openjdk version "14.0.2" 2020-07-14
@@ -25,25 +25,7 @@ OpenJDK Runtime Environment (build 14.0.2+12-Ubuntu-120.04)
 OpenJDK 64-Bit Server VM (build 14.0.2+12-Ubuntu-120.04, mixed mode, sharing)
 ```
 
-Now you can use `javac` to compile the project. On `Ubuntu`, go to the root directory of this project and execute
-
-```shell
-javac -cp ./src src/aircraft/game/AircraftWar.java -d ./class
-```
-
-If everything goes fine, you can find a new directory `class` preserving the same structure as  `src`, but containing `.class` files after compilation. Execute the following command to run the game!
-
-```shell
-java -cp ./class aircraft.game.AircraftWar
-```
-
-If you are not satisfied with the complex and boring command line, an `Makefile` is provided to you. On `Ubuntu`, you need to install some useful tools first, by
-
-```shell
-sudo apt-get install build-essential
-```
-
-Then simply execute `make` in your terminal and everything will be built automatically. To start the game, execute `make run` command in your terminal. Quite easy!
+Simply execute `make` in your terminal and everything will be built automatically. To start the game, execute `make run` command in your terminal. Quite easy!
 
 ### Python
 
