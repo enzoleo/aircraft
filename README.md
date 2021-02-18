@@ -8,6 +8,25 @@ Quick implementation of a simplified aircraft war game with a graphics user inte
 
 Before running the game from the provided source files, you should quickly setup the environment, especially for the `java` implementation.
 
+### C++
+
+The `SDL2` package is used to build the graphical user interface. On any `Ubuntu` machine, install the development package of `SDL2` using the command
+
+```shell
+sudo apt-get install libsdl2-dev
+```
+
+Now make a `build` directory and follow the routine.
+
+```shell
+mkdir build
+cd build
+cmake ..
+make
+```
+
+The binaries will be generated in the `build` directory.
+
 ### Java
 
 The source files can be compiled on `Ubuntu 20.04` system. Some other versions may also suitable. For other operating systems, we do not have a check in detail but it should still work fine in a correct environment.
