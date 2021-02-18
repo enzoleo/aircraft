@@ -1,4 +1,5 @@
 # Aircraft War
+![C++ Version](https://img.shields.io/badge/C++-17-pink.svg?style=flat-square&logo=c%2B%2B)
 ![Java](https://img.shields.io/badge/Java-OpenJDK-orange.svg?style=flat-square&logo=java)
 ![Python](https://img.shields.io/badge/Python-3-blue.svg?style=flat-square&logo=python)
 
@@ -16,16 +17,7 @@ The `SDL2` package is used to build the graphical user interface. On any `Ubuntu
 sudo apt-get install libsdl2-dev
 ```
 
-Now make a `build` directory and follow the routine.
-
-```shell
-mkdir build
-cd build
-cmake ..
-make
-```
-
-The binaries will be generated in the `build` directory.
+Now make a `build` directory and follow the `CMake` routine, then the binaries will be generated in the `build` directory. Or, you can directly execute `make` command under the project root directory, and then binaries will be generated in the `.build` directory (so that we can distinguish it from the one you make when working with `CMake`) automatically if everything goes fine.
 
 ### Java
 
@@ -44,7 +36,7 @@ OpenJDK Runtime Environment (build 14.0.2+12-Ubuntu-120.04)
 OpenJDK 64-Bit Server VM (build 14.0.2+12-Ubuntu-120.04, mixed mode, sharing)
 ```
 
-Simply execute `make` in your terminal and everything will be built automatically. To start the game, execute `make run` command in your terminal. Quite easy!
+Simply execute `make java` in your terminal and everything will be built automatically. To start the game, execute `make run` command in your terminal. Quite easy!
 
 ### Python
 
