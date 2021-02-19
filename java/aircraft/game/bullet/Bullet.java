@@ -10,15 +10,22 @@ import aircraft.game.plane.Plane;
 
 public abstract class Bullet {
   protected final Canvas canvas;
-  public BufferedImage image;
+  protected BufferedImage image;
 
   // The current position.
-  public Point2D.Double location = new Point2D.Double();
-  protected double speed = 0; // The speed of the flying object.
+  protected Point2D.Double location = new Point2D.Double();
+  protected double speed; // The speed of the flying object.
+
+  // Getters/setters of location and image.
+  public BufferedImage getImage() { return image; }
+  public Point2D.Double getLocation() { return location; }
+  public void setLocation(double x, double y) {
+    location.x = x; location.y = y;
+  }
 
   // Each kind of bullet must have a damage power.
   // Of course different kind of bullets have different damage powers.
-  protected int damage = 1;
+  protected int damage;
   protected Bullet(String img, Canvas canvas, double x, double y,
                    int damage, double speed) {
     // Load the plane from the image directory.

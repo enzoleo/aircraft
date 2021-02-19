@@ -86,3 +86,9 @@ cool_down_time = {
     "HeroPlane": 15,
     "EnemyBoss": 60
 }
+
+# Enemy light planes do not have cool down time. They fire with respect to
+# a specific probability
+fire_prob = {
+    "EnemyLightPlane": 0.01
+}

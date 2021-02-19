@@ -57,16 +57,15 @@ public class EnemyBoss extends EnemyPlane {
   public void fire() {
     if (coolDown == 0) {
       EnemyCannon enemyCannon = new EnemyCannon(canvas, 0, 0, 0);
-      double offset = (image.getWidth() - enemyCannon.image.getWidth()) / 2;
-      enemyCannon.location.x = location.x + offset;
-      enemyCannon.location.y = location.y + image.getHeight();
+      double offset = (image.getWidth() - enemyCannon.getImage().getWidth()) / 2;
+      enemyCannon.setLocation(location.x + offset, location.y + image.getHeight());
 
       // Shoot three bullets at a time.
       canvas.objects.get("newcome").add(enemyCannon);
       canvas.objects.get("newcome").add(new EnemyCannon( // Right direction.
-          canvas, enemyCannon.location.x, enemyCannon.location.y, 0.2));
+          canvas, enemyCannon.getLocation().x, enemyCannon.getLocation().y, 0.2));
       canvas.objects.get("newcome").add(new EnemyCannon( // Left direction.
-          canvas, enemyCannon.location.x, enemyCannon.location.y, -0.2));
+          canvas, enemyCannon.getLocation().x, enemyCannon.getLocation().y, -0.2));
       coolDown++;
     }
   }

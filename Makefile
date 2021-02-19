@@ -49,7 +49,7 @@ classes: $(CLASSES:.java=.class)
 	@mkdir -p $(AIRCRAFT_JAVA_BINARY_DIR);
 	$(JC) $(JFLAGS) -cp $(AIRCRAFT_JAVA_CLASS_PATH) $(CLASSES) -d $(AIRCRAFT_JAVA_BINARY_DIR)
 
-run:
+run-java:
 	$(JAVA) -cp $(AIRCRAFT_JAVA_BINARY_DIR) aircraft.game.AircraftWar
 
 clean:

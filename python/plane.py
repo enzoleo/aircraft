@@ -272,7 +272,7 @@ class EnemyLightPlane(EnemyPlane):
     def fire(self):
         """Fire some bullets to your enemies.
         """
-        if scipy.stats.bernoulli.rvs(0.01):
+        if scipy.stats.bernoulli.rvs(setting.fire_prob["EnemyLightPlane"]):
             # Initialize the bullet first to obtain its image size.
             bullet = EnemyNormalBullet(self.canvas, 0, 0)
             w, _ = bullet.image.get_rect().size

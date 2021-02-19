@@ -55,24 +55,20 @@ public class Canvas extends JPanel {
       if (!pressed.isEmpty()) {
         for (Iterator<Integer> it = pressed.iterator(); it.hasNext();) {
           switch (it.next()) {
-            // Press 'W' or 'UP' buttons, the vertical direction will be -1,
+            // Press 'UP' buttons, the vertical direction will be -1,
             // which means that your hero plane is moving up.
-            case KeyEvent.VK_W:
             case KeyEvent.VK_UP:
               hero.direction.y = -1; break;
-              // Press 'A' or 'LEFT' buttons, the horizontal direction will be -1,
-              // which means that your hero plane is moving to the left.
-            case KeyEvent.VK_A:
+            // Press 'LEFT' buttons, the horizontal direction will be -1,
+            // which means that your hero plane is moving to the left.
             case KeyEvent.VK_LEFT:
               hero.direction.x = -1; break;
-              // Press 'S' or 'DOWN' buttons, the vertical direction will be 1,
-              // which means that your hero plane is moving down.
-            case KeyEvent.VK_S:
+            // Press 'DOWN' buttons, the vertical direction will be 1,
+            // which means that your hero plane is moving down.
             case KeyEvent.VK_DOWN:
               hero.direction.y = 1; break;
-              // Press 'D' or 'RIGHT' buttons, the horizontal direction will be 1,
-              // which means that your hero plane is moving to the right.
-            case KeyEvent.VK_D:
+            // Press 'RIGHT' buttons, the horizontal direction will be 1,
+            // which means that your hero plane is moving to the right.
             case KeyEvent.VK_RIGHT:
               hero.direction.x = 1; break;
             case KeyEvent.VK_SPACE:

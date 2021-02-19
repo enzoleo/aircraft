@@ -11,12 +11,19 @@ import aircraft.game.Setting;
 
 public class Supply {
   protected Canvas canvas;
-  public BufferedImage image;
+  protected BufferedImage image;
 
   // The current position.
-  public Point2D.Double location = new Point2D.Double();
+  protected Point2D.Double location = new Point2D.Double();
   protected double speed = 1.5; // The speed of the flying object.
   private int recovery = Setting.recovery.get("Supply");
+
+  // Getters/setters of location and image.
+  public BufferedImage getImage() { return image; }
+  public Point2D.Double getLocation() { return location; }
+  public void setLocation(double x, double y) {
+    location.x = x; location.y = y;
+  }
 
   public Supply(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.

@@ -16,16 +16,23 @@ public abstract class Plane {
   // should only take three possible values: 1, 0, -1, as vertical and 
   // horizontal direction flags.
   public Point direction = new Point();
-  public BufferedImage image;
+  protected BufferedImage image;
   protected final Canvas canvas;
 
   // The current position.
-  public Point2D.Double location = new Point2D.Double();
+  protected Point2D.Double location = new Point2D.Double();
   protected double speed; // The speed of the flying object.
 
   // The health point. The plane will vanish once its health attains zero.
   // Note that only the generic class Plane has attribute health.
   protected int health;
+
+  // Getters/setters of location and image.
+  public BufferedImage getImage() { return image; }
+  public Point2D.Double getLocation() { return location; }
+  public void setLocation(double x, double y) {
+    location.x = x; location.y = y;
+  }
 
   // Constructor that inherits from base class.
   protected Plane(String img, Canvas canvas, double x, double y,

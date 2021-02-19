@@ -39,9 +39,8 @@ public class EnemyLightPlane extends EnemyPlane {
   public void fire() {
     if (Setting.bernoulli(Setting.fireProb.get("EnemyLightPlane"))) {
       EnemyNormalBullet enemyBullet = new EnemyNormalBullet(canvas, 0, 0);
-      double offset = (image.getWidth() - enemyBullet.image.getWidth()) / 2;
-      enemyBullet.location.x = location.x + offset;
-      enemyBullet.location.y = location.y + image.getHeight();
+      double offset = (image.getWidth() - enemyBullet.getImage().getWidth()) / 2;
+      enemyBullet.setLocation(location.x + offset, location.y + image.getHeight());
       canvas.objects.get("newcome").add(enemyBullet);
     }
   }

@@ -106,7 +106,7 @@ public class Setting {
   }
 
   // Enemy light planes do not have cool down time. They fire with respect to
-  // a specific probability
+  // a specific probability.
   public static final HashMap<String, Double> fireProb = new HashMap<>();
   static {
     fireProb.put("EnemyLightPlane", 0.01);

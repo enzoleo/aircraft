@@ -65,9 +65,10 @@ public class HeroPlane extends Plane {
   public void fire() {
     if (fireCommand && coolDown == 0) {
       HeroBullet heroBullet = new HeroBullet(canvas, 0, 0);
-      double offset = (image.getWidth() - heroBullet.image.getWidth()) / 2;
-      heroBullet.location.x = location.x + offset;
-      heroBullet.location.y = location.y - heroBullet.image.getHeight();
+      double offset = (image.getWidth() - heroBullet.getImage().getWidth()) / 2;
+      heroBullet.setLocation( // Set the coordicates of the bullet.
+        location.x + offset,
+        location.y - heroBullet.getImage().getHeight());
       canvas.objects.get("newcome").add(heroBullet);
       coolDown++;
     }
@@ -77,30 +78,20 @@ public class HeroPlane extends Plane {
   public boolean isHit(Object object) {
     double x, y, w, h;
     int camp = Setting.NEUTRAL;
-    if (object instanceof HeroBullet) {
-      HeroBullet bullet = (HeroBullet)object;
-      x = bullet.location.x; y = bullet.location.y;
-      w = bullet.image.getWidth(); h = bullet.image.getHeight();
+    if (object instanceof Bullet) {
+      Bullet bullet = (Bullet)object;
+      x = bullet.getLocation().x; y = bullet.getLocation().y;
+      w = bullet.getImage().getWidth(); h = bullet.getImage().getHeight();
       camp = bullet.camp();
-    } else if (object instanceof EnemyNormalBullet) {
-      EnemyNormalBullet bullet = (EnemyNormalBullet)object;
-      x = bullet.location.x; y = bullet.location.y;
-      w = bullet.image.getWidth(); h = bullet.image.getHeight();
-      camp = bullet.camp();
-    } else if (object instanceof EnemyCannon) {
-      EnemyCannon cannon = (EnemyCannon)object;
-      x = cannon.location.x; y = cannon.location.y;
-      w = cannon.image.getWidth(); h = cannon.image.getHeight();
-      camp = cannon.camp();
     } else if (object instanceof Bomb) {
       Bomb bomb = (Bomb)object;
-      x = bomb.location.x; y = bomb.location.y;
-      w = bomb.image.getWidth(); h = bomb.image.getHeight();
+      x = bomb.getLocation().x; y = bomb.getLocation().y;
+      w = bomb.getImage().getWidth(); h = bomb.getImage().getHeight();
       camp = bomb.camp();
     } else if (object instanceof Supply) {
       Supply supply = (Supply)object;
-      x = supply.location.x; y = supply.location.y;
-      w = supply.image.getWidth(); h = supply.image.getHeight();
+      x = supply.getLocation().x; y = supply.getLocation().y;
+      w = supply.getImage().getWidth(); h = supply.getImage().getHeight();
       camp = supply.camp();
     } else return false;
     // Only be effected by hero camps (i.e. hero bullets).
