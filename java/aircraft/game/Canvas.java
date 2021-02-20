@@ -105,7 +105,7 @@ public class Canvas extends JPanel {
     // Initialize the hero plane (player).
     this.width = width;
     this.height = height;
-    hero = new HeroPlane(this, Setting.heroInitPos.x, Setting.heroInitPos.y);
+    hero = new HeroPlane(this, Setting.HERO_INIT_POS.x, Setting.HERO_INIT_POS.y);
     this.planes.put("newcome", new HashSet<>());
     this.planes.put("trash", new HashSet<>());
     this.planes.put("current", new HashSet<>());
@@ -127,10 +127,10 @@ public class Canvas extends JPanel {
   public HeroPlane getHeroPlane() { return hero; }
 
   private void generateCharacter() {
-    HashMap<String, Double> p = Setting.prob;
+    HashMap<String, Double> p = Setting.PROB;
     if (Setting.bernoulli(p.get("EnemyPlane"))) { // Generate enemies.
       double x = (Math.random() * 0.6 + 0.2) * width;
-      HashMap<String, Double> prob = Setting.subProb.get("EnemyPlane");
+      HashMap<String, Double> prob = Setting.SUB_PROB.get("EnemyPlane");
       if (Setting.bernoulli(prob.get("EnemyBoss")) && bossNum < 1) {
         // Generate a boss ship. Note that at most one boss ship can
         // be displayed at a time.

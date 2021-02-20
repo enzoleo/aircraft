@@ -10,14 +10,14 @@ public class EnemyBoss extends EnemyPlane {
   // Cool down time to fire. Only when the coolDown variable is zero can
   // the boss ship shoot cannons.
   private int coolDown = 0;
-  private int coolDownTime = Setting.coolDownTime.get("EnemyBoss");
+  private int coolDownTime = Setting.COOL_DOWN_TIME.get("EnemyBoss");
 
   // Constructor.
   public EnemyBoss(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
-    super(Setting.images.get("EnemyBoss"), canvas, x, y,
-          Setting.health.get("EnemyBoss"), Setting.speed.get("EnemyBoss"),
-          Setting.bonus.get("EnemyBoss"));
+    super(Setting.IMAGES.get("EnemyBoss"), canvas, x, y,
+          Setting.HEALTH.get("EnemyBoss"), Setting.SPEED.get("EnemyBoss"),
+          Setting.BONUS.get("EnemyBoss"));
     this.direction.y = 0; // The boss only moves horizontally from our view.
   }
 

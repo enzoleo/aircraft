@@ -16,7 +16,7 @@ public class Supply {
   // The current position.
   protected Point2D.Double location = new Point2D.Double();
   protected double speed = 1.5; // The speed of the flying object.
-  private int recovery = Setting.recovery.get("Supply");
+  private int recovery = Setting.RECOVERY.get("Supply");
 
   // Getters/setters of location and image.
   public BufferedImage getImage() { return image; }
@@ -28,7 +28,7 @@ public class Supply {
   public Supply(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
     this.canvas = canvas;
-    image = ImageLoader.readImg(Setting.images.get("Supply"));
+    image = ImageLoader.readImg(Setting.IMAGES.get("Supply"));
     if (image.getWidth()  >= canvas.getWidth() ||
         image.getHeight() >= canvas.getHeight())
       throw new RuntimeException("The size of image is invalid");

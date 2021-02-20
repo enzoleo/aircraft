@@ -13,14 +13,14 @@ class Supply:
         """
         # Read image and check its size.
         self.canvas = canvas
-        self.image = imgloader.load(setting.images["Supply"])
+        self.image = imgloader.load(setting.IMAGES["Supply"])
         w, h = self.image.get_rect().size
         if w >= self.canvas.width or h >= self.canvas.height:
             raise ValueError("The size of image is invalid")
 
         self.location = Point2D(x, y)
-        self.speed = setting.speed["Supply"] # The speed of the flying object.
-        self._recovery = setting.recovery["Supply"]
+        self.speed = setting.SPEED["Supply"] # The speed of the flying object.
+        self._recovery = setting.RECOVERY["Supply"]
 
     def display(self, graphics):
         """Display image on the screen.

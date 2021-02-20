@@ -71,13 +71,13 @@ class HeroPlane(Plane):
         x -- the x coordinate of location.
         y -- the y coordinate of location.
         """
-        health = setting.health["HeroPlane"]
-        speed = setting.speed["HeroPlane"]
-        super().__init__(setting.images["HeroPlane"], canvas, x, y, health, speed)
+        health = setting.HEALTH["HeroPlane"]
+        speed = setting.SPEED["HeroPlane"]
+        super().__init__(setting.IMAGES["HeroPlane"], canvas, x, y, health, speed)
         self._cool_down = 0
         self._fire_command = False
         self._score = 0
-        self._cool_down_time = setting.cool_down_time["HeroPlane"]
+        self._cool_down_time = setting.COOL_DOWN_TIME["HeroPlane"]
     
     @property
     def score(self): return self._score
@@ -242,10 +242,10 @@ class EnemyLightPlane(EnemyPlane):
         x -- the x coordinate of location.
         y -- the y coordinate of location.
         """
-        health = setting.health["EnemyLightPlane"]
-        speed = setting.speed["EnemyLightPlane"]
-        super().__init__(setting.images["EnemyLightPlane"], canvas, x, y,
-                         health, speed, setting.bonus["EnemyLightPlane"])
+        health = setting.HEALTH["EnemyLightPlane"]
+        speed = setting.SPEED["EnemyLightPlane"]
+        super().__init__(setting.IMAGES["EnemyLightPlane"], canvas, x, y,
+                         health, speed, setting.BONUS["EnemyLightPlane"])
         self.direction.y = 1
 
     def move(self):
@@ -272,7 +272,7 @@ class EnemyLightPlane(EnemyPlane):
     def fire(self):
         """Fire some bullets to your enemies.
         """
-        if scipy.stats.bernoulli.rvs(setting.fire_prob["EnemyLightPlane"]):
+        if scipy.stats.bernoulli.rvs(setting.FIRE_PROB["EnemyLightPlane"]):
             # Initialize the bullet first to obtain its image size.
             bullet = EnemyNormalBullet(self.canvas, 0, 0)
             w, _ = bullet.image.get_rect().size
@@ -298,12 +298,12 @@ class EnemyBoss(EnemyPlane):
         x -- the x coordinate of location.
         y -- the y coordinate of location.
         """
-        health = setting.health["EnemyBoss"]
-        speed = setting.speed["EnemyBoss"]
-        super().__init__(setting.images["EnemyBoss"], canvas, x, y, health, speed,
-                         setting.bonus["EnemyBoss"])
+        health = setting.HEALTH["EnemyBoss"]
+        speed = setting.SPEED["EnemyBoss"]
+        super().__init__(setting.IMAGES["EnemyBoss"], canvas, x, y, health, speed,
+                         setting.BONUS["EnemyBoss"])
         self._cool_down = 0
-        self._cool_down_time = setting.cool_down_time["EnemyBoss"]
+        self._cool_down_time = setting.COOL_DOWN_TIME["EnemyBoss"]
         self.direction.y = 0
 
     def display(self, graphics):

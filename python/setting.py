@@ -4,10 +4,10 @@
 # just feel free to edit them as you like.
 
 # Default window size.
-width, height = 400, 654
+WIDTH, HEIGHT = 400, 654
 
 # Max frame per second.
-fps = 120
+FPS = 120
 
 # Default game status.
 RUNNING, GAMEOVER = True, False
@@ -16,10 +16,10 @@ RUNNING, GAMEOVER = True, False
 NEUTRAL, HERO, ENEMY = 0, 1, 2
 
 # The initial position of the hero plane. Feel free to edit it.
-hero_init_pos = (150, 500)
+HERO_INIT_POS = (150, 500)
 
 # Image filenames
-images = {
+IMAGES = {
     "HeroPlane": "hero_plane.png",
     "EnemyLightPlane": "enemy_light_plane.png",
     "EnemyBoss": "enemy_boss.png",
@@ -32,32 +32,32 @@ images = {
 
 # Probabilities when generating characters at the beginning of every
 # frame. Feel free to modify them.
-prob = {
+PROB = {
     "EnemyPlane": 0.01,
     "Bomb": 0.001,
     "Supply": 0.005,
 }
 # The sub probability. When an enemy plane is going to be generated,
 # it will 'mutate' to a boss with respect to a specific probability.
-sub_prob = {
+SUB_PROB = {
     "EnemyPlane": {
         "EnemyBoss": 0.1
     }
 }
 # Initial health point of each kind of planes.
-health = {
+HEALTH = {
     "HeroPlane": 100,
     "EnemyLightPlane": 20,
     "EnemyBoss": 800
 }
 # Initial damage power of each kind of bullets.
-damage = {
+DAMAGE = {
     "HeroBullet": 20,
     "EnemyNormalBullet": 5,
     "EnemyCannon": 8
 }
 # The speed of each kind of characters in this game. 
-speed = {
+SPEED = {
     "HeroPlane": 2.0,
     "EnemyLightPlane": 1.5,
     "EnemyBoss": 1.5,
@@ -69,12 +69,12 @@ speed = {
 }
 # The recovery power of the supply. Without supply, you cannot live long.
 # Try to catch supplies as many as possible.
-recovery = {
+RECOVERY = {
     "Supply": 20
 }
 
 # When you take down an enemy, you will get bonus.
-bonus = {
+BONUS = {
     "EnemyLightPlane": 10,
     "EnemyBoss": 80
 }
@@ -82,13 +82,13 @@ bonus = {
 # but hero plane and boss plane has cool down time so that they cannot fire
 # at every time. An enemy light plane fire with respect to a relatively
 # small probability.
-cool_down_time = {
+COOL_DOWN_TIME = {
     "HeroPlane": 15,
     "EnemyBoss": 60
 }
 
 # Enemy light planes do not have cool down time. They fire with respect to
 # a specific probability
-fire_prob = {
+FIRE_PROB = {
     "EnemyLightPlane": 0.01
 }

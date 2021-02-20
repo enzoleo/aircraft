@@ -13,13 +13,13 @@ class Bomb:
         """
         # Read image and check its size.
         self.canvas = canvas
-        self.image = imgloader.load(setting.images["Bomb"])
+        self.image = imgloader.load(setting.IMAGES["Bomb"])
         w, h = self.image.get_rect().size
         if w >= self.canvas.width or h >= self.canvas.height:
             raise ValueError("The size of image is invalid")
 
         self.location = Point2D(x, y)
-        self.speed = setting.speed["Bomb"] # The speed of the flying object.
+        self.speed = setting.SPEED["Bomb"] # The speed of the flying object.
 
     def display(self, graphics):
         """Display image on the screen.

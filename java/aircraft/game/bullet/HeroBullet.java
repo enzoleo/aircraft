@@ -7,9 +7,9 @@ import aircraft.game.Setting;
 public class HeroBullet extends Bullet {
   // Constructor.
   public HeroBullet(Canvas canvas, double x, double y) {
-    super(Setting.images.get("HeroBullet"), canvas, x, y,
-          Setting.damage.get("HeroBullet"),
-          Setting.speed.get("HeroBullet"));
+    super(Setting.IMAGES.get("HeroBullet"), canvas, x, y,
+          Setting.DAMAGE.get("HeroBullet"),
+          Setting.SPEED.get("HeroBullet"));
   }
 
   @Override

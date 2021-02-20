@@ -22,7 +22,7 @@ class Canvas:
         self.width, self.height = graphics.get_rect().size
 
         # Initialize the self.hero plane (player).
-        self.hero = HeroPlane(self, *setting.hero_init_pos)
+        self.hero = HeroPlane(self, *setting.HERO_INIT_POS)
         self.status = setting.RUNNING
 
         # ALSO DO NOT touch these variables. They are used to control what 
@@ -44,10 +44,10 @@ class Canvas:
         Note that the probability might look very small, because it is used
         by this generator at every frame.
         """
-        p = setting.prob
+        p = setting.PROB
         if scipy.stats.bernoulli.rvs(p["EnemyPlane"]): # Generate enemies.
             x = scipy.stats.uniform.rvs(0.2, 0.6) * self.width
-            prob = setting.sub_prob["EnemyPlane"]["EnemyBoss"]
+            prob = setting.SUB_PROB["EnemyPlane"]["EnemyBoss"]
             if scipy.stats.bernoulli.rvs(prob) and self.boss_num < 1:
                 # Generate a boss ship. Note that at most one boss ship can
                 # be displayed at a time.

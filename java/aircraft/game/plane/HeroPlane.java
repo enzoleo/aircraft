@@ -14,7 +14,7 @@ public class HeroPlane extends Plane {
   // Cool down time to fire. Only when the coolDown variable is zero can
   // the hero plane shoot cannons.
   private int coolDown = 0;
-  private int coolDownTime = Setting.coolDownTime.get("HeroPlane");
+  private int coolDownTime = Setting.COOL_DOWN_TIME.get("HeroPlane");
 
   // The total score of the current plane.
   private int score = 0;
@@ -22,8 +22,8 @@ public class HeroPlane extends Plane {
   // Constructor.
   public HeroPlane(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
-    super(Setting.images.get("HeroPlane"), canvas, x, y,
-          Setting.health.get("HeroPlane"), Setting.speed.get("HeroPlane"));
+    super(Setting.IMAGES.get("HeroPlane"), canvas, x, y,
+          Setting.HEALTH.get("HeroPlane"), Setting.SPEED.get("HeroPlane"));
   }
 
   // Getter and setter of the score.

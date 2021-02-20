@@ -7,7 +7,7 @@ import java.util.TimerTask;
 public class AircraftWar {
   public static void main(String[] args) {
     JFrame frame = new JFrame("AircraftWar");
-    Canvas canvas = new Canvas(Setting.width, Setting.height);
+    Canvas canvas = new Canvas(Setting.WIDTH, Setting.HEIGHT);
     frame.add(canvas);
     frame.setSize(canvas.getWidth(), canvas.getHeight());
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

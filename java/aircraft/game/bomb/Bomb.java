@@ -27,7 +27,7 @@ public class Bomb {
   public Bomb(Canvas canvas, double x, double y) {
     // Load the bomb from the image directory.
     this.canvas = canvas;
-    image = ImageLoader.readImg(Setting.images.get("Bomb"));
+    image = ImageLoader.readImg(Setting.IMAGES.get("Bomb"));
     if (image.getWidth()  >= canvas.getWidth() ||
         image.getHeight() >= canvas.getHeight())
       throw new RuntimeException("The size of image is invalid");

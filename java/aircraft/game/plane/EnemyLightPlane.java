@@ -8,10 +8,10 @@ public class EnemyLightPlane extends EnemyPlane {
   // Constructor.
   public EnemyLightPlane(Canvas canvas, double x, double y) {
     // Load the plane from the image directory.
-    super(Setting.images.get("EnemyLightPlane"), canvas, x, y,
-          Setting.health.get("EnemyLightPlane"),
-          Setting.speed.get("EnemyLightPlane"),
-          Setting.bonus.get("EnemyLightPlane"));
+    super(Setting.IMAGES.get("EnemyLightPlane"), canvas, x, y,
+          Setting.HEALTH.get("EnemyLightPlane"),
+          Setting.SPEED.get("EnemyLightPlane"),
+          Setting.BONUS.get("EnemyLightPlane"));
     this.direction.y = 1;
   }
 
@@ -37,7 +37,7 @@ public class EnemyLightPlane extends EnemyPlane {
 
   @Override
   public void fire() {
-    if (Setting.bernoulli(Setting.fireProb.get("EnemyLightPlane"))) {
+    if (Setting.bernoulli(Setting.FIRE_PROB.get("EnemyLightPlane"))) {
       EnemyNormalBullet enemyBullet = new EnemyNormalBullet(canvas, 0, 0);
       double offset = (image.getWidth() - enemyBullet.getImage().getWidth()) / 2;
       enemyBullet.setLocation(location.x + offset, location.y + image.getHeight());
