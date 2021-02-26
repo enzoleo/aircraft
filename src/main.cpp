@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cassert>
-#include <SDL2/SDL.h>
+#include "utility.hpp"
 
 auto main(int argc, char* argv[]) -> int {
   // Declare a window we will be rendering to that contains a surface.

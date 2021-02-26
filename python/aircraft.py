@@ -14,10 +14,10 @@ if __name__ == '__main__':
 
     # The default canvas.
     canvas = Canvas(graphics)
-    key_listerner = canvas.key_event()
+    key_listener = canvas.key_event()
     fps_clock = pygame.time.Clock()
     while True:
-        rendering = key_listerner.response()
+        rendering = key_listener.response()
         canvas.render()
         if not rendering: break # Stop rendering and close the window.
         fps_clock.tick(setting.FPS)

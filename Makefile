@@ -13,7 +13,10 @@ JFLAGS := -g
 BUILD_DIR := .build
 OBJ_DIR := $(BUILD_DIR)/obj
 LIB_DIR := $(BUILD_DIR)/lib
+INCLUDE_DIR := include
 SRC_DIR := src
+
+CXXFLAGS += -I$(INCLUDE_DIR)
 
 # Code structure. This project is relatively small, so actually we don't care
 # too much about this retrieving.

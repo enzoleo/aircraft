@@ -19,10 +19,10 @@ class Canvas:
         """Create a self for graphical user interface painting.
         """
         self.graphics = graphics
-        self.width, self.height = graphics.get_rect().size
+        self._width, self._height = graphics.get_rect().size
 
         # Initialize the self.hero plane (player).
-        self.hero = HeroPlane(self, *setting.HERO_INIT_POS)
+        self._hero = HeroPlane(self, *setting.HERO_INIT_POS)
         self.status = setting.RUNNING
 
         # ALSO DO NOT touch these variables. They are used to control what 
@@ -35,6 +35,13 @@ class Canvas:
         # you don't want too many boss to appear at the same time... Only one
         # will be displayed at a time. That's enough.
         self.boss_num = 0
+    
+    @property
+    def width(self): return self._width
+    @property
+    def height(self): return self._height
+    @property
+    def hero(self): return self._hero
 
     def generate_character(self):
         """Randomly generate characters from the top boundary of the window.
@@ -46,7 +53,7 @@ class Canvas:
         """
         p = setting.PROB
         if scipy.stats.bernoulli.rvs(p["EnemyPlane"]): # Generate enemies.
-            x = scipy.stats.uniform.rvs(0.2, 0.6) * self.width
+            x = scipy.stats.uniform.rvs(0.2, 0.6) * self._width
             prob = setting.SUB_PROB["EnemyPlane"]["EnemyBoss"]
             if scipy.stats.bernoulli.rvs(prob) and self.boss_num < 1:
                 # Generate a boss ship. Note that at most one boss ship can
@@ -56,10 +63,10 @@ class Canvas:
             else:
                 self.planes["newcome"].add(EnemyLightPlane(self, x, 0))
         if scipy.stats.bernoulli.rvs(p["Bomb"]): # Generate bombs.
-            x = scipy.stats.uniform.rvs(0.2, 0.6) * self.width
+            x = scipy.stats.uniform.rvs(0.2, 0.6) * self._width
             self.objects["newcome"].add(Bomb(self, x, 0))
         if scipy.stats.bernoulli.rvs(p["Supply"]): # Generate supplies.
-            x = scipy.stats.uniform.rvs(0.2, 0.6) * self.width
+            x = scipy.stats.uniform.rvs(0.2, 0.6) * self._width
             self.objects["newcome"].add(Supply(self, x, 0))
 
     def paint(self):
