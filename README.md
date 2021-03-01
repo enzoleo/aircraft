@@ -11,10 +11,11 @@ Before running the game from the provided source files, you should quickly setup
 
 ### C++
 
-The `SDL2` package is used to build the graphical user interface. On any `Ubuntu` machine, install the development package of `SDL2` using the command
+The `SDL2` package is used to build the graphical user interface. On any `Ubuntu` machine, install the development package of `SDL2` and `SDL2_image` using the command
 
 ```shell
 sudo apt-get install libsdl2-dev
+sudo apt-get install libsdl2-image-dev
 ```
 
 Now make a `build` directory and follow the `CMake` routine, then the binaries will be generated in the `build` directory. Or, you can directly execute `make` command under the project root directory, and then binaries will be generated in the `.build` directory (so that we can distinguish it from the one you make when working with `CMake`) automatically if everything goes fine.

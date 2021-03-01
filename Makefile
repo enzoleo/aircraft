@@ -1,7 +1,7 @@
 # Default C++ compiler.
 CC := g++
 CXXFLAGS := -Wall -std=c++17 -O2 -g
-LDFLAGS := -lSDL2
+LDFLAGS := -lSDL2 -lSDL2_image
 
 # Default java compiler.
 JC := javac
@@ -16,6 +16,12 @@ LIB_DIR := $(BUILD_DIR)/lib
 INCLUDE_DIR := include
 SRC_DIR := src
 
+# C++ source files and objs.
+AIRCRAFT_SOURCES := $(filter-out $(SRC_DIR)/main.cpp, $(wildcard $(SRC_DIR)/*.cpp))
+AIRCRAFT_OBJS := $(subst $(SRC_DIR)/,$(OBJ_DIR)/, ${AIRCRAFT_SOURCES:.cpp=.o})
+AIRCRAFT_OBJ_DIR := $(dir $(CUPID_OBJS))
+
+# Add include directory.
 CXXFLAGS += -I$(INCLUDE_DIR)
 
 # Code structure. This project is relatively small, so actually we don't care
@@ -32,10 +38,25 @@ CLASSES := $(AIRCRAFT_JAVA_SRC_DIR)/AircraftWar.java
 
 default: cpp-game
 
-cpp-game:$(BUILD_DIR)/aircraft
+cpp-game:libaw aircraft
 
-$(BUILD_DIR)/aircraft:$(SRC_DIR)/main.cpp
-	@mkdir -p $(BUILD_DIR);
+$(OBJ_DIR):
+	@ mkdir -p $@;
+
+$(LIB_DIR):
+	@ mkdir -p $@;
+
+libaw: $(OBJ_DIR) $(LIB_DIR) $(LIB_DIR)/libaw.so
+
+$(LIB_DIR)/libaw.so: $(AIRCRAFT_OBJS)
+	$(CC) $^ -shared -o $@ $(CXXFLAGS);
+
+$(OBJ_DIR)/%.o:$(SRC_DIR)/%.cpp
+	$(CC) $< -c -o $@ $(CXXFLAGS);
+
+aircraft:$(BUILD_DIR)/aircraft
+
+$(BUILD_DIR)/aircraft:$(SRC_DIR)/main.cpp $(LIB_DIR)/libaw.so
 	$(CC) $^ -o $@ $(CXXFLAGS) $(LDFLAGS);
 
 # The java target.
