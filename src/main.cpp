@@ -1,33 +1,40 @@
 #include <iostream>
 #include <cassert>
-#include "utility.hpp"
+#include "canvas.hpp"
 
-auto main(int argc, char* argv[]) -> int {
-  // Declare a window we will be rendering to that contains a surface.
-  // An SDL surface is roughly an image.
-  SDL_Window* window = nullptr;
-  SDL_Surface* surface = nullptr;
-
+auto main(int argc, char* args[]) -> int {
   // Initialize SDL first before calling any SDL functions.
-  assert(((void)"Could not initialize SDL!", SDL_Init(SDL_INIT_VIDEO) >= 0));
-  window = SDL_CreateWindow( // Now create window and check the pointer.
-      "AircraftWar", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-      400, 654, SDL_WINDOW_SHOWN);
-  assert(((void)"SDL window could not be created!", window != nullptr));
+  if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO) < 0) {
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+                 "Couldn't initialize SDL: %s", SDL_GetError());
+    return EXIT_FAILURE; // Return directly.
+  }
+  // Initialize the PNG image loading.
+  if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+                 "SDL_image could not initialize: %s", SDL_GetError());
+    return EXIT_FAILURE; // Return directly.
+  }
 
-  // Get window surface to assign to the pointer.
-  surface = SDL_GetWindowSurface(window);
-  SDL_FillRect( // Color the SDL surface.
-      surface, nullptr, SDL_MapRGB(surface->format, 0xFF, 0xFF, 0xFF));
-            
-  // Update the surface
-  SDL_UpdateWindowSurface(window);
-  SDL_Delay(5000);
+  // Start up SDL and create window. Check the status of canvas.
+  aw::Canvas canvas; // Declare a canvas object.
+  assert(((void)"Failed to initialize canvas!", canvas.good()));
+  
+  bool quit = false;
+  SDL_Event e;
+  // While application is running
+  while (!quit) {
+    // Handle events on queue
+    while (SDL_PollEvent(&e) != 0) {
+      // User requests quit
+      if (e.type == SDL_QUIT)
+        quit = true;
+    }
+    canvas.paint();
+    canvas.update();
+  }
 
-  // Destroy the rendering window and quit the system.
-  SDL_DestroyWindow(window);
-  SDL_Quit();
-
+  // Free resources and close SDL
   return 0;
 }
 

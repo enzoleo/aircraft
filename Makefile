@@ -1,6 +1,6 @@
 # Default C++ compiler.
 CC := g++
-CXXFLAGS := -Wall -std=c++17 -O2 -g
+CXXFLAGS := -Wall -std=c++17 -O2 -g -fPIC
 LDFLAGS := -lSDL2 -lSDL2_image
 
 # Default java compiler.
