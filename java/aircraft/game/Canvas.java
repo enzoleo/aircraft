@@ -85,16 +85,14 @@ public class Canvas extends JPanel {
       switch (code) {
         // Release key, then reset all direction value to zero, so that we
         // can prevent the hero from unpredictable moving.
-        case KeyEvent.VK_W:
-        case KeyEvent.VK_S:
         case KeyEvent.VK_UP:
+          if (hero.direction.y == -1) hero.direction.y = 0; break;
         case KeyEvent.VK_DOWN:
-          hero.direction.y = 0; break;
-        case KeyEvent.VK_A:
-        case KeyEvent.VK_D:
+          if (hero.direction.y ==  1) hero.direction.y = 0; break;
         case KeyEvent.VK_LEFT:
+          if (hero.direction.x == -1) hero.direction.x = 0; break;
         case KeyEvent.VK_RIGHT:
-          hero.direction.x = 0; break;
+          if (hero.direction.x ==  1) hero.direction.x = 0; break;
         case KeyEvent.VK_SPACE:
           hero.fireCommand = false;
       }

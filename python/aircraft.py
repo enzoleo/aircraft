@@ -7,8 +7,9 @@ from supply import *
 import setting
 from canvas import *
 
-if __name__ == '__main__':    
-    pygame.init()
+if __name__ == '__main__':
+    pygame.font.init()
+    pygame.display.init()
     pygame.display.set_caption("canvas")
     graphics = pygame.display.set_mode((setting.WIDTH, setting.HEIGHT), 0, 32)
 
@@ -23,5 +24,6 @@ if __name__ == '__main__':
         fps_clock.tick(setting.FPS)
     
     # Safely quit the game.
-    pygame.quit()
+    pygame.display.quit()
+    pygame.font.quit()
 
