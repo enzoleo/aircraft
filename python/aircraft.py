@@ -1,11 +1,7 @@
 #!/usr/bin/python3
 import pygame
-
-from plane import *
-from bomb import *
-from supply import *
 import setting
-from canvas import *
+from canvas import Canvas
 
 if __name__ == '__main__':
     pygame.font.init()
