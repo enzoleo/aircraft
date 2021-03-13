@@ -17,8 +17,9 @@ auto main(int argc, char* args[]) -> int {
   }
 
   // Start up SDL and create window. Check the status of canvas.
-  aw::Canvas canvas; // Declare a canvas object.
-  assert(((void)"Failed to initialize canvas!", canvas.good()));
+  aw::Canvas canvas(400, 654); // Declare a canvas object.
+  auto status = canvas.init(); // Initialize the canvas.
+  assert(((void)"Failed to initialize canvas!", status));
   
   bool quit = false;
   SDL_Event e;
@@ -33,8 +34,8 @@ auto main(int argc, char* args[]) -> int {
     canvas.paint();
     canvas.update();
   }
-
-  // Free resources and close SDL
+  // Free resources and close SDL. This operation must be done.
+  canvas.destroy();
   return 0;
 }
 

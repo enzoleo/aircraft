@@ -3,7 +3,7 @@
 namespace aw {
 
 // The default constructor.
-Canvas::Canvas() {
+bool Canvas::init() {
   // When construct a canvas object, make sure the sdl and sdl image are
   // already been successfully initialized!
   // Create an application window with the following settings.
@@ -11,12 +11,12 @@ Canvas::Canvas() {
       "AircraftWar",           // The title of the window.
       SDL_WINDOWPOS_UNDEFINED, // Initial x coordinate of window position.
       SDL_WINDOWPOS_UNDEFINED, // Initial y coordinate of window position.
-      400, 654,                // Width and height in pixels.
+      width_, height_,         // Width and height in pixels.
       SDL_WINDOW_SHOWN);
   if (this->window_ == nullptr) {
     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
                  "Window could not be created: %s", SDL_GetError());
-    return; // Return directly.
+    return this->status_; // Return directly.
   }
   // Get the window surface.
   this->surface_ = SDL_GetWindowSurface(this->window_);
@@ -24,14 +24,15 @@ Canvas::Canvas() {
   if (this->background_ == nullptr) {
     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
                  "Failed to load image: %s", SDL_GetError());
-    return; // Return directly.
+    return this->status_; // Return directly.
   }
   // Successfully initialize the canvas.
   this->status_ = true;
+  return this->status_;
 }
 
 // The default destructor.
-Canvas::~Canvas() {
+void Canvas::destroy() {
   // Ignore this if the initialization is not successful.
   if (!this->status_) return;
 
