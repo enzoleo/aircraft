@@ -1,20 +1,32 @@
 # Default C++ compiler.
 CC := g++
 CXXFLAGS := -Wall -std=c++17 -O2 -g -fPIC
-LDFLAGS := -lSDL2 -lSDL2_image
+LDFLAGS := $(shell pkg-config --libs sdl2 sdl2_image)
+CXXFLAGS += $(shell pkg-config --cflags sdl2 sdl2_image)
 
 # Default java compiler.
 JC := javac
 JAVA := java
 JFLAGS := -g
 
-# The build directory. Note that we use .build to distinguish it from `build`
-# directory that you may use when working with cmake.
+# The build directory. Note that we use .build to distinguish it from the
+# `build` directory that you may use when working with cmake.
 BUILD_DIR := .build
 OBJ_DIR := $(BUILD_DIR)/obj
 LIB_DIR := $(BUILD_DIR)/lib
 INCLUDE_DIR := include
 SRC_DIR := src
+
+# Detect the operating system. Altough .so shared object is also available
+# on OSX, however, we generate .dylib here. Note that we assume this
+# Makefile always work on Unix-like systems.
+ifeq ($(shell uname -s),Darwin)
+	SHARED_LIB := libaw.dylib
+	CXX_SHARED_FLAG := -dynamiclib
+else
+	SHARED_LIB := libaw.so
+	CXX_SHARED_FLAG := -shared
+endif
 
 # C++ source files and objs.
 AIRCRAFT_SOURCES := $(filter-out $(SRC_DIR)/main.cpp, $(wildcard $(SRC_DIR)/*.cpp))
@@ -46,17 +58,17 @@ $(OBJ_DIR):
 $(LIB_DIR):
 	@ mkdir -p $@;
 
-libaw: $(OBJ_DIR) $(LIB_DIR) $(LIB_DIR)/libaw.so
+libaw: $(OBJ_DIR) $(LIB_DIR) $(LIB_DIR)/$(SHARED_LIB)
 
-$(LIB_DIR)/libaw.so: $(AIRCRAFT_OBJS)
-	$(CC) $^ -shared -o $@ $(CXXFLAGS);
+$(LIB_DIR)/$(SHARED_LIB): $(AIRCRAFT_OBJS)
+	$(CC) $^ $(CXX_SHARED_FLAG) -o $@ $(CXXFLAGS) $(LDFLAGS);
 
 $(OBJ_DIR)/%.o:$(SRC_DIR)/%.cpp
 	$(CC) $< -c -o $@ $(CXXFLAGS);
 
 aircraft:$(BUILD_DIR)/aircraft
 
-$(BUILD_DIR)/aircraft:$(SRC_DIR)/main.cpp $(LIB_DIR)/libaw.so
+$(BUILD_DIR)/aircraft:$(SRC_DIR)/main.cpp $(LIB_DIR)/$(SHARED_LIB)
 	$(CC) $^ -o $@ $(CXXFLAGS) $(LDFLAGS);
 
 # The java target.
