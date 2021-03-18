@@ -7,7 +7,7 @@
 WIDTH, HEIGHT = 400, 654
 
 # Max frame per second.
-FPS = 120
+FPS = 180
 
 # Default game status.
 RUNNING, GAMEOVER = True, False
