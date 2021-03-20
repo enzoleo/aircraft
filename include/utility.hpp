@@ -9,7 +9,9 @@ namespace aw {
 
 namespace util {
 
-SDL_Surface* loadSurface(std::string path, SDL_PixelFormat *fmt);
+SDL_Surface* loadSurface(
+  std::string filename, SDL_PixelFormat *fmt,
+  std::string base = "./images");
 
 } // namespace util
 

@@ -5,7 +5,18 @@ namespace aw {
 
 namespace util {
 
-SDL_Surface* loadSurface(std::string path, SDL_PixelFormat *fmt) {
+SDL_Surface* loadSurface(std::string filename, SDL_PixelFormat *fmt, std::string base) {
+  // Parse the directory and path first.
+  if (base.empty()) base = ".";
+  std::string path(base);
+  if (char c = path.back(); c != '/') path += '/';
+  
+  // Append the filename into the base path. The first char should not be '/'.
+  std::size_t i { 0 };
+  for (; i < filename.size(); ++i)
+    if (filename[i] != '/') break;
+  path += filename.substr(i);
+
   // The final optimized image
   SDL_Surface* optimizedSurface = nullptr;
 

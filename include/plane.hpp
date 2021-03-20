@@ -2,6 +2,7 @@
 #define AIRCRAFT_PLANE_HPP_
 
 #include "utility.hpp"
+#include "setting.hpp"
 
 namespace aw {
 
@@ -12,7 +13,7 @@ public:
   HeroPlane(SDL_Surface* surface, std::size_t x, std::size_t y)
       : surface_(surface), x_(x), y_(y) {
     this->img_ = // Load the surface from a backgroung image.
-      aw::util::loadSurface("images/hero_plane.png", surface->format);
+      aw::util::loadSurface(setting::IMAGES.at("HeroPlane"), surface->format);
   }
 
   // The default destructor.

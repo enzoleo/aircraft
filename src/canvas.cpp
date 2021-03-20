@@ -1,5 +1,6 @@
 #include <cassert>
 #include "canvas.hpp"
+#include "setting.hpp"
 
 namespace aw {
 
@@ -21,7 +22,8 @@ bool Canvas::init() {
   }
   // Get the window surface.
   this->surface_ = SDL_GetWindowSurface(this->window_);
-  this->background_ = aw::util::loadSurface("images/background.png", this->surface_->format);
+  this->background_ = aw::util::loadSurface(
+    setting::IMAGES.at("Background"), this->surface_->format);
   if (this->background_ == nullptr) {
     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
                  "Failed to load image: %s", SDL_GetError());

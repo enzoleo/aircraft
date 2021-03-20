@@ -17,7 +17,7 @@ auto main(int argc, char* args[]) -> int {
   }
 
   // Start up SDL and create window. Check the status of canvas.
-  aw::Canvas canvas(400, 654); // Declare a canvas object.
+  aw::Canvas canvas(aw::setting::WIDTH, aw::setting::HEIGHT);
   auto status = canvas.init(); // Initialize the canvas.
   assert(((void)"Failed to initialize canvas!", status));
   
