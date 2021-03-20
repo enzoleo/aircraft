@@ -6,12 +6,43 @@
 
 namespace aw {
 
-class HeroPlane {
+class Plane {
+public:
+  // The display method to render all components in the canvas surface.
+  // Specifically, we display the background image of hero plane.
+  int display() const {
+    SDL_Rect rect { static_cast<int>(x_), static_cast<int>(this->y_) };
+    return SDL_BlitSurface(img_, nullptr, surface_, &rect);
+  }
+
+  // Accessors/mutators.
+  auto health() const noexcept { return health_; }
+  auto speed()  const noexcept { return speed_; }
+
+protected:
+  // The default constructor of hero plane.
+  Plane() = default;
+  Plane(SDL_Surface* surface, std::size_t x, std::size_t y)
+      : surface_(surface), x_(x), y_(y) { }
+
+  // The canvas surface pointer.
+  SDL_Surface* surface_ = nullptr;
+
+  // The background image surface pointer.
+  SDL_Surface* img_ = nullptr;
+  std::size_t x_ { 0 }, y_ { 0 };
+
+  // The health point and speed attribute.
+  int health_ { 0 }; // Note the health point requires subtraction.
+  std::size_t speed_ { 0 };
+};
+
+class HeroPlane : public Plane {
 public:
   // The default constructor of hero plane.
   HeroPlane() = default;
   HeroPlane(SDL_Surface* surface, std::size_t x, std::size_t y)
-      : surface_(surface), x_(x), y_(y) {
+      : Plane(surface, x, y) {
     this->img_ = // Load the surface from a backgroung image.
       aw::util::loadSurface(setting::IMAGES.at("HeroPlane"), surface->format);
   }
@@ -20,21 +51,6 @@ public:
   ~HeroPlane() {
     SDL_FreeSurface(this->img_);
   }
-
-  // The display method to render all components in the canvas surface.
-  // Specifically, we display the background image of hero plane.
-  int display() const {
-    SDL_Rect rect { static_cast<int>(x_), static_cast<int>(this->y_) };
-    return SDL_BlitSurface(img_, nullptr, surface_, &rect);
-  }
-
-protected:
-  // The canvas surface pointer.
-  SDL_Surface* surface_ = nullptr;
-
-  // The background image surface pointer.
-  SDL_Surface* img_ = nullptr;
-  std::size_t x_ { 0 }, y_ { 0 };
 };
 
 } // namespace aw
