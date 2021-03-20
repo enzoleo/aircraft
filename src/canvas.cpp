@@ -1,3 +1,4 @@
+#include <cassert>
 #include "canvas.hpp"
 
 namespace aw {
@@ -56,15 +57,15 @@ void Canvas::destroy() {
 
 // Paint all components of this canvas.
 void Canvas::paint() const {
-  this->apply(this->background_);
-  this->hero_->display();
+  assert(!this->apply(this->background_));
+  assert(!this->hero_->display());
 }
 
 // Apply the surface and render on the window.
-void Canvas::apply(SDL_Surface*    surface,
-                   const SDL_Rect* srcrect,
-                   SDL_Rect*       dstrect) const {
-  SDL_BlitSurface(surface, srcrect, this->surface_, dstrect);
+int Canvas::apply(SDL_Surface*    surface,
+                  const SDL_Rect* srcrect,
+                  SDL_Rect*       dstrect) const {
+  return SDL_BlitSurface(surface, srcrect, this->surface_, dstrect);
 }
 
 // Update the surface in the main gui loop.

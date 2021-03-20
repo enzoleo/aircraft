@@ -9,6 +9,7 @@ namespace aw {
 class Canvas {
 public:
   // The default constructor/destructor.
+  Canvas() = default;
   Canvas(std::size_t width, std::size_t height)
       : width_(width), height_(height) { }
 
@@ -30,9 +31,9 @@ public:
 
 protected:
   // Apply the surface and render on the window.
-  void apply(SDL_Surface*    surface,
-             const SDL_Rect* srcrect = nullptr,
-             SDL_Rect*       dstrect = nullptr) const;
+  int apply(SDL_Surface*    surface,
+            const SDL_Rect* srcrect = nullptr,
+            SDL_Rect*       dstrect = nullptr) const;
 
   // The window we'll be rendering to.
   SDL_Window* window_ = nullptr;

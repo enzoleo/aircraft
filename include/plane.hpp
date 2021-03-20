@@ -8,6 +8,7 @@ namespace aw {
 class HeroPlane {
 public:
   // The default constructor of hero plane.
+  HeroPlane() = default;
   HeroPlane(SDL_Surface* surface, std::size_t x, std::size_t y)
       : surface_(surface), x_(x), y_(y) {
     this->img_ = // Load the surface from a backgroung image.
@@ -21,8 +22,9 @@ public:
 
   // The display method to render all components in the canvas surface.
   // Specifically, we display the background image of hero plane.
-  void display() const {
-    SDL_BlitSurface(img_, nullptr, surface_, nullptr);
+  int display() const {
+    SDL_Rect rect { static_cast<int>(x_), static_cast<int>(this->y_) };
+    return SDL_BlitSurface(img_, nullptr, surface_, &rect);
   }
 
 protected:
@@ -31,9 +33,9 @@ protected:
 
   // The background image surface pointer.
   SDL_Surface* img_ = nullptr;
-  std::size_t x_, y_;
+  std::size_t x_ { 0 }, y_ { 0 };
 };
 
 } // namespace aw
 
-#endif // AIRCRAFT_PLANE_HPP_ 
+#endif // AIRCRAFT_PLANE_HPP_
