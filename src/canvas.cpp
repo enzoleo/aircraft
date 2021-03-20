@@ -26,6 +26,10 @@ bool Canvas::init() {
                  "Failed to load image: %s", SDL_GetError());
     return this->status_; // Return directly.
   }
+
+  // Initialize the hero plane pointer.
+  this->hero_ = new HeroPlane(this->surface_, 150, 500);
+
   // Successfully initialize the canvas.
   this->status_ = true;
   return this->status_;
@@ -40,20 +44,26 @@ void Canvas::destroy() {
   SDL_FreeSurface(this->background_);
   this->background_ = nullptr;
 
+  // Free the hero plane pointer.
+  delete this->hero_;
+  this->hero_ = nullptr;
+
   // Destroy the rendering window and quit the system.
   SDL_DestroyWindow(this->window_);
   this->window_ = nullptr;
   IMG_Quit(); SDL_Quit();
 }
 
-void Canvas::paint() {
+// Paint all components of this canvas.
+void Canvas::paint() const {
   this->apply(this->background_);
+  this->hero_->display();
 }
 
 // Apply the surface and render on the window.
 void Canvas::apply(SDL_Surface*    surface,
                    const SDL_Rect* srcrect,
-                   SDL_Rect*       dstrect) {
+                   SDL_Rect*       dstrect) const {
   SDL_BlitSurface(surface, srcrect, this->surface_, dstrect);
 }
 

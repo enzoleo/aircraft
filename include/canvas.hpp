@@ -10,8 +10,7 @@ class Canvas {
 public:
   // The default constructor/destructor.
   Canvas(std::size_t width, std::size_t height)
-      : width_(width), height_(height),
-        hero_(this->surface_, 150, 500) { }
+      : width_(width), height_(height) { }
 
   // Initialize/Destroy canvas.
   bool init();
@@ -24,7 +23,7 @@ public:
   auto good()   const noexcept { return this->status_; }
 
   // Paint objects on the canvas.
-  void paint();
+  void paint() const;
 
   // Update the surface in the main gui loop.
   void update();
@@ -33,7 +32,7 @@ protected:
   // Apply the surface and render on the window.
   void apply(SDL_Surface*    surface,
              const SDL_Rect* srcrect = nullptr,
-             SDL_Rect*       dstrect = nullptr);
+             SDL_Rect*       dstrect = nullptr) const;
 
   // The window we'll be rendering to.
   SDL_Window* window_ = nullptr;
@@ -52,7 +51,7 @@ protected:
   std::size_t width_, height_;
 
   // The hero character we are operating on.
-  HeroPlane hero_;
+  HeroPlane* hero_ = nullptr;
 };
 
 } // namespace aw
