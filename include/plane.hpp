@@ -15,9 +15,21 @@ public:
     return SDL_BlitSurface(img_, nullptr, surface_, &rect);
   }
 
-  // Accessors/mutators.
+  // Attribute accessors.
   auto health() const noexcept { return health_; }
   auto speed()  const noexcept { return speed_; }
+  const auto& direction() const { return direction_; }
+
+  // Attribute mutators for directions.
+  void direction(util::DIRECTION hori, util::DIRECTION vert) {
+    direction_.first = hori; direction_.second = vert;
+  }
+  void direction(util::Direction d) { direction_ = d; }
+
+  // Stop the plane horizontally/vertically/totally.
+  void hstop() { direction_.first = util::DIRECTION::STATIONARY; }
+  void vstop() { direction_.second = util::DIRECTION::STATIONARY; }
+  void stop()  { hstop(); vstop(); }
 
 protected:
   // The default constructor of hero plane.
