@@ -35,6 +35,11 @@ protected:
   // The health point and speed attribute.
   int health_ { 0 }; // Note the health point requires subtraction.
   std::size_t speed_ { 0 };
+
+  // The moving direction of the plane.
+  util::Direction direction_ {
+    util::DIRECTION::STATIONARY, util::DIRECTION::STATIONARY
+  };
 };
 
 class HeroPlane : public Plane {

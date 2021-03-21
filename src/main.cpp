@@ -23,13 +23,36 @@ auto main(int argc, char* args[]) -> int {
   
   bool quit = false;
   SDL_Event e;
-  // While application is running
   while (!quit) {
-    // Handle events on queue
     while (SDL_PollEvent(&e) != 0) {
-      // User requests quit
-      if (e.type == SDL_QUIT)
-        quit = true;
+      // Check the event type. In this project, we need to implement
+      // keyboard response.
+      switch (e.type) {
+      case SDL_QUIT:
+        quit = true; break;
+      case SDL_KEYDOWN:
+        switch (e.key.keysym.sym) {
+        case SDLK_UP:
+          /* code */
+          break;
+        case SDLK_LEFT:
+          /* code */
+          break;
+        case SDLK_DOWN:
+          /* code */
+          break;
+        case SDLK_RIGHT:
+          /* code */
+          break;
+        default:
+          break;
+        }
+        break;
+      case SDL_KEYUP:
+        break;
+      default:
+        break;
+      }
     }
     canvas.paint();
     canvas.update();

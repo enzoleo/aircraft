@@ -18,11 +18,6 @@ constexpr const std::size_t WIDTH = 400, HEIGHT = 654;
 // Default game status.
 constexpr const bool RUNNING = true, GAMEOVER = false;
 
-// The camp constants.
-enum class CAMP {
-  NEUTRAL, HERO, ENEMY
-};
-
 // Image filenames. Not necessary to implement literal-type map.
 const std::map<std::string, std::string> IMAGES = {
   { "Background",        "background.png" },
