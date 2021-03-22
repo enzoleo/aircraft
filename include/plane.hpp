@@ -1,7 +1,6 @@
 #ifndef AIRCRAFT_PLANE_HPP_
 #define AIRCRAFT_PLANE_HPP_
 
-#include "utility.hpp"
 #include "setting.hpp"
 
 namespace aw {
@@ -11,7 +10,7 @@ public:
   // The display method to render all components in the canvas surface.
   // Specifically, we display the background image of hero plane.
   int display() const {
-    SDL_Rect rect { static_cast<int>(x_), static_cast<int>(this->y_) };
+    SDL_Rect rect { static_cast<int>(loc_.x), static_cast<int>(loc_.y) };
     return SDL_BlitSurface(img_, nullptr, surface_, &rect);
   }
 
@@ -19,30 +18,35 @@ public:
   auto health() const noexcept { return health_; }
   auto speed()  const noexcept { return speed_; }
   const auto& direction() const { return direction_; }
+  const auto& location()  const { return loc_; }
+  auto x() const noexcept { return loc_.x; }
+  auto y() const noexcept { return loc_.y; }
 
   // Attribute mutators for directions.
   void direction(util::DIRECTION hori, util::DIRECTION vert) {
-    direction_.first = hori; direction_.second = vert;
+    direction_.x = hori; direction_.y = vert;
   }
   void direction(util::Direction d) { direction_ = d; }
 
   // Stop the plane horizontally/vertically/totally.
-  void hstop() { direction_.first = util::DIRECTION::STATIONARY; }
-  void vstop() { direction_.second = util::DIRECTION::STATIONARY; }
+  void hstop() { direction_.x = util::DIRECTION::STATIONARY; }
+  void vstop() { direction_.y = util::DIRECTION::STATIONARY; }
   void stop()  { hstop(); vstop(); }
 
 protected:
   // The default constructor of hero plane.
   Plane() = default;
   Plane(SDL_Surface* surface, std::size_t x, std::size_t y)
-      : surface_(surface), x_(x), y_(y) { }
+      : surface_ { surface }, loc_ { x, y } { }
+  Plane(SDL_Surface* surface, const util::Point2l& p)
+      : surface_ { surface }, loc_ { p } { }
 
   // The canvas surface pointer.
   SDL_Surface* surface_ = nullptr;
 
   // The background image surface pointer.
   SDL_Surface* img_ = nullptr;
-  std::size_t x_ { 0 }, y_ { 0 };
+  util::Point2l loc_ { 0, 0 };
 
   // The health point and speed attribute.
   int health_ { 0 }; // Note the health point requires subtraction.
@@ -60,6 +64,11 @@ public:
   HeroPlane() = default;
   HeroPlane(SDL_Surface* surface, std::size_t x, std::size_t y)
       : Plane(surface, x, y) {
+    this->img_ = // Load the surface from a backgroung image.
+      aw::util::loadSurface(setting::IMAGES.at("HeroPlane"), surface->format);
+  }
+  HeroPlane(SDL_Surface* surface, const util::Point2l& p)
+      : Plane(surface, p) {
     this->img_ = // Load the surface from a backgroung image.
       aw::util::loadSurface(setting::IMAGES.at("HeroPlane"), surface->format);
   }

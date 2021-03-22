@@ -31,7 +31,7 @@ bool Canvas::init() {
   }
 
   // Initialize the hero plane pointer.
-  this->hero_ = new HeroPlane(this->surface_, 150, 500);
+  this->hero_ = new HeroPlane(this->surface_, setting::HERO_INIT_POS);
 
   // Successfully initialize the canvas.
   this->status_ = true;

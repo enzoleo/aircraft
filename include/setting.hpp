@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include "utility.hpp"
 
 namespace aw {
 
@@ -14,6 +15,7 @@ namespace setting {
 
 // The default window size.
 constexpr const std::size_t WIDTH = 400, HEIGHT = 654;
+constexpr const ::aw::util::Point2l HERO_INIT_POS { 150, 500 };
 
 // Default game status.
 constexpr const bool RUNNING = true, GAMEOVER = false;
