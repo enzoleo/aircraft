@@ -75,7 +75,7 @@ using Point2d = Point<double>;
  * @return SDL_Surface* the optimized surface.
  */
 SDL_Surface* loadSurface(
-  std::string filename, SDL_PixelFormat *fmt,
+  std::string filename,
   std::string base = "../images");
 
 } // namespace util

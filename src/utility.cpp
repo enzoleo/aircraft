@@ -5,7 +5,7 @@ namespace aw {
 
 namespace util {
 
-SDL_Surface* loadSurface(std::string filename, SDL_PixelFormat *fmt, std::string base) {
+SDL_Surface* loadSurface(std::string filename, std::string base) {
   // Parse the directory and path first.
   if (base.empty()) base = ".";
   std::string path(base);
@@ -27,7 +27,7 @@ SDL_Surface* loadSurface(std::string filename, SDL_PixelFormat *fmt, std::string
   }
   else {
     // Convert surface to screen format
-    optimizedSurface = SDL_ConvertSurface(loadedSurface, fmt, 0);
+    optimizedSurface = SDL_ConvertSurfaceFormat(loadedSurface, SDL_PIXELFORMAT_RGBA8888, 0);
     if (optimizedSurface == nullptr) {
       printf("Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
     }

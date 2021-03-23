@@ -65,12 +65,12 @@ public:
   HeroPlane(SDL_Surface* surface, std::size_t x, std::size_t y)
       : Plane(surface, x, y) {
     this->img_ = // Load the surface from a backgroung image.
-      aw::util::loadSurface(setting::IMAGES.at("HeroPlane"), surface->format);
+      aw::util::loadSurface(setting::IMAGES.at("HeroPlane"));
   }
   HeroPlane(SDL_Surface* surface, const util::Point2l& p)
       : Plane(surface, p) {
     this->img_ = // Load the surface from a backgroung image.
-      aw::util::loadSurface(setting::IMAGES.at("HeroPlane"), surface->format);
+      aw::util::loadSurface(setting::IMAGES.at("HeroPlane"));
   }
 
   // The default destructor.
