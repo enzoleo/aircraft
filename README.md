@@ -10,7 +10,13 @@ Quick implementation of a simplified aircraft war game with a graphics user inte
 
 ## Quick Setup
 
-Before running the game from the provided source files, you should quickly setup the environment, especially for the `java` implementation.
+Before running the game from the provided source files, you should quickly setup the environment, especially for the `c++` and `java` implementations. Note that another program option parser [tappo](https://github.com/enzoleo/tappo) is integrated as a submodule, so it should also be cloned recursively to enable `C++` compilation.
+
+```shell
+git clone --recursive https://github.com/enzoleo/aircraft.git
+```
+
+If you only need the `Java` or `Python` implementation, you can remove the `--recursive` option and clone the repository without any submodules.
 
 ### C++
 
