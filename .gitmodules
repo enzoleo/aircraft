@@ -1,0 +1,3 @@
+[submodule "thirdparty/tappo"]
+	path = thirdparty/tappo
+	url = https://github.com/enzoleo/tappo.git
