@@ -1,8 +1,8 @@
 # Default C++ compiler.
 CC := g++
 CXXFLAGS := -Wall -std=c++17 -O2 -g -fPIC
-LDFLAGS := $(shell pkg-config --libs sdl2 sdl2_image)
-CXXFLAGS += $(shell pkg-config --cflags sdl2 sdl2_image)
+LDFLAGS := $(shell pkg-config --libs sdl2 SDL2_image)
+CXXFLAGS += $(shell pkg-config --cflags sdl2 SDL2_image)
 
 # Default java compiler.
 JC := javac
