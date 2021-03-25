@@ -1,0 +1,19 @@
+language: cpp
+dist: focal
+branches:
+  only:
+    - master
+compiler: g++
+os:
+  - linux
+before_install:
+  - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+install:
+  - sudo apt-get install -qq build-essential cmake gcc-10 g++-10 libsdl2-dev libsdl2-image-dev openjdk-14-jdk
+script:
+  - make java
+  - mkdir build
+  - cd build
+  - env CC=gcc-10 CXX=g++-10 cmake .. -DFIOCCA_BUILD_EXAMPLES=ON
+  - make
