@@ -9,7 +9,7 @@ os:
 before_install:
   - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
   - sudo add-apt-repository --yes ppa:openjdk-r/ppa
-  - sudo apt-get update -qq
+  - sudo apt-get update
 install:
   - sudo apt-get install -qq build-essential cmake gcc-10 g++-10 libsdl2-dev libsdl2-image-dev openjdk-14-jdk
 script:
