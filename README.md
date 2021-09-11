@@ -1,5 +1,5 @@
 # Aircraft War
-![Build Status](https://img.shields.io/travis/enzoleo/aircraft.svg?style=flat-square)
+![Build Status](https://api.travis-ci.com/enzoleo/aircraft.svg?branch=master)
 ![C++ Version](https://img.shields.io/badge/C++-17-pink.svg?style=flat-square&logo=c%2B%2B)
 ![Java](https://img.shields.io/badge/Java-OpenJDK-orange.svg?style=flat-square&logo=java)
 ![Python](https://img.shields.io/badge/Python-3-blue.svg?style=flat-square&logo=python)
