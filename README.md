@@ -1,10 +1,10 @@
 # Aircraft War
-![Build Status](https://api.travis-ci.com/enzoleo/aircraft.svg?branch=master&style=flat-square)
-![C++ Version](https://img.shields.io/badge/C++-17-pink.svg?style=flat-square&logo=c%2B%2B)
-![Java](https://img.shields.io/badge/Java-OpenJDK-orange.svg?style=flat-square&logo=java)
-![Python](https://img.shields.io/badge/Python-3-blue.svg?style=flat-square&logo=python)
-![License](https://img.shields.io/github/license/enzoleo/aircraft.svg?color=black&style=flat-square)
-![Repo Size](https://img.shields.io/github/repo-size/enzoleo/aircraft.svg?style=flat-square)
+![Build Status](https://api.travis-ci.com/enzoleo/aircraft.svg?branch=master)
+![C++ Version](https://img.shields.io/badge/C++-17-pink.svg?logo=c%2B%2B)
+![Java](https://img.shields.io/badge/Java-OpenJDK-orange.svg?logo=java)
+![Python](https://img.shields.io/badge/Python-3-blue.svg?logo=python)
+![License](https://img.shields.io/github/license/enzoleo/aircraft.svg?color=black)
+![Repo Size](https://img.shields.io/github/repo-size/enzoleo/aircraft.svg)
 
 Quick implementation of a simplified aircraft war game with a graphics user interface. This simple game is implemented in `C++`, `Java` and `python`.
 
@@ -42,7 +42,7 @@ The source files can be compiled on `Ubuntu 20.04` system. Some other versions m
 
 ```shell
 sudo apt-get update
-sudo apt-get install openjdk-14-jdk
+sudo apt-get install openjdk-16-jdk
 ```
 
 After executing this command in terminal, you should have already installed `OpenJDK` correctly. Check the `java` version by `java -version` and you will get the following output if everything goes fine:
