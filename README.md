@@ -1,5 +1,5 @@
 # Aircraft War
-![Build Status](https://api.travis-ci.com/enzoleo/aircraft.svg?branch=master)
+![Build Status](https://api.travis-ci.com/enzoleo/aircraft.svg?branch=master&style=flat-square)
 ![C++ Version](https://img.shields.io/badge/C++-17-pink.svg?style=flat-square&logo=c%2B%2B)
 ![Java](https://img.shields.io/badge/Java-OpenJDK-orange.svg?style=flat-square&logo=java)
 ![Python](https://img.shields.io/badge/Python-3-blue.svg?style=flat-square&logo=python)
@@ -48,9 +48,9 @@ sudo apt-get install openjdk-14-jdk
 After executing this command in terminal, you should have already installed `OpenJDK` correctly. Check the `java` version by `java -version` and you will get the following output if everything goes fine:
 
 ```reStructuredText
-openjdk version "14.0.2" 2020-07-14
-OpenJDK Runtime Environment (build 14.0.2+12-Ubuntu-120.04)
-OpenJDK 64-Bit Server VM (build 14.0.2+12-Ubuntu-120.04, mixed mode, sharing)
+openjdk version "16.0.1" 2021-04-20
+OpenJDK Runtime Environment (build 16.0.1+9-Ubuntu-120.04)
+OpenJDK 64-Bit Server VM (build 16.0.1+9-Ubuntu-120.04, mixed mode, sharing)
 ```
 
 On your `MacOS` machine, refer to `OpenJDK` for pre-built binaries. Also, check the `java` version by `java -version` command.
