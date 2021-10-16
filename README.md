@@ -53,15 +53,7 @@ OpenJDK Runtime Environment (build 16.0.1+9-Ubuntu-120.04)
 OpenJDK 64-Bit Server VM (build 16.0.1+9-Ubuntu-120.04, mixed mode, sharing)
 ```
 
-On your `MacOS` machine, refer to `OpenJDK` for pre-built binaries. Also, check the `java` version by `java -version` command.
-
-```shell
-openjdk version "16" 2021-03-16
-OpenJDK Runtime Environment Zulu16.28+11-CA (build 16+36)
-OpenJDK 64-Bit Server VM Zulu16.28+11-CA (build 16+36, mixed mode)
-```
-
-Once you have successfully installed the development kits, simply execute `make java` in your terminal and everything will be built automatically. To start the game, execute `make run-java` command in your terminal. Quite easy!
+On your `MacOS` machine, refer to `OpenJDK` for pre-built binaries. Also, check the `java` version by `java -version` command. Once you have successfully installed the development kits, simply execute `make java` in your terminal and everything will be built automatically. To start the game, execute `make run-java` command in your terminal. Quite easy!
 
 ### Python
 
